@@ -24,16 +24,11 @@ ALLOWED_ORIGIN_REGEX = r"https://[a-z0-9-]+-sacupdev\.vercel\.app"
 
 app.add_middleware(
     CORSMiddleware,
-<<<<<<< HEAD
     allow_origins=[
         "http://localhost:3000",
         "http://127.0.0.1:3000",
         "http://localhost:8000"
     ],
-=======
-    allow_origins=ALLOWED_ORIGINS,
-    allow_origin_regex=ALLOWED_ORIGIN_REGEX,
->>>>>>> 7b8efec63928324ffec61f969771a7008f5fe665
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
