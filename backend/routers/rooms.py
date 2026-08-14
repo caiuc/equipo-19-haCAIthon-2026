@@ -7,6 +7,7 @@ from services.room_service import (
 
 from database import supabase
 from database_secret import admin_supabase
+from services.activities_service import get_student_rooms_service
 
 router = APIRouter(
     prefix="/rooms",
@@ -15,7 +16,7 @@ router = APIRouter(
 
 
 @router.get("/")
-def rooms(current_user = Depends(get_current_user)):
+def rooms_teacher(current_user = Depends(get_current_user)):
 
     print("USUARIO ACTUAL:", current_user.id)
 
@@ -53,3 +54,26 @@ def new_room(
             status_code=400,
             detail=str(e)
         )
+
+@router.get("/student")
+def get_student_rooms(
+    current_user=Depends(get_current_user)
+):
+    return get_student_rooms_service(
+        current_user.id
+    )
+
+from schemas.room import RoomResponse
+from typing import List
+
+
+@router.get(
+    "/student",
+    response_model=List[RoomResponse]
+)
+def get_student_rooms(
+    current_user=Depends(get_current_user)
+):
+    return get_student_rooms_service(
+        current_user.id
+    )

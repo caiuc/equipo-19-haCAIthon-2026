@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import auth, rooms
+from routers import auth, rooms, activities
 
 app = FastAPI(
     title="Education API",
@@ -11,7 +11,8 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",
-        "http://127.0.0.1:3000"
+        "http://127.0.0.1:3000",
+        "http://localhost:8000"
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -20,6 +21,7 @@ app.add_middleware(
 
 app.include_router(auth.router)
 app.include_router(rooms.router)
+app.include_router(activities.router)
 
 @app.get("/")
 def root():

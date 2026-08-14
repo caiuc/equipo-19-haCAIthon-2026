@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from datetime import datetime
 
 
 class RoomCreate(BaseModel):
@@ -9,3 +10,12 @@ class RoomCreate(BaseModel):
 
 class RoomJoin(BaseModel):
     code: str
+
+
+class RoomResponse(BaseModel):
+    id: str
+    code: str
+    name: str
+    teacher_id: str
+    status: str
+    created_at: datetime = None
