@@ -7,17 +7,29 @@ app = FastAPI(
     version="0.1.0"
 )
 
+# El frontend corre en otro origen que la API, asi que sin CORS el navegador
+# bloquea todas sus peticiones. Se permiten los origenes locales de desarrollo
+# y los despliegues del equipo en Vercel.
+ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "https://eduflow-cai.vercel.app",
+    "https://eduflow-uc.vercel.app",
+]
+
+# Cada despliegue de Vercel estrena una URL con hash
+# (eduflow-a1b2c3-sacupdev.vercel.app). Listarlas una por una obligaria a tocar
+# el backend en cada deploy, asi que se aceptan por patron, acotado al equipo.
+ALLOWED_ORIGIN_REGEX = r"https://[a-z0-9-]+-sacupdev\.vercel\.app"
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-        "http://localhost:8000",
-    ],
+    allow_origins=ALLOWED_ORIGINS,
+    allow_origin_regex=ALLOWED_ORIGIN_REGEX,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
-   )
+)
 
 app.include_router(auth.router)
 app.include_router(rooms.router)
