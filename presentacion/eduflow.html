@@ -1,0 +1,1238 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EduFlow — HaCAIthon 2026 · Equipo 19</title>
+<meta name="description" content="Práctica de matemáticas para colegios donde la señal no alcanza.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ==========================================================================
+   EduFlow · deck de feria
+   Tokens espejados de frontend/src/app/globals.css. Si cambia el sistema de
+   diseño de la aplicacion, cambian aca.
+
+   Estilo: neo-brutalismo suavizado. Borde ink de 3px en todo lo que es una
+   pieza, y sombra dura desplazada en amarillo para lo destacado. La
+   profundidad se construye con offsets, nunca con blur.
+   ========================================================================== */
+
+:root {
+    /* Superficies */
+    --cream: #fbf9f1;
+    --surface: #ffffff;
+    --surface-sunk: #f0eee6;
+
+    /* Tinta */
+    --ink: #1e293b;
+    --ink-soft: #454655;
+    --muted: #64748b;
+
+    /* Primario y acento */
+    --primary: #5865f2;
+    --primary-deep: #3d4ad8;
+    --primary-soft: #e0e0ff;
+    --pulse: #fbbf24;
+    --pulse-soft: #ffdf9f;
+
+    /* Semanticos */
+    --success: #34d399;
+    --danger: #ef4444;
+    --accent-pink: #f472b6;
+    --accent-purple: #8b5cf6;
+    --accent-blue: #60a5fa;
+
+    /* Tipografia: mismas dos familias que la aplicacion. El fallback importa:
+       si en la feria no hay red, el deck no puede quedar en Times. */
+    --font-display: "Outfit", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    --font-body: "Plus Jakarta Sans", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+
+    /* Escala tipografica */
+    --title-size: clamp(2rem, 6.5vw, 5.5rem);
+    --h2-size: clamp(1.4rem, 4vw, 3.25rem);
+    --h3-size: clamp(1rem, 2.2vw, 1.7rem);
+    --body-size: clamp(0.82rem, 1.35vw, 1.2rem);
+    --small-size: clamp(0.68rem, 0.95vw, 0.9rem);
+    --micro-size: clamp(0.6rem, 0.8vw, 0.78rem);
+
+    /* Ritmo */
+    --slide-padding: clamp(1.25rem, 4.5vw, 5rem);
+    --content-gap: clamp(0.6rem, 2vw, 2rem);
+    --element-gap: clamp(0.35rem, 1vw, 1rem);
+
+    --border-w: clamp(2px, 0.22vw, 3px);
+    --radius: clamp(0.7rem, 1.1vw, 1.15rem);
+    --shadow: calc(var(--border-w) * 2) calc(var(--border-w) * 2) 0 0 var(--pulse);
+    --shadow-ink: calc(var(--border-w) * 2) calc(var(--border-w) * 2) 0 0 var(--ink);
+}
+
+/* ==========================================================================
+   BASE / VIEWPORT
+   Cada slide ocupa exactamente un viewport. Nunca se scrollea adentro.
+   ========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+    height: 100%;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+}
+
+.slide {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.slide-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-height: 100%;
+    overflow: hidden;
+    padding: var(--slide-padding);
+    gap: var(--content-gap);
+    position: relative;
+    z-index: 2;
+}
+
+/* Textura de puntos: da superficie sin competir con el contenido. */
+.slide::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(var(--ink) 1px, transparent 1px);
+    background-size: 26px 26px;
+    opacity: 0.045;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.slide--tinted { background: var(--surface-sunk); }
+.slide--ink { background: var(--ink); color: var(--cream); }
+.slide--ink::before { background-image: radial-gradient(var(--cream) 1px, transparent 1px); opacity: 0.08; }
+.slide--primary { background: var(--primary); color: #fff; }
+.slide--primary::before { background-image: radial-gradient(#fff 1px, transparent 1px); opacity: 0.1; }
+
+/* ==========================================================================
+   TIPOGRAFIA
+   ========================================================================== */
+
+h1, h2, h3, .display {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.02;
+    margin: 0;
+    text-wrap: balance;
+}
+
+h1 { font-size: var(--title-size); }
+h2 { font-size: var(--h2-size); }
+h3 { font-size: var(--h3-size); font-weight: 700; }
+
+p { margin: 0; font-size: var(--body-size); line-height: 1.5; color: var(--ink-soft); }
+.slide--ink p, .slide--primary p { color: rgba(255,255,255,0.82); }
+
+.lead { font-size: clamp(0.95rem, 1.75vw, 1.5rem); line-height: 1.45; }
+
+/* Etiqueta de seccion: numero + nombre, arriba de cada slide. */
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--small-size);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+.slide--ink .eyebrow, .slide--primary .eyebrow { color: rgba(255,255,255,0.65); }
+
+.eyebrow__num {
+    display: grid;
+    place-items: center;
+    min-width: 2.1em;
+    height: 2.1em;
+    padding: 0 0.4em;
+    border: var(--border-w) solid currentColor;
+    border-radius: 999px;
+    font-size: 0.95em;
+    letter-spacing: 0;
+}
+
+.hl { color: var(--primary); }
+.slide--ink .hl { color: var(--pulse); }
+.slide--primary .hl { color: var(--pulse); }
+
+/* Subrayado amarillo: marca la frase que queremos que se lleven. */
+.mark {
+    background: linear-gradient(180deg, transparent 58%, var(--pulse) 58%);
+    padding: 0 0.12em;
+}
+.slide--ink .mark { background: linear-gradient(180deg, transparent 58%, rgba(251,191,36,0.45) 58%); }
+
+.strike { text-decoration: line-through; text-decoration-thickness: 3px; text-decoration-color: var(--danger); opacity: 0.55; }
+
+/* ==========================================================================
+   PIEZAS
+   ========================================================================== */
+
+.card {
+    background: var(--surface);
+    border: var(--border-w) solid var(--ink);
+    border-radius: var(--radius);
+    padding: clamp(0.75rem, 1.7vw, 1.6rem);
+    display: flex;
+    flex-direction: column;
+    gap: var(--element-gap);
+    min-width: 0;
+}
+.card--featured { box-shadow: var(--shadow); }
+.card--sunk { background: var(--surface-sunk); }
+.card--dark { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+.card--dark p, .card--dark .card__label { color: rgba(255,255,255,0.75); }
+.slide--ink .card, .slide--primary .card { color: var(--ink); }
+
+.card__label {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--micro-size);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45em;
+    align-self: flex-start;
+    padding: 0.35em 0.9em;
+    border: var(--border-w) solid var(--ink);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--small-size);
+    white-space: nowrap;
+}
+.badge--pulse { background: var(--pulse); }
+.badge--primary { background: var(--primary); color: #fff; }
+.badge--success { background: var(--success); }
+.badge--danger { background: var(--danger); color: #fff; }
+.badge--ghost { background: transparent; border-style: dashed; color: var(--muted); }
+
+.grid { display: grid; gap: clamp(0.55rem, 1.4vw, 1.15rem); min-height: 0; }
+.grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.grid--5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+
+.split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(1rem, 3vw, 3rem);
+    align-items: center;
+    min-height: 0;
+}
+.split--wide { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); }
+
+.stack { display: flex; flex-direction: column; gap: var(--content-gap); min-height: 0; }
+.row { display: flex; align-items: center; gap: clamp(0.5rem, 1.4vw, 1.1rem); flex-wrap: wrap; }
+
+/* Numero protagonista */
+.stat {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(3rem, 13vw, 11rem);
+    line-height: 0.85;
+    letter-spacing: -0.045em;
+}
+.stat--sm { font-size: clamp(1.6rem, 4.5vw, 3.4rem); line-height: 1; }
+
+.list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: clamp(0.4rem, 1.1vh, 0.9rem); }
+.list li {
+    display: flex;
+    gap: 0.7em;
+    align-items: flex-start;
+    font-size: var(--body-size);
+    line-height: 1.42;
+    color: var(--ink-soft);
+}
+.slide--ink .list li { color: rgba(255,255,255,0.82); }
+.list li::before {
+    content: "";
+    flex: 0 0 auto;
+    width: 0.62em;
+    height: 0.62em;
+    margin-top: 0.42em;
+    background: var(--pulse);
+    border: 2px solid var(--ink);
+    border-radius: 3px;
+}
+.slide--ink .list li::before { border-color: var(--cream); }
+
+/* Paso numerado del flujo */
+.step { display: flex; flex-direction: column; gap: 0.5em; }
+.step__num {
+    display: grid;
+    place-items: center;
+    width: clamp(2rem, 3.4vw, 3rem);
+    height: clamp(2rem, 3.4vw, 3rem);
+    border: var(--border-w) solid var(--ink);
+    border-radius: 999px;
+    background: var(--pulse);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(0.85rem, 1.5vw, 1.3rem);
+}
+.step--offline .step__num { background: var(--primary); color: #fff; }
+
+/* Diagrama de capas */
+.layer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8em;
+    padding: clamp(0.5rem, 1.2vw, 0.95rem) clamp(0.7rem, 1.5vw, 1.25rem);
+    border: var(--border-w) solid var(--ink);
+    border-radius: var(--radius);
+    background: var(--surface);
+    font-size: var(--body-size);
+}
+.layer__name { font-family: var(--font-display); font-weight: 700; }
+.layer__note { font-size: var(--small-size); color: var(--muted); text-align: right; }
+.layer--offline { background: var(--primary-soft); }
+.layer--net { background: var(--surface-sunk); border-style: dashed; }
+
+.divider-net {
+    display: flex;
+    align-items: center;
+    gap: 0.8em;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--micro-size);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+.divider-net::before, .divider-net::after {
+    content: "";
+    flex: 1;
+    height: 0;
+    border-top: var(--border-w) dashed var(--muted);
+}
+
+/* Tabla compacta */
+.table { width: 100%; border-collapse: collapse; font-size: var(--body-size); }
+.table th, .table td {
+    text-align: left;
+    padding: clamp(0.35rem, 0.9vw, 0.75rem) clamp(0.4rem, 1vw, 0.9rem);
+    border-bottom: 2px solid rgba(30,41,59,0.12);
+}
+.table th {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--small-size);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+}
+.table tr:last-child td { border-bottom: none; }
+.table td strong { font-family: var(--font-display); }
+
+/* ==========================================================================
+   CROMO DE NAVEGACION
+   ========================================================================== */
+
+.progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 5px;
+    background: var(--pulse);
+    border-bottom: 2px solid var(--ink);
+    width: 0;
+    z-index: 100;
+    transition: width 0.35s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+.nav-dots {
+    position: fixed;
+    right: clamp(0.6rem, 1.5vw, 1.5rem);
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.35rem, 0.7vw, 0.6rem);
+    z-index: 100;
+}
+.nav-dots button {
+    width: clamp(9px, 0.85vw, 13px);
+    height: clamp(9px, 0.85vw, 13px);
+    padding: 0;
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    background: transparent;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+.nav-dots button:hover { transform: scale(1.35); background: var(--pulse-soft); }
+.nav-dots button[aria-current="true"] { background: var(--primary); transform: scale(1.35); }
+
+.slide-counter {
+    position: fixed;
+    left: clamp(0.7rem, 1.6vw, 1.6rem);
+    bottom: clamp(0.7rem, 1.6vw, 1.6rem);
+    z-index: 100;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--small-size);
+    color: var(--muted);
+    background: var(--surface);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    padding: 0.3em 0.85em;
+}
+
+.keyboard-hint {
+    position: fixed;
+    right: clamp(0.7rem, 1.6vw, 1.6rem);
+    bottom: clamp(0.7rem, 1.6vw, 1.6rem);
+    z-index: 100;
+    font-size: var(--micro-size);
+    color: var(--muted);
+    letter-spacing: 0.04em;
+}
+kbd {
+    font-family: var(--font-display);
+    font-weight: 700;
+    background: var(--surface);
+    border: 2px solid var(--ink);
+    border-bottom-width: 3px;
+    border-radius: 5px;
+    padding: 0.1em 0.4em;
+    font-size: 0.95em;
+    color: var(--ink);
+}
+
+/* Enlace de salto para teclado */
+.skip {
+    position: absolute; left: -9999px;
+    background: var(--surface); border: var(--border-w) solid var(--ink);
+    padding: 0.5em 1em; border-radius: var(--radius); z-index: 200;
+}
+.skip:focus { left: 1rem; top: 1rem; }
+
+:focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
+
+/* ==========================================================================
+   MOTION
+   Springy: acompaña al neo-brutalismo. Nada de fades largos.
+   ========================================================================== */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.34, 1.45, 0.64, 1);
+}
+.slide.is-active .reveal { opacity: 1; transform: none; }
+
+.slide.is-active .reveal:nth-child(1) { transition-delay: 0.05s; }
+.slide.is-active .reveal:nth-child(2) { transition-delay: 0.13s; }
+.slide.is-active .reveal:nth-child(3) { transition-delay: 0.21s; }
+.slide.is-active .reveal:nth-child(4) { transition-delay: 0.29s; }
+.slide.is-active .reveal:nth-child(5) { transition-delay: 0.37s; }
+.slide.is-active .reveal:nth-child(6) { transition-delay: 0.45s; }
+
+.stagger > * {
+    opacity: 0;
+    transform: translateY(18px) scale(0.97);
+    transition: opacity 0.45s ease, transform 0.55s cubic-bezier(0.34, 1.45, 0.64, 1);
+}
+.slide.is-active .stagger > * { opacity: 1; transform: none; }
+.slide.is-active .stagger > *:nth-child(1) { transition-delay: 0.18s; }
+.slide.is-active .stagger > *:nth-child(2) { transition-delay: 0.26s; }
+.slide.is-active .stagger > *:nth-child(3) { transition-delay: 0.34s; }
+.slide.is-active .stagger > *:nth-child(4) { transition-delay: 0.42s; }
+.slide.is-active .stagger > *:nth-child(5) { transition-delay: 0.50s; }
+.slide.is-active .stagger > *:nth-child(6) { transition-delay: 0.58s; }
+
+/* Latido del punto "sin conexion": el unico movimiento continuo del deck. */
+@keyframes pulse-dot {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.25); opacity: 0.6; }
+}
+.dot-live {
+    width: 0.6em; height: 0.6em; border-radius: 999px;
+    background: var(--success); border: 2px solid var(--ink);
+    animation: pulse-dot 1.8s ease-in-out infinite;
+}
+.dot-live--off { background: var(--danger); }
+
+/* ==========================================================================
+   ALTURAS CORTAS
+   ========================================================================== */
+
+@media (max-height: 760px) {
+    :root {
+        --slide-padding: clamp(1rem, 3.2vw, 2.5rem);
+        --content-gap: clamp(0.5rem, 1.5vw, 1.1rem);
+        --title-size: clamp(1.7rem, 5.2vw, 3.4rem);
+        --h2-size: clamp(1.2rem, 3.2vw, 2.2rem);
+        --body-size: clamp(0.78rem, 1.15vw, 1rem);
+    }
+    .stat { font-size: clamp(2.6rem, 10vw, 7rem); }
+}
+
+@media (max-height: 620px) {
+    :root {
+        --slide-padding: clamp(0.7rem, 2.4vw, 1.5rem);
+        --content-gap: clamp(0.35rem, 1vw, 0.7rem);
+        --title-size: clamp(1.4rem, 4.4vw, 2.4rem);
+        --h2-size: clamp(1.05rem, 2.7vw, 1.7rem);
+        --h3-size: clamp(0.9rem, 1.8vw, 1.2rem);
+        --body-size: clamp(0.72rem, 1vw, 0.9rem);
+    }
+    .stat { font-size: clamp(2.2rem, 8vw, 5rem); }
+    .keyboard-hint, .nav-dots { display: none; }
+}
+
+@media (max-height: 500px) {
+    :root {
+        --title-size: clamp(1.15rem, 3.6vw, 1.8rem);
+        --body-size: clamp(0.66rem, 0.9vw, 0.82rem);
+        --small-size: clamp(0.6rem, 0.8vw, 0.74rem);
+    }
+    .stat { font-size: clamp(1.8rem, 6.5vw, 3.5rem); }
+    .slide-counter { display: none; }
+}
+
+@media (max-width: 860px) {
+    .split, .split--wide { grid-template-columns: minmax(0, 1fr); }
+    .grid--4, .grid--5 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 560px) {
+    :root { --title-size: clamp(1.5rem, 8vw, 2.6rem); }
+    .grid--2, .grid--3, .grid--4, .grid--5 { grid-template-columns: minmax(0, 1fr); }
+    .nav-dots { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.2s !important;
+    }
+    html { scroll-behavior: auto; }
+    .reveal, .stagger > * { opacity: 1; transform: none; }
+}
+
+@media print {
+    html { scroll-snap-type: none; }
+    .slide { page-break-after: always; height: 100vh; }
+    .nav-dots, .progress, .keyboard-hint, .slide-counter { display: none; }
+    .reveal, .stagger > * { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#s1">Ir al contenido</a>
+<div class="progress" id="progress" role="progressbar" aria-label="Avance de la presentación" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+
+<main>
+
+<!-- ====================================================================
+     01 · PORTADA
+     ==================================================================== -->
+<section class="slide" id="s1" aria-label="Portada">
+    <div class="slide-content" style="align-items:center; text-align:center;">
+
+        <div class="reveal row" style="justify-content:center;">
+            <svg viewBox="0 0 48 48" fill="none" role="img" aria-label="EduFlow"
+                 style="width:clamp(3.5rem,8vw,7rem); height:auto;">
+                <path d="M20.5 36h7v5h-7z" fill="#fbbf24" stroke="#1e293b" stroke-width="2.5" stroke-linejoin="round"/>
+                <rect x="12.5" y="39.5" width="23" height="5.5" rx="2.75" fill="#fbbf24" stroke="#1e293b" stroke-width="2.5"/>
+                <rect x="3.5" y="11.5" width="41" height="24" rx="6" fill="#5865f2" stroke="#1e293b" stroke-width="2.5"/>
+                <path d="M11 30c4.5-.5 7-4 9.5-6.5 2-2 3.5-3 5.5-4" stroke="#fbbf24" stroke-width="3.5" stroke-linecap="round"/>
+                <path d="M32 14 29.5 22.9 23.2 16.5z" fill="#fbbf24" stroke="#fbbf24" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M14 2.5 2.5 7.5 14 12.5l11.5-5z" fill="#fbbf24" stroke="#1e293b" stroke-width="2.5" stroke-linejoin="round"/>
+                <path d="M7 10v3.5c0 1.9 3.1 3.5 7 3.5s7-1.6 7-3.5V10" fill="#fbbf24" stroke="#1e293b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+
+        <h1 class="reveal" style="font-weight:900; font-size:clamp(2.6rem,10vw,8rem);">EduFlow</h1>
+
+        <p class="reveal lead" style="max-width:22ch; color:var(--ink);">
+            Práctica de matemáticas para colegios donde <span class="mark">la señal no alcanza</span>.
+        </p>
+
+        <div class="reveal row" style="justify-content:center;">
+            <span class="badge badge--primary">HaCAIthon 2026</span>
+            <span class="badge badge--pulse">Equipo 19</span>
+            <span class="badge">Educación Pública</span>
+        </div>
+
+        <p class="reveal" style="font-size:var(--small-size); color:var(--muted);">
+            Usá <kbd>→</kbd> o girá la rueda para avanzar
+        </p>
+    </div>
+</section>
+
+<!-- ====================================================================
+     02 · CAMILA — el problema en una persona
+     ==================================================================== -->
+<section class="slide slide--tinted" id="s2" aria-label="El problema: Camila">
+    <div class="slide-content">
+        <span class="eyebrow reveal"><span class="eyebrow__num">01</span> El problema</span>
+
+        <div class="split reveal">
+            <div class="stack">
+                <h2>Camila tiene la tarea.<br>Lo que <span class="hl">no tiene es señal</span>.</h2>
+                <p class="lead">
+                    14 años. Android de gama baja, plan de prepago. En el colegio hay wifi
+                    a ratos. En su casa, de noche —cuando hace la tarea— no hay nada.
+                </p>
+            </div>
+
+            <div class="card card--featured">
+                <span class="card__label">Su noche, hoy</span>
+                <ul class="list">
+                    <li>Abre la plataforma del colegio</li>
+                    <li><strong>Pantalla de error de red</strong></li>
+                    <li>No practica</li>
+                    <li>Mañana llega igual que ayer</li>
+                </ul>
+                <div class="row" style="margin-top:auto;">
+                    <span class="dot-live dot-live--off" aria-hidden="true"></span>
+                    <span style="font-family:var(--font-display); font-weight:700; font-size:var(--small-size);">Sin conexión</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====================================================================
+     03 · MARTA — el otro lado del problema
+     ==================================================================== -->
+<section class="slide" id="s3" aria-label="El problema: Marta">
+    <div class="slide-content">
+        <span class="eyebrow reveal"><span class="eyebrow__num">02</span> El otro lado</span>
+
+        <div class="split split--wide reveal">
+            <div class="card card--featured">
+                <span class="card__label">Marta · profesora de matemáticas</span>
+                <h3>32 alumnos por curso. Corrige a mano los domingos.</h3>
+                <p>
+                    No es técnica: si la herramienta pide instalar algo o configurar un
+                    servidor, no la usa. Hoy fotocopia guías.
+                </p>
+            </div>
+
+            <div class="stack">
+                <p class="lead" style="color:var(--ink);">
+                    No puede asignar práctica dirigida ni ver quién avanzó, porque
+                    <span class="mark">el registro exige que todos estén en línea a la vez</span>.
+                </p>
+                <div class="row">
+                    <span class="badge badge--ghost">Sin datos de avance</span>
+                    <span class="badge badge--ghost">Sin práctica dirigida</span>
+                    <span class="badge badge--ghost">Corrección manual</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====================================================================
+     04 · POR QUE LO EXISTENTE NO SIRVE
+     ==================================================================== -->
+<section class="slide slide--ink" id="s4" aria-label="Por qué las plataformas actuales fallan">
+    <div class="slide-content">
+        <span class="eyebrow reveal"><span class="eyebrow__num">03</span> El vacío</span>
+
+        <h2 class="reveal">Las plataformas que existen<br><span class="hl">asumen conexión permanente.</span></h2>
+
+        <div class="grid grid--3 stagger">
+            <div class="card">
+                <h3 class="strike">Khan Academy</h3>
+                <p>Video y ejercicios: sin red, no carga.</p>
+            </div>
+            <div class="card">
+                <h3 class="strike">Google Classroom</h3>
+                <p>Entrega y feedback viven en el servidor.</p>
+            </div>
+            <div class="card">
+                <h3 class="strike">Kahoot</h3>
+                <p>Es en vivo por diseño. Sin red no existe.</p>
+            </div>
+        </div>
+
+        <p class="reveal lead">
+            No es que funcionen mal en zonas con poca conectividad.
+            <strong style="color:var(--pulse);">Es que ahí no funcionan.</strong>
+        </p>
+    </div>
+</section>
+
+<!-- ====================================================================
+     05 · LA SOLUCION — el flujo
+     ==================================================================== -->
+<section class="slide" id="s5" aria-label="La solución: el flujo">
+    <div class="slide-content">
+        <span class="eyebrow reveal"><span class="eyebrow__num">04</span> La solución</span>
+
+        <h2 class="reveal">Una PWA que <span class="hl">se degrada con gracia</span>.</h2>
+
+        <div class="grid grid--5 stagger">
+            <div class="card step">
+                <span class="step__num">1</span>
+                <h3>Crea la sala</h3>
+                <p>La profesora comparte un código de 6 caracteres.</p>
+            </div>
+            <div class="card step">
+                <span class="step__num">2</span>
+                <h3>Se une</h3>
+                <p>El alumno entra con ese código. Sin cargar listas.</p>
+            </div>
+            <div class="card card--featured step step--offline">
+                <span class="step__num">3</span>
+                <h3>Descarga</h3>
+                <p>Con señal. La tarea entera pesa unos pocos KB.</p>
+            </div>
+            <div class="card card--featured step step--offline">
+                <span class="step__num">4</span>
+                <h3>Resuelve</h3>
+                <p><strong>Sin internet</strong>, con corrección inmediata.</p>
+            </div>
+            <div class="card card--featured step step--offline">
+                <span class="step__num">5</span>
+                <h3>Sincroniza</h3>
+                <p>Sola, cuando la señal vuelve. Nadie aprieta nada.</p>
+            </div>
+        </div>
+
+        <p class="reveal" style="font-size:var(--small-size);">
+            Los pasos <strong>3, 4 y 5</strong> son el proyecto. El resto es la excusa para llegar ahí.
+        </p>
+    </div>
+</section>
+
+<!-- ====================================================================
+     06 · 8 KB — el numero
+     ==================================================================== -->
+<section class="slide slide--primary" id="s6" aria-label="El tamaño de una tarea">
+    <div class="slide-content" style="align-items:center; text-align:center;">
+        <span class="eyebrow reveal"><span class="eyebrow__num">05</span> El dato</span>
+
+        <div class="reveal">
+            <span class="stat" style="color:var(--pulse);">8 KB</span>
+        </div>
+
+        <h2 class="reveal" style="max-width:20ch;">Pesa una tarea completa de 10 ejercicios.</h2>
+
+        <p class="reveal lead" style="max-width:44ch;">
+            Un ejercicio de matemáticas es texto: unos cientos de bytes. Eso entra en
+            un plan de prepago sin que se note — y es la diferencia entre que una
+            herramienta educativa sea usable o no en un celular de gama baja.
+        </p>
+    </div>
+</section>
+
+<!-- ====================================================================
+     07 · LA DEMO
+     ==================================================================== -->
+<section class="slide slide--tinted" id="s7" aria-label="La demostración">
+    <div class="slide-content">
+        <span class="eyebrow reveal"><span class="eyebrow__num">06</span> La prueba</span>
+
+        <h2 class="reveal">Apagamos el wifi <span class="hl">acá, delante suyo.</span></h2>
+
+        <div class="grid grid--4 stagger">
+            <div class="card">
+                <span class="badge badge--success"><span class="dot-live" aria-hidden="true"></span> En línea</span>
+                <p>Camila descarga la tarea desde el panel del alumno.</p>
+            </div>
+            <div class="card card--dark">
+                <span class="badge badge--danger">Wifi apagado</span>
+                <p>Se corta la red. La app <strong>sigue abriendo</strong>: el Service Worker ya tiene el shell.</p>
+            </div>
+            <div class="card card--dark">
+                <span class="badge badge--danger">Sin red</span>
+                <p>Resuelve ejercicios. Cada respuesta se corrige <strong>al instante</strong>, en el dispositivo.</p>
+            </div>
+            <div class="card card--featured">
+                <span class="badge badge--success"><span class="dot-live" aria-hidden="true"></span> Vuelve</span>
+                <p>La cola se vacía sola. El contador de pendientes llega a cero.</p>
+            </div>
+        </div>
+
+        <p class="reveal lead">
+            Sin trucos y sin video grabado: es la app corriendo, con el modo avión puesto.
+        </p>
+    </div>
+</section>
+
+<!-- ====================================================================
+     08 · ARQUITECTURA
+     ==================================================================== -->
+<section class="slide" id="s8" aria-label="Arquitectura">
+    <div class="slide-content">
+        <span class="eyebrow reveal"><span class="eyebrow__num">07</span> Arquitectura</span>
+
+        <div class="split split--wide">
+            <div class="stack reveal">
+                <div class="layer layer--offline">
+                    <span class="layer__name">Next.js · App Router</span>
+                    <span class="layer__note">interfaz</span>
+                </div>
+                <div class="layer layer--offline">
+                    <span class="layer__name">Service Worker · Serwist</span>
+                    <span class="layer__note">la app <strong>abre</strong> sin red</span>
+                </div>
+                <div class="layer layer--offline">
+                    <span class="layer__name">IndexedDB · idb</span>
+                    <span class="layer__note">la app tiene <strong>contenido</strong> sin red</span>
+                </div>
+                <div class="divider-net">solo cuando hay red</div>
+                <div class="layer layer--net">
+                    <span class="layer__name">FastAPI</span>
+                    <span class="layer__note">corrección oficial y permisos</span>
+                </div>
+                <div class="layer layer--net">
+                    <span class="layer__name">Supabase</span>
+                    <span class="layer__note">Postgres · Auth · RLS</span>
+                </div>
+            </div>
+
+            <div class="stack reveal">
+                <h2>Dos piezas distintas,<br>dos trabajos distintos.</h2>
+                <p class="lead">
+                    El Service Worker cachea <strong>estáticos</strong>, que es lo que sabe hacer bien.
+                    Los <strong>datos</strong> salen de IndexedDB.
+                </p>
+                <div class="card card--sunk">
+                    <span class="card__label">Por qué importa</span>
+                    <p>
+                        En el App Router, navegar dispara peticiones RSC al servidor.
+                        Cachearlas con un Service Worker es frágil. Por eso sin conexión
+                        el alumno vive en <strong>una sola página</strong> que lee todo de la base local.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====================================================================
+     09 · DONDE VIVE LA RESPUESTA CORRECTA
+     ==================================================================== -->
+<section class="slide slide--ink" id="s9" aria-label="Decisión técnica: la clave de corrección">
+    <div class="slide-content">
+        <span class="eyebrow reveal"><span class="eyebrow__num">08</span> Decisión técnica</span>
+
+        <h2 class="reveal">¿Dónde vive <span class="hl">la respuesta correcta</span>?</h2>
+
+        <p class="reveal lead">
+            Para corregir sin backend, la clave tiene que estar en el dispositivo.
+            Y una clave en el dispositivo se puede leer. Lo resolvimos por modalidad:
+        </p>
+
+        <div class="card reveal" style="padding:0; overflow:hidden;">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Modalidad</th>
+                        <th>¿Viaja la clave?</th>
+                        <th>Corrige</th>
+                        <th>Offline</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Evaluación en vivo</strong></td>
+                        <td>No, solo servidor</td>
+                        <td>Backend</td>
+                        <td><span class="badge badge--danger">No</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tarea</strong></td>
+                        <td>Sí, en el paquete</td>
+                        <td>Local, inmediata</td>
+                        <td><span class="badge badge--success">Sí</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Práctica</strong></td>
+                        <td>Sí, en el paquete</td>
+                        <td>Local, inmediata</td>
+                        <td><span class="badge badge--success">Sí</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p class="reveal lead">
+            <strong style="color:var(--pulse);">Defensa en profundidad:</strong> al sincronizar, el servidor
+            <strong>recalcula</strong> el resultado e ignora lo que mandó el cliente. Quien manipule su
+            base local altera su propio feedback, nunca la nota registrada.
+        </p>
+    </div>
+</section>
+
+<!-- ====================================================================
+     10 · SIN IA PARA GENERAR EJERCICIOS
+     ==================================================================== -->
+<section class="slide" id="s10" aria-label="Decisión técnica: generador sin IA">
+    <div class="slide-content">
+        <span class="eyebrow reveal"><span class="eyebrow__num">09</span> Decisión técnica</span>
+
+        <div class="split reveal">
+            <div class="stack">
+                <h2>En un hackathon de IA,<br>los ejercicios <span class="hl">no los genera un LLM</span>.</h2>
+                <p class="lead">
+                    Es una decisión de arquitectura, no una limitación. Un modelo de lenguaje
+                    necesita red — y el diferenciador del proyecto es funcionar sin ella.
+                </p>
+                <div class="row">
+                    <span class="badge badge--pulse">Funciones paramétricas</span>
+                    <span class="badge">4 temas × 3 dificultades</span>
+                    <span class="badge">Costo cero</span>
+                </div>
+            </div>
+
+            <div class="stack">
+                <div class="card card--featured">
+                    <span class="card__label">Lo que ganamos</span>
+                    <ul class="list">
+                        <li>Sets infinitos sin API key ni latencia</li>
+                        <li>Determinista: nada que alucine frente al jurado</li>
+                        <li>El generador corre donde no hay red</li>
+                    </ul>
+                </div>
+                <p style="font-size:var(--small-size);">
+                    La IA sí se usó para <strong>programar</strong> y generar assets, declarado
+                    según la sección 11 de las bases.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====================================================================
+     11 · NO LO INVENTAMOS NOSOTROS
+     ==================================================================== -->
+<section class="slide slide--tinted" id="s11" aria-label="Validación externa">
+    <div class="slide-content">
+        <span class="eyebrow reveal"><span class="eyebrow__num">10</span> Precedente</span>
+
+        <h2 class="reveal">El patrón ya está validado<br><span class="hl">en escuelas reales.</span></h2>
+
+        <div class="grid grid--2 stagger">
+            <div class="card card--featured">
+                <span class="card__label">Learning Equality</span>
+                <h3>Kolibri</h3>
+                <p>
+                    Plataforma educativa offline-first desplegada en escuelas rurales sin
+                    internet. Misma tesis: el contenido baja cuando se puede y se consume
+                    cuando se necesita.
+                </p>
+            </div>
+            <div class="card card--featured">
+                <span class="card__label">World Possible</span>
+                <h3>RACHEL</h3>
+                <p>
+                    Servidor de contenido educativo para comunidades desconectadas.
+                    Demuestra que la demanda existe y que el modelo funciona en terreno.
+                </p>
+            </div>
+        </div>
+
+        <p class="reveal lead">
+            Nuestro aporte es traer ese patrón a <span class="mark">práctica dirigida por el profesor</span>,
+            con corrección local y sincronización automática — que es lo que ninguno de los dos hace.
+        </p>
+    </div>
+</section>
+
+<!-- ====================================================================
+     12 · ESTADO HONESTO
+     ==================================================================== -->
+<section class="slide" id="s12" aria-label="Estado del proyecto">
+    <div class="slide-content">
+        <span class="eyebrow reveal"><span class="eyebrow__num">11</span> Estado real</span>
+
+        <h2 class="reveal">Qué funciona hoy, sin maquillaje.</h2>
+
+        <div class="card reveal" style="padding:0; overflow:hidden;">
+            <table class="table">
+                <tbody>
+                    <tr><td><strong>Crear sala y compartir código</strong></td><td style="text-align:right;"><span class="badge badge--success">Funciona</span></td></tr>
+                    <tr><td><strong>Descargar la tarea para usar sin conexión</strong></td><td style="text-align:right;"><span class="badge badge--success">Funciona</span></td></tr>
+                    <tr><td><strong>Resolver sin red con corrección inmediata</strong></td><td style="text-align:right;"><span class="badge badge--success">Funciona</span></td></tr>
+                    <tr><td><strong>La app abre sin conexión (PWA)</strong></td><td style="text-align:right;"><span class="badge badge--success">Funciona</span></td></tr>
+                    <tr><td><strong>Crear actividades desde el panel del profesor</strong></td><td style="text-align:right;"><span class="badge badge--success">Funciona</span></td></tr>
+                    <tr><td><strong>Panel de resultados del profesor</strong></td><td style="text-align:right;"><span class="badge badge--ghost">Falta el endpoint</span></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p class="reveal lead">
+            Lo que falta está marcado con <code>TODO</code> en el código y documentado en el
+            contrato de API. <span class="mark">Preferimos mostrar poco que ande a mucho que se caiga.</span>
+        </p>
+    </div>
+</section>
+
+<!-- ====================================================================
+     13 · STACK Y CUMPLIMIENTO
+     ==================================================================== -->
+<section class="slide slide--ink" id="s13" aria-label="Stack y cumplimiento de bases">
+    <div class="slide-content">
+        <span class="eyebrow reveal"><span class="eyebrow__num">12</span> Cómo está hecho</span>
+
+        <div class="split split--wide">
+            <div class="stack reveal">
+                <h2>Stack</h2>
+                <div class="grid grid--2">
+                    <div class="card card--sunk">
+                        <span class="card__label">Frontend</span>
+                        <p><strong>Next.js 16</strong> · React 19 · TypeScript · Tailwind 4 · Serwist · idb</p>
+                    </div>
+                    <div class="card card--sunk">
+                        <span class="card__label">Backend</span>
+                        <p><strong>FastAPI</strong> · Python · Supabase (Postgres + Auth + RLS)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stack reveal">
+                <h2>Bases</h2>
+                <ul class="list">
+                    <li>Licencia <strong>MIT</strong> con <code>LICENSE</code> en la raíz</li>
+                    <li>Repositorio público, todo el código escrito durante el evento</li>
+                    <li>Librerías de terceros declaradas con su licencia en el README</li>
+                    <li>Uso de IA para programar, declarado según la sección 11</li>
+                </ul>
+            </div>
+        </div>
+
+        <p class="reveal" style="font-size:var(--small-size);">
+            Las claves de Supabase viven solo en el backend. El <code>teacher_id</code> y el
+            <code>student_id</code> siempre salen del JWT, nunca del body de la petición.
+        </p>
+    </div>
+</section>
+
+<!-- ====================================================================
+     14 · CIERRE
+     ==================================================================== -->
+<section class="slide slide--primary" id="s14" aria-label="Cierre">
+    <div class="slide-content" style="align-items:center; text-align:center;">
+
+        <span class="eyebrow reveal"><span class="eyebrow__num">13</span> Para llevarse</span>
+
+        <h1 class="reveal" style="max-width:18ch;">La conectividad no debería decidir <span class="hl">quién puede practicar</span>.</h1>
+
+        <div class="reveal row" style="justify-content:center;">
+            <span class="badge badge--pulse">Descarga con señal</span>
+            <span class="badge badge--pulse">Resuelve sin ella</span>
+            <span class="badge badge--pulse">Sincroniza sola</span>
+        </div>
+
+        <div class="reveal card card--featured" style="max-width:min(90vw,640px); text-align:left;">
+            <span class="card__label">Lo que sigue</span>
+            <p>
+                Modo en vivo con realtime · estadísticas por tema para detectar debilidades
+                del curso · dificultad adaptativa · material propio del profesor.
+            </p>
+        </div>
+
+        <p class="reveal" style="font-size:var(--small-size); color:rgba(255,255,255,0.75);">
+            EduFlow · HaCAIthon 2026 · Equipo 19 · Centro de Alumnos de Ingeniería UC
+        </p>
+    </div>
+</section>
+
+</main>
+
+<nav class="nav-dots" id="navDots" aria-label="Navegación de diapositivas"></nav>
+<div class="slide-counter" id="counter" aria-live="polite">1 / 14</div>
+<div class="keyboard-hint"><kbd>←</kbd> <kbd>→</kbd> navegar · <kbd>1</kbd>–<kbd>9</kbd> saltar · <kbd>F</kbd> pantalla completa</div>
+
+<script>
+/* ==========================================================================
+   Controlador de la presentación.
+
+   Pensado para feria, no para escenario: el jurado llega a mitad y pregunta
+   por algo puntual, asi que hay salto directo por numero y por punto lateral.
+   ========================================================================== */
+class Deck {
+    constructor() {
+        this.slides = Array.from(document.querySelectorAll('.slide'));
+        this.current = 0;
+        this.isScrolling = false;
+
+        this.progress = document.getElementById('progress');
+        this.counter = document.getElementById('counter');
+        this.dots = document.getElementById('navDots');
+
+        this.buildDots();
+        this.observe();
+        this.bindKeys();
+        this.bindWheel();
+        this.bindTouch();
+
+        this.setActive(0);
+    }
+
+    buildDots() {
+        this.slides.forEach((slide, i) => {
+            const dot = document.createElement('button');
+            dot.type = 'button';
+            const label = slide.getAttribute('aria-label') || `Diapositiva ${i + 1}`;
+            dot.setAttribute('aria-label', `Ir a: ${label}`);
+            dot.addEventListener('click', () => this.goTo(i));
+            this.dots.appendChild(dot);
+        });
+    }
+
+    /* El observer es la fuente de verdad del slide activo: asi el estado queda
+       correcto tanto si se navega con teclas como si se scrollea a mano. */
+    observe() {
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    this.setActive(this.slides.indexOf(entry.target));
+                }
+            });
+        }, { threshold: 0.55 });
+
+        this.slides.forEach((s) => io.observe(s));
+    }
+
+    setActive(index) {
+        if (index < 0 || index >= this.slides.length) return;
+        this.current = index;
+
+        this.slides.forEach((s, i) => s.classList.toggle('is-active', i === index));
+
+        Array.from(this.dots.children).forEach((dot, i) => {
+            dot.setAttribute('aria-current', i === index ? 'true' : 'false');
+        });
+
+        const pct = this.slides.length > 1
+            ? (index / (this.slides.length - 1)) * 100
+            : 100;
+        this.progress.style.width = pct + '%';
+        this.progress.setAttribute('aria-valuenow', Math.round(pct));
+
+        this.counter.textContent = `${index + 1} / ${this.slides.length}`;
+    }
+
+    goTo(index) {
+        if (index < 0 || index >= this.slides.length) return;
+        this.slides[index].scrollIntoView({ behavior: 'smooth', block: 'start' });
+        this.setActive(index);
+    }
+
+    next() { this.goTo(this.current + 1); }
+    prev() { this.goTo(this.current - 1); }
+
+    bindKeys() {
+        document.addEventListener('keydown', (e) => {
+            // No secuestrar el teclado si el foco esta en un control.
+            if (e.metaKey || e.ctrlKey || e.altKey) return;
+
+            switch (e.key) {
+                case 'ArrowRight': case 'ArrowDown': case 'PageDown': case ' ':
+                    e.preventDefault(); this.next(); break;
+                case 'ArrowLeft': case 'ArrowUp': case 'PageUp':
+                    e.preventDefault(); this.prev(); break;
+                case 'Home':
+                    e.preventDefault(); this.goTo(0); break;
+                case 'End':
+                    e.preventDefault(); this.goTo(this.slides.length - 1); break;
+                case 'f': case 'F':
+                    e.preventDefault(); this.toggleFullscreen(); break;
+                default:
+                    // 1-9 saltan directo. Util cuando un juez pregunta por algo puntual.
+                    if (/^[1-9]$/.test(e.key)) {
+                        e.preventDefault();
+                        this.goTo(parseInt(e.key, 10) - 1);
+                    }
+            }
+        });
+    }
+
+    /* El scroll-snap del navegador ya hace el trabajo pesado; el throttle solo
+       evita que un trackpad con inercia salte tres slides de una. */
+    bindWheel() {
+        let timer = null;
+        window.addEventListener('wheel', (e) => {
+            if (this.isScrolling) return;
+            if (Math.abs(e.deltaY) < 25) return;
+
+            this.isScrolling = true;
+            e.deltaY > 0 ? this.next() : this.prev();
+
+            clearTimeout(timer);
+            timer = setTimeout(() => { this.isScrolling = false; }, 620);
+        }, { passive: true });
+    }
+
+    bindTouch() {
+        let startY = 0;
+        window.addEventListener('touchstart', (e) => {
+            startY = e.changedTouches[0].screenY;
+        }, { passive: true });
+
+        window.addEventListener('touchend', (e) => {
+            const delta = startY - e.changedTouches[0].screenY;
+            if (Math.abs(delta) < 60) return;
+            delta > 0 ? this.next() : this.prev();
+        }, { passive: true });
+    }
+
+    toggleFullscreen() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen?.();
+        } else {
+            document.exitFullscreen?.();
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => new Deck());
+</script>
+
+</body>
+</html>
