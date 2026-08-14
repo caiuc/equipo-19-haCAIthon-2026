@@ -4,6 +4,7 @@ from schemas.room import RoomCreate
 from services.room_service import (
     create_room,
     get_student_rooms_service,
+    join_room_service
 )
 
 from database import supabase
@@ -76,4 +77,18 @@ def get_student_rooms(
 ):
     return get_student_rooms_service(
         current_user.id
+    )
+
+from schemas.room import JoinRoomRequest
+
+
+@router.post("/join")
+def join_room(
+    request: JoinRoomRequest,
+    current_user=Depends(get_current_user)
+):
+    return join_room_service(
+        request.code,
+        current_user.id,
+        request.display_name
     )

@@ -1,5 +1,7 @@
 from database import supabase
 from database_secret import admin_supabase
+from fastapi import HTTPException
+
 
 
 def create_room(code, name, teacher_id, status):
@@ -43,3 +45,65 @@ def get_student_rooms_service(user_id: str):
     )
 
     return rooms_response.data
+
+
+from fastapi import HTTPException
+
+
+def join_room_service(
+    code: str,
+    user_id: str,
+    display_name: str
+):
+
+    room_response = (
+        admin_supabase
+        .table("rooms")
+        .select("id, name, code, status")
+        .eq("code", code)
+        .execute()
+    )
+
+    if not room_response.data:
+        raise HTTPException(
+            status_code=404,
+            detail="Room not found"
+        )
+
+    room = room_response.data[0]
+
+    if room["status"] != "active":
+        raise HTTPException(
+            status_code=403,
+            detail="Room is not active"
+        )
+
+    membership_response = (
+        admin_supabase
+        .table("room_members")
+        .select("room_id")
+        .eq("room_id", room["id"])
+        .eq("user_id", user_id)
+        .execute()
+    )
+
+    if membership_response.data:
+        raise HTTPException(
+            status_code=409,
+            detail="User is already a member of this room"
+        )
+
+    admin_supabase.table("room_members").insert({
+        "room_id": room["id"],
+        "user_id": user_id,
+        "display_name": display_name
+    }).execute()
+
+    return {
+        "message": "Joined room successfully",
+        "room": {
+            "id": room["id"],
+            "code": room["code"],
+            "name": room["name"]
+        }
+    }

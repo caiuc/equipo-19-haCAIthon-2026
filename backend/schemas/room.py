@@ -19,3 +19,7 @@ class RoomResponse(BaseModel):
     teacher_id: str
     status: str
     created_at: datetime = None
+
+class JoinRoomRequest(BaseModel):
+    code: str
+    display_name: str
