@@ -2,7 +2,12 @@ import withSerwistInit from "@serwist/next";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Serwist inyecta configuracion de webpack incluso con `disable: true`, y
+  // Next 16 corta el arranque si detecta config de webpack sin config de
+  // Turbopack ("This build is using Turbopack, with a webpack config...").
+  // Este objeto vacio le dice a Turbopack que no hay nada que migrar, y deja
+  // que `next dev` funcione normalmente.
+  turbopack: {},
 };
 
 // `revision` invalida la cache en cada build. Sin esto el navegador podria
