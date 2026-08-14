@@ -36,7 +36,7 @@ export default function PracticarPage() {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const { isOnline, pendingCount, wasSimulated, refreshPending } = useSync(token);
+  const { isOnline, pendingCount, refreshPending } = useSync(token);
 
   const load = useCallback(async () => {
     const stored = await listActivities();
@@ -96,12 +96,6 @@ export default function PracticarPage() {
 
         <ConnectionBanner isOnline={isOnline} pendingCount={pendingCount} />
 
-        {wasSimulated && (
-          <p className="rounded-xl border-2 border-dashed border-muted p-3 text-sm text-muted">
-            Sincronización simulada: el endpoint <code>/answers/bulk</code>{" "}
-            todavía no existe en el backend.
-          </p>
-        )}
       </header>
 
       {active ? (

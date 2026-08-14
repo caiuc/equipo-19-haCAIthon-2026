@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
 from cors import setup_cors
-from routers import auth, rooms, activities
+from routers import auth, rooms, activities, answers
 
 app = FastAPI(
     title="Education API",
@@ -15,6 +15,7 @@ setup_cors(app)
 app.include_router(auth.router)
 app.include_router(rooms.router)
 app.include_router(activities.router)
+app.include_router(answers.router)
 
 
 @app.get("/")

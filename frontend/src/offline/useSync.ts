@@ -9,8 +9,6 @@ interface UseSyncResult {
   isOnline: boolean;
   pendingCount: number;
   isSyncing: boolean;
-  /** true si el ultimo envio fue simulado porque falta el endpoint. */
-  wasSimulated: boolean;
   refreshPending: () => Promise<void>;
   syncNow: () => Promise<void>;
 }
@@ -19,7 +17,6 @@ export function useSync(token: string | null): UseSyncResult {
   const isOnline = useOnline();
   const [pendingCount, setPendingCount] = useState(0);
   const [isSyncing, setIsSyncing] = useState(false);
-  const [wasSimulated, setWasSimulated] = useState(false);
 
   const refreshPending = useCallback(async () => {
     setPendingCount(await countPendingAnswers());
@@ -30,8 +27,7 @@ export function useSync(token: string | null): UseSyncResult {
 
     setIsSyncing(true);
     try {
-      const result = await syncPendingAnswers(token);
-      setWasSimulated(result.simulated);
+      await syncPendingAnswers(token);
     } catch {
       // La cola queda intacta: se reintenta en el proximo evento `online`.
     } finally {
@@ -54,7 +50,6 @@ export function useSync(token: string | null): UseSyncResult {
     isOnline,
     pendingCount,
     isSyncing,
-    wasSimulated,
     refreshPending,
     syncNow,
   };
