@@ -162,6 +162,87 @@ export async function listActivitiesForStudent(
   return perRoom.flat();
 }
 
+/** Actividades de una sala, para la vista del profesor. */
+export async function listRoomActivities(
+  token: string,
+  roomId: string,
+  roomName: string,
+): Promise<ActivitySummary[]> {
+  const payload = await request<ApiActivitySummary[]>(
+    `/activities/?room_id=${encodeURIComponent(roomId)}`,
+    { token },
+  );
+
+  return payload.map((item) => ({
+    activityId: item.activity_id,
+    title: item.title,
+    subject: item.subject,
+    exerciseType: item.exercise_type,
+    difficulty: item.difficulty,
+    mode: item.mode,
+    exerciseCount: item.exercise_count,
+    roomName,
+  }));
+}
+
+export interface RoomStudent {
+  studentId: string;
+  name: string;
+  joinedAt: string;
+}
+
+export async function listRoomStudents(
+  token: string,
+  roomId: string,
+): Promise<RoomStudent[]> {
+  const payload = await request<
+    { student_id: string; name: string; joined_at: string }[]
+  >(`/rooms/${encodeURIComponent(roomId)}/students`, { token });
+
+  return payload.map((s) => ({
+    studentId: s.student_id,
+    name: s.name,
+    joinedAt: s.joined_at,
+  }));
+}
+
+export interface ActivityResults {
+  activityId: string;
+  title: string;
+  results: {
+    studentId: string;
+    totalPoints: number;
+    correct: number;
+    answered: number;
+  }[];
+}
+
+export async function getActivityResults(
+  token: string,
+  activityId: string,
+): Promise<ActivityResults> {
+  const payload = await request<{
+    activity_id: string;
+    title: string;
+    results: {
+      student_id: string;
+      total_points: number;
+      answers: { is_correct: boolean }[];
+    }[];
+  }>(`/activities/${encodeURIComponent(activityId)}/results`, { token });
+
+  return {
+    activityId: payload.activity_id,
+    title: payload.title,
+    results: (payload.results ?? []).map((r) => ({
+      studentId: r.student_id,
+      totalPoints: r.total_points,
+      correct: (r.answers ?? []).filter((a) => a.is_correct).length,
+      answered: (r.answers ?? []).length,
+    })),
+  };
+}
+
 export function joinRoom(token: string, code: string, displayName: string) {
   return request<Room>("/rooms/join", {
     method: "POST",

@@ -1,0 +1,373 @@
+<!DOCTYPE html><html lang="es" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>EduFlow - Crea, comparte y corrige actividades de clase en minutos</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#3d4ad8",
+                        "secondary-fixed": "#d8e3fb",
+                        "surface-container-low": "#f5f4ec",
+                        "on-background": "#1b1c17",
+                        "on-surface-variant": "#454655",
+                        "primary-fixed-dim": "#bec2ff",
+                        "on-tertiary-fixed": "#261a00",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "inverse-on-surface": "#f3f1e9",
+                        "muted": "#64748B",
+                        "on-primary-fixed": "#000569",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "error": "#EF4444",
+                        "surface-tint": "#3f4cda",
+                        "secondary": "#545f73",
+                        "primary-container": "#5865f2",
+                        "tertiary-fixed": "#ffdf9f",
+                        "accent-pink": "#F472B6",
+                        "surface-container": "#f0eee6",
+                        "on-primary-container": "#fffdff",
+                        "on-surface": "#1E293B",
+                        "tertiary-container": "#956f00",
+                        "on-tertiary-fixed-variant": "#5c4300",
+                        "background": "#fbf9f1",
+                        "border": "#1E293B",
+                        "surface-dim": "#dcdad2",
+                        "outline": "#767686",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#e0e0ff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed-dim": "#f9bd22",
+                        "accent-purple": "#8B5CF6",
+                        "success": "#34D399",
+                        "surface-container-high": "#eae8e0",
+                        "on-primary-fixed-variant": "#222fc2",
+                        "on-secondary-fixed": "#111c2d",
+                        "surface-bright": "#fbf9f1",
+                        "secondary-container": "#d5e0f8",
+                        "surface": "#FFFFFF",
+                        "accent-blue": "#60A5FA",
+                        "on-tertiary-container": "#fffdff",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#30312c",
+                        "on-secondary-container": "#586377",
+                        "inverse-primary": "#bec2ff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#775700",
+                        "surface-variant": "#e4e3db",
+                        "outline-variant": "#c6c5d7",
+                        "surface-container-highest": "#e4e3db"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "1rem",
+                        "section": "6rem",
+                        "xs": "0.5rem",
+                        "md": "2rem",
+                        "xl": "6rem",
+                        "lg": "4rem",
+                        "gutter": "1.5rem"
+                    },
+                    "fontFamily": {
+                        "caption": ["Plus Jakarta Sans"],
+                        "headline-sm": ["Outfit"],
+                        "headline-md": ["Outfit"],
+                        "headline-lg-mobile": ["Outfit"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "label-md": ["Outfit"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Outfit"],
+                        "label-lg": ["Outfit"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "body-sm": ["Plus Jakarta Sans"],
+                        "headline-display": ["Outfit"]
+                    },
+                    "fontSize": {
+                        "caption": ["12px", { "lineHeight": "16px", "letterSpacing": "0px", "fontWeight": "500" }],
+                        "headline-sm": ["28px", { "lineHeight": "28px", "letterSpacing": "0px", "fontWeight": "700" }],
+                        "headline-md": ["38px", { "lineHeight": "46px", "letterSpacing": "0px", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "0px", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0px", "fontWeight": "500" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "700" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+                        "headline-lg": ["52px", { "lineHeight": "62px", "letterSpacing": "0px", "fontWeight": "700" }],
+                        "label-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "700" }],
+                        "body-lg": ["20px", { "lineHeight": "28px", "letterSpacing": "0px", "fontWeight": "500" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "letterSpacing": "0px", "fontWeight": "400" }],
+                        "headline-display": ["72px", { "lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "800" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .neo-shadow {
+            box-shadow: 4px 4px 0px 0px rgba(249,189,34,1); /* Tertiary fixed dim / Amber accent approx */
+            border: 2px solid #1E293B; /* Navy Outline */
+        }
+        .neo-shadow-hover:hover {
+            box-shadow: 8px 8px 0px 0px rgba(249,189,34,1);
+            transform: translate(-2px, -2px);
+        }
+        .neo-shadow-indigo {
+            box-shadow: 4px 4px 0px 0px rgba(79, 70, 229, 1); /* Indigo */
+            border: 2px solid #1E293B;
+        }
+        .neo-card {
+            background-color: white;
+            border: 2px solid #1E293B;
+            border-radius: 0.75rem; /* xl */
+            padding: 2rem;
+        }
+        .neo-btn-primary {
+            background-color: #5865f2; /* Primary container */
+            color: white;
+            border: 2px solid #1E293B;
+            border-radius: 9999px;
+            padding: 0.75rem 1.5rem;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 4px 4px 0px 0px rgba(249,189,34,1);
+        }
+        .neo-btn-primary:hover {
+            box-shadow: 6px 6px 0px 0px rgba(249,189,34,1);
+            transform: translate(-1px, -1px);
+        }
+        .neo-btn-secondary {
+            background-color: transparent;
+            color: #1E293B;
+            border: 2px solid #1E293B;
+            border-radius: 9999px;
+            padding: 0.75rem 1.5rem;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.2s ease-in-out;
+            background-color: white;
+        }
+        .neo-btn-secondary:hover {
+             box-shadow: 4px 4px 0px 0px rgba(30,41,59,1);
+             transform: translate(-2px, -2px);
+        }
+        
+        .browser-mockup {
+            border: 2px solid #1E293B;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            background-color: white;
+        }
+        .browser-header {
+            border-bottom: 2px solid #1E293B;
+            padding: 0.5rem 1rem;
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            background-color: #f5f4ec; /* surface-container-low */
+        }
+        .browser-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid #1E293B;
+        }
+        .browser-dot:nth-child(1) { background-color: #EF4444; }
+        .browser-dot:nth-child(2) { background-color: #FBBF24; }
+        .browser-dot:nth-child(3) { background-color: #34D399; }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden selection:bg-tertiary-fixed-dim selection:text-on-surface">
+<!-- Header -->
+<header class="w-full sticky top-0 z-40 bg-surface dark:bg-on-surface border-b-2 border-secondary dark:border-outline-variant shadow-[4px_4px_0px_0px_rgba(249,189,34,1)] flex justify-between items-center h-[72px] px-gutter transition-all">
+<div class="flex items-center gap-2">
+<img alt="EduFlow Logo" class="h-8 w-8 object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLunfEFqEGBG5gv1hiS3qItXvZmMbrmMJWsEinDXN4BLvnRp-UtgtCr21PySjv1du-IO9Nri5JmgRPae0zYVcmy6oq7NKgMrRnAQGzgJRsitFx7bQBzwUbI_xYDmx0ckIsLp81ZzxrvwPKgIng4J_a9xZiWaRSqxWY39UdwS1oXX_hV2tX9uafNAtg01uFl1xA0M1jol1CoZsOKVHfBSNDhxIyodxWOKcDfgN58X7dg--vgXnlz90qDZ_0xc">
+
+</div>
+<nav class="hidden md:flex gap-6 items-center">
+
+
+
+
+</nav>
+<div class="flex items-center gap-3">
+<button class="hidden md:block neo-btn-secondary">Iniciar Sesión</button>
+<button class="neo-btn-primary">Crear Cuenta</button>
+</div>
+</header>
+<main>
+<!-- Hero Section -->
+<section class="pt-24 pb-16 px-4 md:px-8 max-w-7xl mx-auto text-center flex flex-col items-center">
+<div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border-2 border-border bg-surface-container-low mb-8 font-label-sm uppercase tracking-wider neo-shadow">
+<span class="w-2 h-2 rounded-full bg-success"></span>
+<span class="">La nueva forma de enseñar</span>
+</div>
+<h1 class="font-headline-display text-headline-lg-mobile md:text-headline-display max-w-4xl mx-auto mb-6 leading-tight">
+                Crea, comparte y corrige <br class="hidden md:block">
+                actividades de clase <span class="relative whitespace-nowrap">
+<span class="relative z-10">en minutos</span>
+<span class="absolute bottom-1 left-0 w-full h-4 bg-tertiary-fixed-dim -z-10 rotate-1"></span>
+</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto mb-10">
+                La plataforma todo en uno para profesores que quieren dedicar menos tiempo a la gestión y más tiempo a la enseñanza real. Funciona incluso sin internet.
+            </p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-20 w-full max-w-md mx-auto">
+
+
+</div>
+<!-- Hero Mockup -->
+<div class="w-full max-w-5xl mx-auto relative perspective-1000">
+<div class="browser-mockup neo-shadow transform md:-rotate-2 transition-transform duration-500 hover:rotate-0 max-w-3xl mx-auto">
+<div class="browser-header">
+<div class="browser-dot"></div>
+<div class="browser-dot"></div>
+<div class="browser-dot"></div>
+<div class="ml-4 px-3 py-1 bg-white border-2 border-border rounded-full text-xs font-mono text-muted flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+                            app.eduflow.com/dashboard
+                        </div>
+</div>
+<img class="w-full h-auto block object-cover" data-alt="A modern SaaS dashboard for teachers showing a list of active classes, recent student activity, and a side navigation menu. The UI is clean, using a light mode theme with indigo and amber accents, adhering to a playful yet professional neo-brutalist style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5GshFOhAu9lBdvifcj-9BJiJsC2oShnhMTbtpTmr0g5vXwaT3OW36uNtcea0BTZ8prm8sii5gYArbOi1YtHcou83fEK87PsqNClDkuBTFcGk7bsEmt7QHUyE61_QjadG77eSBfzdvPF636EZ_aeCRYTVaNymbZNEWzruQfdtX3NMrBsGretmRrTfCXwKoimerT4bjHoaVMlFUGKq3bjhUI-7ziCiZ9jlTeoas0LMO9waqgNuL6Cllcj7LQbR3K08Dt-iNoFnUdQc3nyE">
+</div>
+</div>
+</section>
+<!-- Social Proof Metrics -->
+<section class="py-12 bg-primary-container border-y-2 border-border mt-12 overflow-hidden">
+<div class="max-w-7xl mx-auto px-4">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x-2 divide-border justify-items-center">
+
+
+
+
+</div>
+</div>
+</section>
+<!-- How it works -->
+<section class="py-section max-w-7xl mx-auto px-4 md:px-8">
+<div class="text-center mb-16">
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg mb-4">Aprender, simplificado</h2>
+<p class="font-body-lg text-on-surface-variant max-w-2xl mx-auto">Tres sencillos pasos para transformar la dinámica de tu aula.</p>
+</div>
+<div class="grid md:grid-cols-3 gap-8">
+<!-- Step 1 -->
+<div class="neo-card neo-shadow flex flex-col items-center text-center relative group">
+<div class="absolute -top-6 -left-6 w-12 h-12 bg-tertiary-fixed-dim border-2 border-border rounded-full flex items-center justify-center font-headline-sm font-bold z-10 shadow-[2px_2px_0px_0px_rgba(30,41,59,1)]">1</div>
+<div class="w-20 h-20 bg-secondary-fixed border-2 border-border rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[32px] text-primary" style="font-variation-settings: &quot;FILL&quot; 1;">add_circle</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm mb-3">Crea tu sala</h3>
+<p class="font-body-md text-on-surface-variant">Configura tu clase en segundos, añade actividades y organiza tu material.</p>
+</div>
+<!-- Step 2 -->
+<div class="neo-card neo-shadow flex flex-col items-center text-center relative group">
+<div class="absolute -top-6 -left-6 w-12 h-12 bg-tertiary-fixed-dim border-2 border-border rounded-full flex items-center justify-center font-headline-sm font-bold z-10 shadow-[2px_2px_0px_0px_rgba(30,41,59,1)]">2</div>
+<div class="w-20 h-20 bg-tertiary-fixed border-2 border-border rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[32px] text-tertiary-container" style="font-variation-settings: &quot;FILL&quot; 1;">groups</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm mb-3">Estudiantes se unen</h3>
+<p class="font-body-md text-on-surface-variant">Con un simple código o enlace, tus alumnos entran a la sala desde cualquier dispositivo.</p>
+</div>
+<!-- Step 3 -->
+<div class="neo-card neo-shadow flex flex-col items-center text-center relative group">
+<div class="absolute -top-6 -left-6 w-12 h-12 bg-tertiary-fixed-dim border-2 border-border rounded-full flex items-center justify-center font-headline-sm font-bold z-10 shadow-[2px_2px_0px_0px_rgba(30,41,59,1)]">3</div>
+<div class="w-20 h-20 bg-success/20 border-2 border-border rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[32px] text-success" style="font-variation-settings: &quot;FILL&quot; 1;">fact_check</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm mb-3">Aprende hasta sin conexión</h3>
+<p class="font-body-md text-on-surface-variant">Estudiantes pueden descargar</p><div class="">contenidos, para hacer uso de estos de manera offline.</div><p class=""></p>
+</div>
+</div>
+</section><section class="py-12 px-4 md:px-8 max-w-7xl mx-auto">
+  <div class="bg-primary-fixed border-2 border-border rounded-xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 shadow-[8px_8px_0px_0px_rgba(249,189,34,1)]">
+    <div class="w-20 h-20 bg-white border-2 border-border rounded-full flex items-center justify-center shrink-0">
+      <span class="material-symbols-outlined text-[48px] text-primary">offline_pin</span>
+    </div>
+    <div class="flex-1 text-center md:text-left">
+      <h3 class="font-headline-md text-headline-sm md:text-headline-md mb-2">No necesitas conexión constante</h3>
+      <p class="font-body-lg text-on-surface-variant">
+        Descarga tus clases y resuelve actividades offline. Tus progresos se sincronizarán automáticamente al volver a estar en línea.
+      </p>
+    </div>
+    <div class="hidden lg:block">
+      <span class="material-symbols-outlined text-[64px] text-primary/20">sync</span>
+    </div>
+  </div>
+</section>
+<!-- Feature Zigzag -->
+<section class="py-section bg-surface-container-low border-y-2 border-border overflow-hidden">
+<div class="max-w-7xl mx-auto px-4 md:px-8 flex flex-col gap-32">
+<!-- Feature A -->
+<div class="flex flex-col md:flex-row items-center gap-12">
+<div class="md:w-1/2">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-secondary-fixed border-2 border-border rounded-full mb-4 font-label-sm">
+<span class="material-symbols-outlined text-[16px]">dashboard</span>
+                            Organización
+                        </div>
+<h2 class="font-headline-md text-headline-md mb-4">Todas tus clases, perfectamente organizadas</h2>
+<p class="font-body-lg text-on-surface-variant mb-6">Accede a un panel centralizado donde cada asignatura tiene su espacio. Olvídate de los documentos perdidos y los correos traspapelados.</p>
+<ul class="space-y-3 mb-8">
+<li class="flex items-center gap-3 font-body-md"><span class="material-symbols-outlined text-success">check_circle</span>Posibilidad de descargar contenido, para hacer uso de este sin necesidad&nbsp; de internet.</li>
+<li class="flex items-center gap-3 font-body-md"><span class="material-symbols-outlined text-success">check_circle</span>Todo el material de estudio en un solo lugar.</li>
+<li class="flex items-center gap-3 font-body-md"><span class="material-symbols-outlined text-success">check_circle</span>Organización fácil e intituiva.</li>
+</ul>
+</div>
+<div class="md:w-1/2 w-full relative">
+<div class="absolute inset-0 bg-tertiary-fixed-dim translate-x-4 translate-y-4 rounded-xl border-2 border-border"></div>
+<div class="browser-mockup relative z-10">
+<div class="browser-header"><div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div></div>
+<img class="w-full h-auto block" data-alt="A detailed view of a course management dashboard showing a grid of class folders. Each folder has a vibrant color accent, a title like 'Matemáticas 101', and indicators for recent activities. The UI is structured, bright, and uses high-contrast borders." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4Cv67E6FO0Y5eUIjcg96uKIoWimmVoHIKrsyx1OQnwbLudfYJ_JV0ExMIFVLrL87IOB0FiP26PnkBINFD6WWMhQeqsw2qqt3-qgEhA-YL5dp2w6fozbp7BFGOTkiMDTM8QUOiR6E9EzYNC65Bdu-5IhQL7iG62v7vQg3EB-hujSV2YtH2i9OeuTwS_DzbH0N9M2RoWQQVVDLpKnZMRjColc9Tx31I8dzP-ISTzoOx9BoLv6cRD_7iA9y5sIbMaxs0T5MVHFa_MbrQZWc">
+</div>
+</div>
+</div>
+<!-- Feature B -->
+<div class="flex flex-col md:flex-row-reverse items-center gap-12">
+<div class="md:w-1/2">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-tertiary-fixed border-2 border-border rounded-full mb-4 font-label-sm">
+<span class="material-symbols-outlined text-[16px]">edit_note</span>
+                            Creación
+                        </div>
+<h2 class="font-headline-md text-headline-md mb-4">Diseña actividades sin esfuerzo</h2>
+<p class="font-body-lg text-on-surface-variant mb-6">Un editor intuitivo para la creación de clases. Crea cuestionarios, tareas de redacción o sube material de estudio para los estudiantes.</p>
+
+</div>
+<div class="md:w-1/2 w-full relative">
+<div class="absolute inset-0 bg-primary-fixed translate-x-4 translate-y-4 rounded-xl border-2 border-border"></div>
+<div class="browser-mockup relative z-10">
+<div class="browser-header"><div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div></div>
+<img class="w-full h-auto block" data-alt="A block-based activity builder interface for teachers. The screen shows drag-and-drop elements for multiple choice questions, text inputs, and image uploads. The design features soft rounded corners inside stark navy borders, emphasizing a tactile, modern SaaS feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9ywRJWAJHBMeub31zupWIJPl-ZZqrcmjqT4vzRf_qNmBi2rTfo1w3asxkIE27sn68Cldj1pqoai3KN1mnQ-I34JCsxaPLiz8QVnjpBuQWB21hxPoGfRP-v0RVIRXRNKnKVA8xkptS_l750-cTbp9ZelBiJ6ITzzrbDU0EfmuiZDVjz1N-noQstKPeuQNWzFyXzEoACFiS81LMlWuPq86iGMvP3Hk35UXNazx1RbXLsxYXWlakTdmNHrF1tbmiw-Vy6UVrqXLlcZJX5q0">
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface border-t-2 border-border pt-16 pb-8">
+
+<div class="max-w-7xl mx-auto px-4 md:px-8 border-t-2 border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+
+<div class="flex gap-4">
+<a class="text-on-surface-variant hover:text-primary" href="#"><span class="material-symbols-outlined">language</span></a>
+<a class="text-on-surface-variant hover:text-primary" href="#"><span class="material-symbols-outlined">mail</span></a>
+</div>
+</div>
+</footer>
+
+
+
+
+</body></html>

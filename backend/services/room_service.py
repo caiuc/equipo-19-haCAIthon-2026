@@ -107,3 +107,53 @@ def join_room_service(
             "name": room["name"]
         }
     }
+
+def get_room_students_service(room_id: str, user_id: str):
+    """Alumnos inscritos en una sala. Solo para el profesor de esa sala."""
+    room_response = (
+        admin_supabase
+        .table("rooms")
+        .select("id, teacher_id")
+        .eq("id", room_id)
+        .execute()
+    )
+
+    if not room_response.data:
+        raise HTTPException(status_code=404, detail="Room not found")
+
+    if room_response.data[0]["teacher_id"] != user_id:
+        raise HTTPException(
+            status_code=403,
+            detail="Only the room teacher can view the roster"
+        )
+
+    members_response = (
+        admin_supabase
+        .table("room_members")
+        .select("user_id, joined_at")
+        .eq("room_id", room_id)
+        .execute()
+    )
+
+    students = []
+
+    for member in members_response.data:
+        profile_response = (
+            admin_supabase
+            .table("profiles")
+            .select("name")
+            .eq("id", member["user_id"])
+            .execute()
+        )
+
+        students.append({
+            "student_id": member["user_id"],
+            "name": (
+                profile_response.data[0]["name"]
+                if profile_response.data
+                else "Sin nombre"
+            ),
+            "joined_at": member["joined_at"],
+        })
+
+    return students
