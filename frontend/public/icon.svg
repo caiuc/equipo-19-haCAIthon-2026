@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192" role="img" aria-label="EduFlow">
+  <rect width="192" height="192" rx="44" fill="#5865f2" stroke="#1e293b" stroke-width="8"/>
+  <path d="M96 52 44 78l52 26 52-26z" fill="#fbf9f1" stroke="#1e293b" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M66 92v28c0 9 13 16 30 16s30-7 30-16V92" fill="none" stroke="#1e293b" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M148 78v34" fill="none" stroke="#fbbf24" stroke-width="8" stroke-linecap="round"/>
+</svg>
