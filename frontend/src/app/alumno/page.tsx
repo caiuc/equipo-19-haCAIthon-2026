@@ -8,17 +8,31 @@ import { Card } from "@/components/ui/Card";
 import { ConnectionBanner } from "@/components/ui/ConnectionBanner";
 import { Input } from "@/components/ui/Input";
 import { fetchActivityPackage } from "@/lib/api";
+import { SEED_ACTIVITIES } from "@/lib/seed";
 import { listActivities, saveActivity, saveSession, loadSession } from "@/offline/db";
 import { useSync } from "@/offline/useSync";
 import type { StoredActivity } from "@/lib/types";
 
-const DEMO_ACTIVITY_ID = "demo-multiplicacion";
+// Catalogo temporal de tareas disponibles. Cuando el backend exponga las
+// actividades de la sala, esta lista sale de la API.
+const DEMO_ACTIVITIES = [
+  {
+    id: SEED_ACTIVITIES.MULTIPLE_CHOICE,
+    title: "Tabla de multiplicar",
+    detail: "2°B — Álgebra · 10 ejercicios · opción múltiple",
+  },
+  {
+    id: SEED_ACTIVITIES.NUMERIC,
+    title: "Multiplicación — escribí el resultado",
+    detail: "2°B — Álgebra · 10 ejercicios · respuesta numérica",
+  },
+] as const;
 
 export default function AlumnoPage() {
   const [token, setToken] = useState<string | null>(null);
   const [code, setCode] = useState("");
   const [downloaded, setDownloaded] = useState<StoredActivity[]>([]);
-  const [isDownloading, setIsDownloading] = useState(false);
+  const [isDownloading, setIsDownloading] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
   const { isOnline, pendingCount } = useSync(token);
@@ -36,12 +50,12 @@ export default function AlumnoPage() {
     void boot();
   }, [refresh]);
 
-  const alreadyDownloaded = downloaded.some(
-    (a) => a.activityId === DEMO_ACTIVITY_ID,
-  );
+  function isDownloaded(activityId: string): boolean {
+    return downloaded.some((a) => a.activityId === activityId);
+  }
 
-  async function download() {
-    setIsDownloading(true);
+  async function download(activityId: string) {
+    setIsDownloading(activityId);
     setMessage(null);
 
     try {
@@ -57,7 +71,7 @@ export default function AlumnoPage() {
         setToken("demo");
       }
 
-      const pkg = await fetchActivityPackage(token ?? "demo", DEMO_ACTIVITY_ID);
+      const pkg = await fetchActivityPackage(token ?? "demo", activityId);
       const stored = await saveActivity(pkg);
 
       setMessage(
@@ -65,7 +79,7 @@ export default function AlumnoPage() {
       );
       await refresh();
     } finally {
-      setIsDownloading(false);
+      setIsDownloading(null);
     }
   }
 
@@ -106,47 +120,48 @@ export default function AlumnoPage() {
       <section className="flex flex-col gap-3">
         <h2 className="font-display text-2xl font-extrabold">Tareas asignadas</h2>
 
-        <Card featured className="flex flex-col gap-4">
-          <div className="flex items-start justify-between gap-3">
-            <div>
-              <p className="font-display text-xl font-bold">
-                Tabla de multiplicar
-              </p>
-              <p className="text-sm text-muted">2°B — Álgebra · 10 ejercicios</p>
-            </div>
-            <Badge tone={alreadyDownloaded ? "done" : "waiting"}>
-              {alreadyDownloaded ? "Descargada" : "Tarea"}
-            </Badge>
-          </div>
+        {DEMO_ACTIVITIES.map((task) => {
+          const done = isDownloaded(task.id);
 
-          <p className="text-ink-soft">
-            Descargala ahora que tenés señal y resolvela después, aunque no
-            tengas internet.
+          return (
+            <Card key={task.id} featured={!done} className="flex flex-col gap-4">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="font-display text-xl font-bold">{task.title}</p>
+                  <p className="text-sm text-muted">{task.detail}</p>
+                </div>
+                <Badge tone={done ? "done" : "waiting"}>
+                  {done ? "Descargada" : "Tarea"}
+                </Badge>
+              </div>
+
+              {done ? (
+                <Link href="/alumno/practicar">
+                  <Button variant="secondary" fullWidth>
+                    Ir a resolverla
+                  </Button>
+                </Link>
+              ) : (
+                <Button
+                  fullWidth
+                  size="lg"
+                  disabled={isDownloading !== null}
+                  onClick={() => void download(task.id)}
+                >
+                  {isDownloading === task.id
+                    ? "Descargando…"
+                    : "Descargar para usar sin conexión"}
+                </Button>
+              )}
+            </Card>
+          );
+        })}
+
+        {message && (
+          <p className="font-display text-sm font-bold text-primary-deep">
+            {message}
           </p>
-
-          {alreadyDownloaded ? (
-            <Link href="/alumno/practicar">
-              <Button fullWidth size="lg">
-                Ir a resolverla
-              </Button>
-            </Link>
-          ) : (
-            <Button
-              fullWidth
-              size="lg"
-              disabled={isDownloading}
-              onClick={() => void download()}
-            >
-              {isDownloading ? "Descargando…" : "Descargar para usar sin conexión"}
-            </Button>
-          )}
-
-          {message && (
-            <p className="font-display text-sm font-bold text-primary-deep">
-              {message}
-            </p>
-          )}
-        </Card>
+        )}
       </section>
     </main>
   );

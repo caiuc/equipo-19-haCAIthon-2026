@@ -6,8 +6,9 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { OptionCard, type OptionState } from "@/components/ui/OptionCard";
 import { ProgressBar } from "@/components/ui/ProgressBar";
+import { isAnswerCorrect, isFreeInput } from "@/lib/answer";
+import { EXERCISE_TYPE, type StoredActivity, type StoredAnswer } from "@/lib/types";
 import { answerKey, listAnswersForActivity, saveAnswer } from "@/offline/db";
-import type { StoredActivity, StoredAnswer } from "@/lib/types";
 
 interface ExerciseRunnerProps {
   activity: StoredActivity;
@@ -22,7 +23,8 @@ export function ExerciseRunner({
 }: ExerciseRunnerProps) {
   const [answers, setAnswers] = useState<Map<string, StoredAnswer>>(new Map());
   const [index, setIndex] = useState(0);
-  const [chosen, setChosen] = useState<string | null>(null);
+  const [submitted, setSubmitted] = useState<string | null>(null);
+  const [draft, setDraft] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
 
   const exercises = useMemo(
@@ -77,29 +79,37 @@ export function ExerciseRunner({
   }
 
   const exercise = exercises[index];
-  const hasAnswered = chosen !== null;
+  const hasAnswered = submitted !== null;
+  const freeInput = isFreeInput(activity.exerciseType);
+  const wasCorrect =
+    hasAnswered &&
+    isAnswerCorrect(submitted, exercise.correctAnswer, activity.exerciseType);
 
   function stateFor(option: string): OptionState {
     if (!hasAnswered) return "idle";
     if (option === exercise.correctAnswer) return "correct";
-    if (option === chosen) return "wrong";
+    if (option === submitted) return "wrong";
     return "idle";
   }
 
-  async function choose(option: string) {
+  async function record(value: string) {
     if (hasAnswered) return;
 
-    setChosen(option);
+    setSubmitted(value);
 
     // La correccion es local e inmediata: sin conexion no hay backend al que
     // preguntarle. El servidor la recalcula al sincronizar.
-    const isCorrect = option === exercise.correctAnswer;
+    const isCorrect = isAnswerCorrect(
+      value,
+      exercise.correctAnswer,
+      activity.exerciseType,
+    );
 
     const answer: StoredAnswer = {
       key: answerKey(activity.activityId, exercise.id),
       activityId: activity.activityId,
       exerciseId: exercise.id,
-      answer: option,
+      answer: value,
       isCorrect,
       answeredAt: Date.now(),
       pendingSync: true,
@@ -111,7 +121,8 @@ export function ExerciseRunner({
   }
 
   function next() {
-    setChosen(null);
+    setSubmitted(null);
+    setDraft("");
     setIndex((current) => current + 1);
   }
 
@@ -129,28 +140,68 @@ export function ExerciseRunner({
           {exercise.prompt}
         </p>
 
-        <div
-          role="radiogroup"
-          aria-label="Opciones de respuesta"
-          className="flex flex-col gap-3"
-        >
-          {(exercise.options ?? []).map((option) => (
-            <OptionCard
-              key={option}
-              label={option}
-              state={stateFor(option)}
+        {freeInput ? (
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+              if (draft.trim() !== "") void record(draft);
+            }}
+            className="flex flex-col gap-3"
+          >
+            <label htmlFor="respuesta" className="sr-only">
+              Tu respuesta
+            </label>
+            <input
+              id="respuesta"
+              name="respuesta"
+              autoComplete="off"
+              autoFocus
               disabled={hasAnswered}
-              onSelect={() => void choose(option)}
+              value={draft}
+              onChange={(event) => setDraft(event.target.value)}
+              placeholder={
+                activity.exerciseType === EXERCISE_TYPE.NUMERIC
+                  ? "Escribí el número"
+                  : "Escribí tu respuesta"
+              }
+              // inputMode decimal abre el teclado numerico en el celular, que
+              // es donde la alumna resuelve la tarea de noche.
+              inputMode={
+                activity.exerciseType === EXERCISE_TYPE.NUMERIC
+                  ? "decimal"
+                  : "text"
+              }
+              className="h-15 rounded-full border-2 border-ink bg-surface px-6 text-center font-display text-2xl font-bold text-ink placeholder:font-body placeholder:text-base placeholder:font-normal placeholder:text-muted focus:shadow-pulse focus:outline-none disabled:opacity-60"
             />
-          ))}
-        </div>
+
+            {!hasAnswered && (
+              <Button type="submit" size="lg" fullWidth disabled={draft.trim() === ""}>
+                Responder
+              </Button>
+            )}
+          </form>
+        ) : (
+          <div
+            role="radiogroup"
+            aria-label="Opciones de respuesta"
+            className="flex flex-col gap-3"
+          >
+            {(exercise.options ?? []).map((option) => (
+              <OptionCard
+                key={option}
+                label={option}
+                state={stateFor(option)}
+                disabled={hasAnswered}
+                onSelect={() => void record(option)}
+              />
+            ))}
+          </div>
+        )}
 
         {hasAnswered && (
           <div className="flex flex-col gap-4 border-t-2 border-ink pt-5">
             <p className="font-display text-lg font-bold">
-              {chosen === exercise.correctAnswer
-                ? "¡Correcto!"
-                : `Era ${exercise.correctAnswer}`}
+              {wasCorrect ? "¡Correcto!" : `Era ${exercise.correctAnswer}`}
             </p>
             {exercise.explanation && (
               <p className="text-ink-soft">{exercise.explanation}</p>
