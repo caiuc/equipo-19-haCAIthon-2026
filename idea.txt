@@ -1,0 +1,1367 @@
+1. Idea de la aplicación
+
+Estamos desarrollando una plataforma web educativa donde existen dos tipos de usuarios:
+
+Profesor
+Estudiante
+
+Los profesores crean salas/clases y los estudiantes pueden unirse mediante un código.
+
+Una vez que un estudiante entra a una sala, la sala queda guardada permanentemente en su cuenta mediante la relación room_members.
+
+Dentro de una sala, el profesor podrá crear actividades y seleccionar:
+
+Materia.
+Tipo de ejercicio.
+Dificultad.
+Cantidad.
+Modalidad:
+En vivo.
+Tarea.
+Práctica.
+
+Los estudiantes realizan los ejercicios y el profesor puede ver resultados y estadísticas.
+
+La idea para el MVP es:
+
+Profesor crea sala
+        ↓
+Estudiante entra mediante código
+        ↓
+Profesor crea/inicia actividad
+        ↓
+Estudiantes reciben ejercicios
+        ↓
+Estudiantes responden
+        ↓
+API corrige respuestas
+        ↓
+Profesor ve resultados
+2. Tecnologías
+
+Stack actual:
+
+Frontend
+React + TypeScript
+        │
+        │ HTTP / REST
+        ▼
+Backend
+Python + FastAPI
+        │
+        ▼
+Supabase
+├── PostgreSQL
+├── Authentication
+└── Realtime (más adelante)
+Responsabilidades
+
+React
+
+Interfaz profesor.
+Interfaz estudiante.
+Login/register.
+Mostrar salas.
+Mostrar ejercicios.
+Mostrar resultados.
+
+FastAPI
+
+API REST.
+Autenticación.
+Lógica de negocio.
+Generación de ejercicios.
+Corrección.
+Estadísticas.
+Permisos.
+
+Supabase
+
+PostgreSQL.
+Usuarios/Auth.
+Persistencia.
+Realtime en una etapa posterior.
+3. Autenticación
+
+Todos los usuarios tienen una cuenta permanente.
+
+Supabase administra los usuarios en:
+
+auth.users
+
+Nosotros guardamos la información propia de nuestra aplicación en:
+
+public.profiles
+
+La relación es:
+
+auth.users
+    │
+    │ mismo UUID
+    ▼
+profiles
+
+Ejemplo:
+
+auth.users
+
+
+id: 1234-...
+email: alumno@test.cl
+profiles
+
+
+id: 1234-...
+name: Camila
+role: student
+
+Los roles actuales son:
+
+teacher
+student
+4. Base de datos
+
+Tenemos estas tablas:
+
+profiles
+rooms
+room_members
+activities
+exercises
+exercise_keys
+answers
+
+Relaciones conceptuales:
+
+auth.users
+    │
+    ▼
+profiles
+    │
+    ├──────── profesor ────────┐
+    │                          ▼
+    │                        rooms
+    │                          │
+    │                          ├── room_members
+    │                          │
+    │                          └── activities
+    │                                 │
+    │                                 ▼
+    │                              exercises
+    │                                 │
+    │                         ┌───────┴───────┐
+    │                         ▼               ▼
+    │                  exercise_keys       answers
+    │
+    └──────── estudiante
+                 │
+                 └── room_members
+5. Tabla profiles
+create table public.profiles (
+  id uuid primary key
+    references auth.users(id) on delete cascade,
+
+
+  name text not null,
+
+
+  role text not null
+    check (role in ('teacher', 'student')),
+
+
+  created_at timestamptz not null default now()
+);
+
+Sirve para guardar datos adicionales del usuario.
+
+6. Tabla rooms
+create table public.rooms (
+  id uuid primary key default gen_random_uuid(),
+
+
+  code text not null unique
+    default upper(
+      substr(
+        replace(gen_random_uuid()::text, '-', ''),
+        1,
+        6
+      )
+    ),
+
+
+  name text not null,
+
+
+  teacher_id uuid not null
+    references auth.users(id) on delete cascade,
+
+
+  status text not null default 'waiting'
+    check (
+      status in ('waiting', 'live', 'closed', 'active')
+    ),
+
+
+  created_at timestamptz not null default now()
+);
+
+Una sala tiene:
+
+id
+code
+name
+teacher_id
+status
+created_at
+
+Ejemplo:
+
+name: Matemáticas I
+code: 11
+teacher_id: UUID profesor
+status: active
+7. Tabla room_members
+
+Conecta estudiantes con salas.
+
+create table public.room_members (
+  id uuid primary key default gen_random_uuid(),
+
+
+  room_id uuid not null
+    references public.rooms(id) on delete cascade,
+
+
+  user_id uuid not null
+    references auth.users(id) on delete cascade,
+
+
+  joined_at timestamptz not null default now(),
+
+
+  unique(room_id, user_id)
+);
+
+Esto permite que las clases queden guardadas permanentemente en la cuenta.
+
+Por ejemplo:
+
+Camila
+    │
+    ├── Matemáticas
+    ├── Física
+    └── Programación
+
+No necesitamos guardar el nombre en room_members, porque podemos obtenerlo desde profiles.
+
+8. Tabla activities
+create table public.activities (
+  id uuid primary key default gen_random_uuid(),
+
+
+  room_id uuid not null
+    references public.rooms(id) on delete cascade,
+
+
+  created_by uuid not null
+    references auth.users(id) on delete cascade,
+
+
+  title text not null,
+
+
+  subject text,
+
+
+  exercise_type text not null
+    check (
+      exercise_type in (
+        'multiple_choice',
+        'numeric',
+        'text'
+      )
+    ),
+
+
+  difficulty text not null default 'medium'
+    check (
+      difficulty in (
+        'easy',
+        'medium',
+        'hard'
+      )
+    ),
+
+
+  mode text not null default 'live'
+    check (
+      mode in (
+        'live',
+        'homework',
+        'practice'
+      )
+    ),
+
+
+  status text not null default 'draft'
+    check (
+      status in (
+        'draft',
+        'active',
+        'finished'
+      )
+    ),
+
+
+  due_at timestamptz,
+
+
+  created_at timestamptz not null default now()
+);
+9. Tabla exercises
+create table public.exercises (
+  id uuid primary key default gen_random_uuid(),
+
+
+  activity_id uuid not null
+    references public.activities(id) on delete cascade,
+
+
+  position integer not null,
+
+
+  prompt text not null,
+
+
+  options jsonb,
+
+
+  points integer not null default 1,
+
+
+  unique(activity_id, position)
+);
+
+Ejemplo:
+
+prompt:
+"¿Cuánto es 7 × 8?"
+
+
+points:
+1
+
+Para alternativas:
+
+[
+  "54",
+  "56",
+  "64",
+  "48"
+]
+
+se puede guardar en options.
+
+10. Tabla exercise_keys
+
+Las respuestas correctas están separadas de exercises.
+
+create table public.exercise_keys (
+  exercise_id uuid primary key
+    references public.exercises(id) on delete cascade,
+
+
+  correct_answer text not null,
+
+
+  explanation text
+);
+
+Esto es intencional.
+
+No queremos entregar:
+
+{
+    "question": "7 × 8",
+    "correct_answer": "56"
+}
+
+al navegador del estudiante.
+
+La corrección debe hacerla el backend.
+
+11. Tabla answers
+create table public.answers (
+  id uuid primary key default gen_random_uuid(),
+
+
+  exercise_id uuid not null
+    references public.exercises(id) on delete cascade,
+
+
+  student_id uuid not null
+    references auth.users(id) on delete cascade,
+
+
+  submitted_answer text not null,
+
+
+  is_correct boolean not null,
+
+
+  points_awarded integer not null default 0,
+
+
+  answered_at timestamptz not null default now(),
+
+
+  unique(exercise_id, student_id)
+);
+
+Ejemplo:
+
+student_id: UUID Camila
+exercise_id: ...
+submitted_answer: 56
+is_correct: true
+points_awarded: 1
+12. RLS
+
+Tenemos Row Level Security habilitado en las tablas.
+
+alter table public.profiles enable row level security;
+alter table public.rooms enable row level security;
+alter table public.room_members enable row level security;
+alter table public.activities enable row level security;
+alter table public.exercises enable row level security;
+alter table public.exercise_keys enable row level security;
+alter table public.answers enable row level security;
+
+Durante las pruebas descubrimos que:
+
+supabase.table("rooms").select("*").execute()
+
+devolvía:
+
+[]
+
+aunque las salas existían.
+
+Esto era porque el cliente estaba consultando sin una sesión autenticada y RLS bloqueaba el resultado.
+
+Cuando hicimos login primero:
+
+supabase.auth.sign_in_with_password(...)
+
+las rooms aparecieron correctamente.
+
+13. Decisión para el backend
+
+Para simplificar la hackathon, conviene manejar dos clientes de Supabase.
+
+Cliente normal
+→ Auth
+
+
+Cliente secreto/admin
+→ operaciones DB desde FastAPI
+
+FastAPI valida quién es el usuario usando su token.
+
+Después FastAPI decide qué acciones están permitidas.
+
+Esto evita problemas con mantener sesiones dentro de un cliente global de Supabase.
+
+La Secret Key nunca debe ir al frontend.
+
+14. .env
+
+Ejemplo:
+
+SUPABASE_URL=https://XXXXX.supabase.co
+
+
+SUPABASE_KEY=sb_publishable_XXXXX
+
+
+SUPABASE_SECRET_KEY=sb_secret_XXXXX
+
+El .env debe estar en:
+
+.gitignore
+
+Nunca subir las keys a GitHub.
+
+15. database.py
+
+Cliente normal:
+
+import os
+
+
+from dotenv import load_dotenv
+from supabase import create_client, Client
+
+
+load_dotenv()
+
+
+SUPABASE_URL = os.environ["SUPABASE_URL"]
+SUPABASE_KEY = os.environ["SUPABASE_KEY"]
+
+
+supabase: Client = create_client(
+    SUPABASE_URL,
+    SUPABASE_KEY
+)
+
+Este sirve principalmente para Auth.
+
+16. database_secret.py
+
+Cliente administrativo:
+
+import os
+
+
+from dotenv import load_dotenv
+from supabase import create_client, Client
+
+
+load_dotenv()
+
+
+SUPABASE_URL = os.environ["SUPABASE_URL"]
+SUPABASE_SECRET_KEY = os.environ["SUPABASE_SECRET_KEY"]
+
+
+admin_supabase: Client = create_client(
+    SUPABASE_URL,
+    SUPABASE_SECRET_KEY
+)
+
+Este solamente puede existir en backend.
+
+17. Organización del backend
+
+Actualmente la estructura recomendada es:
+
+backend/
+│
+├── main.py
+├── database.py
+├── database_secret.py
+├── .env
+├── requirements.txt
+│
+├── routers/
+│   ├── __init__.py
+│   ├── auth.py
+│   ├── rooms.py
+│   ├── activities.py
+│   └── answers.py
+│
+├── schemas/
+│   ├── __init__.py
+│   ├── auth.py
+│   ├── room.py
+│   ├── activity.py
+│   └── answer.py
+│
+├── services/
+│   ├── __init__.py
+│   ├── auth_service.py
+│   ├── room_service.py
+│   ├── activity_service.py
+│   ├── exercise_service.py
+│   └── answer_service.py
+│
+└── dependencies/
+    ├── __init__.py
+    └── auth.py
+18. Dependencias
+
+Instalar:
+
+python -m pip install fastapi uvicorn supabase python-dotenv email-validator
+
+requirements.txt podría contener:
+
+fastapi
+uvicorn
+supabase
+python-dotenv
+email-validator
+19. schemas/auth.py
+from pydantic import BaseModel, EmailStr
+
+
+
+
+class LoginRequest(BaseModel):
+    email: EmailStr
+    password: str
+
+
+
+
+class RegisterRequest(BaseModel):
+    email: EmailStr
+    password: str
+    name: str
+    role: str
+
+Los schemas no son tablas.
+
+Definen el JSON que FastAPI espera recibir.
+
+20. routers/auth.py
+
+Login:
+
+from fastapi import APIRouter, HTTPException
+
+
+from schemas.auth import LoginRequest
+from database import supabase
+
+
+
+
+router = APIRouter(
+    prefix="/auth",
+    tags=["Auth"]
+)
+
+
+
+
+@router.post("/login")
+def login(data: LoginRequest):
+
+
+    try:
+        response = supabase.auth.sign_in_with_password({
+            "email": data.email,
+            "password": data.password
+        })
+
+
+        return {
+            "access_token": response.session.access_token,
+            "refresh_token": response.session.refresh_token,
+
+
+            "user": {
+                "id": response.user.id,
+                "email": response.user.email
+            }
+        }
+
+
+    except Exception:
+        raise HTTPException(
+            status_code=401,
+            detail="Email o contraseña incorrectos"
+        )
+
+El frontend manda:
+
+{
+  "email": "profe@test.cl",
+  "password": "password123"
+}
+
+y recibe:
+
+{
+  "access_token": "eyJ...",
+  "refresh_token": "...",
+  "user": {
+    "id": "...",
+    "email": "profe@test.cl"
+  }
+}
+21. JWT / access token
+
+Después del login, el frontend debe guardar:
+
+access_token
+
+y mandarlo con cada petición protegida:
+
+Authorization: Bearer ACCESS_TOKEN
+
+Por ejemplo:
+
+GET /rooms
+Authorization: Bearer eyJ...
+22. dependencies/auth.py
+
+Esta función valida el token y obtiene al usuario.
+
+from fastapi import Depends, HTTPException
+
+
+from fastapi.security import (
+    HTTPBearer,
+    HTTPAuthorizationCredentials
+)
+
+
+from database import supabase
+
+
+
+
+security = HTTPBearer()
+
+
+
+
+def get_current_user(
+    credentials: HTTPAuthorizationCredentials = Depends(security)
+):
+
+
+    token = credentials.credentials
+
+
+    try:
+
+
+        response = supabase.auth.get_user(token)
+
+
+        if response.user is None:
+            raise HTTPException(
+                status_code=401,
+                detail="Token inválido"
+            )
+
+
+        return response.user
+
+
+    except Exception:
+
+
+        raise HTTPException(
+            status_code=401,
+            detail="No autorizado"
+        )
+
+Así cualquier router puede hacer:
+
+current_user = Depends(get_current_user)
+
+y después usar:
+
+current_user.id
+23. schemas/room.py
+from pydantic import BaseModel
+
+
+
+
+class RoomCreate(BaseModel):
+    name: str
+
+
+
+
+class RoomJoin(BaseModel):
+    code: str
+
+No mandamos teacher_id desde el frontend.
+
+El profesor se identifica mediante su JWT.
+
+24. routers/rooms.py
+
+Como queremos que /rooms muestre todas las salas para un usuario autenticado:
+
+from fastapi import APIRouter, Depends
+
+
+from dependencies.auth import get_current_user
+from database_secret import admin_supabase
+
+
+
+
+router = APIRouter(
+    prefix="/rooms",
+    tags=["Rooms"]
+)
+
+
+
+
+@router.get("/")
+def get_rooms(
+    current_user = Depends(get_current_user)
+):
+
+
+    response = (
+        admin_supabase
+        .table("rooms")
+        .select("*")
+        .execute()
+    )
+
+
+    return response.data
+
+La llamada requiere:
+
+Authorization: Bearer TOKEN
+
+Por eso si escribes directamente:
+
+http://127.0.0.1:8000/rooms/
+
+en el navegador aparece:
+
+Not authenticated
+
+Eso es correcto.
+
+25. Crear una sala
+
+En rooms.py:
+
+from schemas.room import RoomCreate
+
+
+
+
+@router.post("/")
+def create_room(
+    room: RoomCreate,
+    current_user = Depends(get_current_user)
+):
+
+
+    response = (
+        admin_supabase
+        .table("rooms")
+        .insert({
+            "name": room.name,
+            "teacher_id": current_user.id
+        })
+        .execute()
+    )
+
+
+    return response.data
+
+El frontend solamente manda:
+
+{
+    "name": "Matemáticas I"
+}
+
+FastAPI obtiene automáticamente:
+
+current_user.id
+
+No hacemos:
+
+{
+    "teacher_id": "..."
+}
+
+porque un usuario podría intentar crear una sala a nombre de otro.
+
+26. Antes de crear una room
+
+Idealmente debemos verificar que:
+
+profiles.role == teacher
+
+antes de permitir:
+
+POST /rooms
+
+Conceptualmente:
+
+profile = (
+    admin_supabase
+    .table("profiles")
+    .select("role")
+    .eq("id", current_user.id)
+    .single()
+    .execute()
+)
+
+
+if profile.data["role"] != "teacher":
+    raise HTTPException(
+        status_code=403,
+        detail="Solo profesores pueden crear salas"
+    )
+
+Esto todavía es una mejora pendiente.
+
+27. main.py
+
+Debe ser muy pequeño.
+
+from fastapi import FastAPI
+
+
+from routers import (
+    auth,
+    rooms,
+    activities,
+    answers
+)
+
+
+
+
+app = FastAPI(
+    title="Education API",
+    version="0.1.0"
+)
+
+
+
+
+app.include_router(auth.router)
+app.include_router(rooms.router)
+app.include_router(activities.router)
+app.include_router(answers.router)
+
+
+
+
+@app.get("/")
+def root():
+
+
+    return {
+        "message": "API funcionando"
+    }
+
+No poner pruebas ni login directamente dentro de main.py.
+
+Por ejemplo, esto NO debería estar ahí:
+
+supabase.auth.sign_in_with_password(...)
+
+porque Uvicorn ejecuta main.py cada vez que carga la aplicación.
+
+28. Ejecutar la API
+
+Desde:
+
+backend/
+
+ejecutar:
+
+python -m uvicorn main:app --reload
+
+Servidor:
+
+http://127.0.0.1:8000
+
+Documentación:
+
+http://127.0.0.1:8000/docs
+29. Probar login desde Swagger
+
+Entrar a:
+
+/docs
+
+Ejecutar:
+
+POST /auth/login
+
+con:
+
+{
+    "email": "profe@test.cl",
+    "password": "password123"
+}
+
+Copiar:
+
+access_token
+
+Luego presionar:
+
+Authorize
+
+y pegar el token.
+
+Swagger automáticamente mandará:
+
+Authorization: Bearer ...
+
+en las siguientes peticiones.
+
+Ahora:
+
+GET /rooms/
+
+debería funcionar.
+
+30. Endpoints planeados
+Authentication
+POST /auth/login
+POST /auth/register
+GET  /auth/me
+Rooms
+GET    /rooms
+POST   /rooms
+GET    /rooms/{id}
+DELETE /rooms/{id}
+
+
+POST   /rooms/join
+GET    /rooms/{id}/students
+Activities
+POST /activities
+
+
+GET /activities/{id}
+
+
+GET /rooms/{room_id}/activities
+
+
+PATCH /activities/{id}/start
+
+
+PATCH /activities/{id}/finish
+Exercises
+GET /activities/{id}/exercises
+Answers
+POST /answers
+
+
+GET /activities/{id}/results
+31. Endpoint para unirse a una sala
+
+Lo que queremos hacer después:
+
+POST /rooms/join
+
+Body:
+
+{
+    "code": "123456"
+}
+
+Backend:
+
+JWT
+ ↓
+current_user.id
+ ↓
+buscar room por code
+ ↓
+insertar en room_members
+
+Conceptualmente:
+
+room = (
+    admin_supabase
+    .table("rooms")
+    .select("id")
+    .eq("code", data.code)
+    .single()
+    .execute()
+)
+
+
+admin_supabase.table("room_members").insert({
+    "room_id": room.data["id"],
+    "user_id": current_user.id
+}).execute()
+
+Gracias a:
+
+unique(room_id, user_id)
+
+un estudiante no puede entrar dos veces a la misma clase.
+
+32. Dashboard estudiante
+
+Más adelante el estudiante debería consultar sus salas:
+
+GET /my-rooms
+
+o:
+
+GET /rooms/mine
+
+La lógica sería consultar:
+
+room_members
+where user_id = current_user.id
+
+junto a información de rooms.
+
+Resultado:
+
+[
+    {
+        "name": "Matemáticas I",
+        "code": "11"
+    },
+    {
+        "name": "Física General",
+        "code": "22"
+    }
+]
+33. Dashboard profesor
+
+Puede mostrar las salas donde:
+
+rooms.teacher_id == current_user.id
+
+Podríamos crear:
+
+GET /rooms/owned
+
+aunque actualmente:
+
+GET /rooms
+
+está pensado para devolver todas.
+
+34. Corrección de respuestas
+
+La respuesta correcta nunca debe llegar al estudiante.
+
+El alumno manda:
+
+{
+    "exercise_id": "...",
+    "answer": "56"
+}
+
+FastAPI hace:
+
+buscar exercise_key
+        ↓
+comparar respuesta
+        ↓
+calcular puntaje
+        ↓
+guardar answers
+        ↓
+devolver resultado
+
+Respuesta:
+
+{
+    "correct": true,
+    "points": 1
+}
+
+No:
+
+{
+    "correct_answer": "56"
+}
+35. Motor de ejercicios
+
+Estará principalmente en:
+
+services/exercise_service.py
+
+Por ejemplo:
+
+def generate_multiplication(
+    difficulty: str,
+    amount: int
+):
+    ...
+
+Podría generar:
+
+[
+    {
+        "question": "7 × 8",
+        "answer": "56"
+    },
+    {
+        "question": "12 × 4",
+        "answer": "48"
+    }
+]
+
+Pero la parte pública se guarda en exercises y la solución en exercise_keys.
+
+36. Realtime
+
+No está implementado todavía.
+
+Más adelante queremos usar Supabase Realtime para:
+
+Profesor inicia actividad
+        ↓
+todos los estudiantes la reciben
+
+
+Alumno entra
+        ↓
+profesor ve alumno conectado
+
+
+Alumno responde
+        ↓
+dashboard del profesor se actualiza
+
+Para el MVP primero podemos hacer REST y después agregar Realtime.
+
+37. Usuarios de prueba
+
+Para crear muchos usuarios durante desarrollo usamos el Admin API porque sign_up() normal alcanzó el límite de emails de Supabase.
+
+Ejemplo:
+
+response = admin_supabase.auth.admin.create_user({
+    "email": "alumno1@test.cl",
+    "password": "password123",
+    "email_confirm": True
+})
+
+Después:
+
+admin_supabase.table("profiles").insert({
+    "id": response.user.id,
+    "name": "Alumno Uno",
+    "role": "student"
+}).execute()
+
+Este Admin API solo se usa en backend.
+
+38. Borrar usuarios
+
+Eliminar un usuario completamente:
+
+admin_supabase.auth.admin.delete_user(
+    "UUID_DEL_USUARIO"
+)
+
+Como tenemos on delete cascade, puede eliminar también datos relacionados.
+
+Por eso hay que tener cuidado, especialmente con profesores que tengan salas.
+
+39. Estado actual
+
+Ya conseguimos:
+
+✅ Proyecto Supabase
+✅ PostgreSQL
+✅ Usuarios en Supabase Auth
+✅ Profiles
+✅ Rooms
+✅ Datos de prueba
+✅ Python conectado a Supabase
+✅ Secret/admin client
+✅ Login funcionando
+✅ JWT access_token
+✅ FastAPI instalado
+✅ Estructura routers/schemas/services
+✅ GET rooms probado desde Python
+✅ Identificado problema de RLS
+✅ Swagger /docs
+
+Estamos trabajando ahora en:
+
+🔨 Auth FastAPI
+🔨 GET /rooms
+🔨 POST /rooms
+🔨 Bearer authentication
+40. Lo siguiente que deberíamos implementar
+
+Orden recomendado:
+
+1. Terminar Auth
+        ↓
+2. GET /auth/me
+        ↓
+3. POST /rooms
+        ↓
+4. GET /rooms
+        ↓
+5. POST /rooms/join
+        ↓
+6. GET /rooms/{id}/students
+        ↓
+7. Crear activities
+        ↓
+8. Crear exercises
+        ↓
+9. Responder exercises
+        ↓
+10. Resultados
+        ↓
+11. Realtime
+
+Con los primeros 6 pasos ya podemos conectar el frontend y tener el flujo principal:
+
+Profesor login
+      ↓
+crea clase
+      ↓
+Alumno login
+      ↓
+entra con código
+      ↓
+clase queda guardada
+
+Después construimos la parte educativa encima de eso.
+
+División sugerida del equipo
+
+Con 4 personas, ahora mismo lo dividiría así:
+
+Persona 1
+Frontend profesor
+├── Login
+├── Crear sala
+├── Dashboard
+└── Resultados
+
+
+
+
+Persona 2
+Frontend estudiante
+├── Login/register
+├── Unirse con código
+├── Mis clases
+└── Resolver ejercicios
+
+
+
+
+Persona 3
+Backend/API
+├── Auth
+├── Rooms
+├── Room members
+├── Activities
+└── Permissions
+
+
+
+
+Persona 4
+Ejercicios/lógica
+├── Generación
+├── Corrección
+├── Dificultad
+├── Estadísticas
+└── Realtime
+
+El contrato principal entre frontend y backend debería ser la API de FastAPI, y /docs funcionará como referencia compartida para que todos sepan exactamente qué endpoints existen y qué JSON reciben/devuelven.
