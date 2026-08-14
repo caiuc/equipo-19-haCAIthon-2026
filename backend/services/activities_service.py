@@ -116,6 +116,7 @@ def get_activity_package_service(activity_id: str, user_id: str):
         "subject": activity["subject"],
         "room_name": room["name"],
         "mode": activity["mode"],
+        "exercise_type": activity["exercise_type"],
         "exercises": exercises
     }
 

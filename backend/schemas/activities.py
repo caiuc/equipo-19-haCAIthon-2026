@@ -18,6 +18,10 @@ class ActivityPackage(BaseModel):
     subject: Optional[str]
     room_name: str
     mode: str
+    # Sin este campo el cliente no puede distinguir un ejercicio numerico de uno
+    # de texto: en ambos `options` llega en null, y la pantalla del alumno queda
+    # sin forma de responder ni de avanzar.
+    exercise_type: str
     exercises: List[ExercisePackage]
 
 class ExerciseCreate(BaseModel):
