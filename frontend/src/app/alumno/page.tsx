@@ -7,7 +7,11 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { ConnectionBanner } from "@/components/ui/ConnectionBanner";
 import { Input } from "@/components/ui/Input";
-import { fetchActivityPackage, listActivitiesForStudent } from "@/lib/api";
+import {
+  fetchActivityPackage,
+  joinRoom,
+  listActivitiesForStudent,
+} from "@/lib/api";
 import { SEED_ACTIVITIES } from "@/lib/seed";
 import { listActivities, saveActivity, saveSession, loadSession } from "@/offline/db";
 import { useSync } from "@/offline/useSync";
@@ -50,11 +54,14 @@ const TYPE_LABEL: Record<string, string> = {
 
 export default function AlumnoPage() {
   const [token, setToken] = useState<string | null>(null);
+  const [displayName, setDisplayName] = useState("Alumno");
   const [code, setCode] = useState("");
   const [downloaded, setDownloaded] = useState<StoredActivity[]>([]);
   const [remote, setRemote] = useState<ActivitySummary[] | null>(null);
   const [isDownloading, setIsDownloading] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
+  const [isJoining, setIsJoining] = useState(false);
+  const [joinError, setJoinError] = useState<string | null>(null);
 
   const { isOnline, pendingCount } = useSync(token);
 
@@ -67,6 +74,7 @@ export default function AlumnoPage() {
       const session = await loadSession();
       const stored = session?.accessToken ?? null;
       setToken(stored);
+      if (session?.name) setDisplayName(session.name);
       await refresh();
 
       // "demo" es la sesion local que se crea al descargar sin haber entrado:
@@ -93,6 +101,27 @@ export default function AlumnoPage() {
 
   function isDownloaded(activityId: string): boolean {
     return downloaded.some((a) => a.activityId === activityId);
+  }
+
+  async function join() {
+    if (!token || token === "demo") {
+      setJoinError("Entra con tu cuenta antes de unirte a una sala.");
+      return;
+    }
+
+    setJoinError(null);
+    setIsJoining(true);
+
+    try {
+      await joinRoom(token, code, displayName);
+      setCode("");
+      // Recien unido: la sala ya tiene sus actividades disponibles.
+      setRemote(await listActivitiesForStudent(token));
+    } catch {
+      setJoinError("No encontramos una sala con ese código.");
+    } finally {
+      setIsJoining(false);
+    }
   }
 
   async function download(activityId: string) {
@@ -149,9 +178,18 @@ export default function AlumnoPage() {
             maxLength={6}
             onChange={(event) => setCode(event.target.value.toUpperCase())}
           />
-          {/* TODO(P3): conectar con POST /rooms/join cuando exista. */}
-          <Button fullWidth disabled={code.length !== 6}>
-            Unirme
+          {joinError && (
+            <p role="alert" className="text-sm font-medium text-danger">
+              {joinError}
+            </p>
+          )}
+
+          <Button
+            fullWidth
+            disabled={code.length !== 6 || isJoining}
+            onClick={() => void join()}
+          >
+            {isJoining ? "Uniéndote…" : "Unirme"}
           </Button>
         </Card>
       </section>

@@ -162,11 +162,11 @@ export async function listActivitiesForStudent(
   return perRoom.flat();
 }
 
-export function joinRoom(token: string, code: string) {
+export function joinRoom(token: string, code: string, displayName: string) {
   return request<Room>("/rooms/join", {
     method: "POST",
     token,
-    body: JSON.stringify({ code }),
+    body: JSON.stringify({ code, display_name: displayName }),
   });
 }
 
