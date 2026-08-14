@@ -38,7 +38,7 @@ export default function PracticarPage() {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const { isOnline, pendingCount, refreshPending } = useSync(token);
+  const { isOnline, pendingCount, syncError, refreshPending } = useSync(token);
 
   const load = useCallback(async () => {
     const stored = await listActivities();
@@ -84,6 +84,15 @@ export default function PracticarPage() {
     <AppShell nav={ALUMNO_NAV} role="Alumno">
       <main className="mx-auto flex w-full max-w-lg flex-col gap-6 px-4 py-8">
         <ConnectionBanner isOnline={isOnline} pendingCount={pendingCount} />
+
+        {syncError && (
+          <p
+            role="alert"
+            className="rounded-xl border-2 border-danger bg-danger/10 p-3 text-sm font-medium text-ink"
+          >
+            {syncError}
+          </p>
+        )}
 
       {active ? (
         <ExerciseRunner

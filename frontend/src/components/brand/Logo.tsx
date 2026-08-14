@@ -50,16 +50,20 @@ export function LogoMark({
       aria-label={decorative ? undefined : "EduFlow"}
       className={cn(MARK_SIZE[size], "shrink-0", className)}
     >
-      {/* Pie: se dibuja primero para que el monitor lo tape por arriba. */}
+      {/*
+        Orden de pintado, de atras hacia adelante. El cuello arranca en y=36
+        para que el trazo del monitor (que termina en 36.75) lo tape entero: si
+        empieza antes, asoma un guion amarillo dentro de la pantalla.
+      */}
       <path
-        d="M20 34h8v6h-8z"
+        d="M20.5 36h7v5h-7z"
         className="fill-pulse stroke-ink"
         strokeWidth={2.5}
         strokeLinejoin="round"
       />
       <rect
         x="12.5"
-        y="39"
+        y="39.5"
         width="23"
         height="5.5"
         rx="2.75"
@@ -80,28 +84,27 @@ export function LogoMark({
 
       {/* Flecha de progreso: es el "flow" del nombre. */}
       <path
-        d="M11 30c4.5-.5 6.5-5 9.5-8.5S26 16.5 30 16.5"
+        d="M11 30c4.5-.5 7-4 9.5-6.5 2-2 3.5-3 5.5-4"
         className="stroke-pulse"
         strokeWidth={3.5}
         strokeLinecap="round"
       />
       <path
-        d="M24.5 16.5H31v6.5"
-        className="stroke-pulse"
-        strokeWidth={3.5}
-        strokeLinecap="round"
+        d="M32 14 29.5 22.9 23.2 16.5z"
+        className="fill-pulse stroke-pulse"
+        strokeWidth={2}
         strokeLinejoin="round"
       />
 
-      {/* Birrete: monta sobre el borde superior del monitor. */}
+      {/* Birrete: monta sobre la esquina superior izquierda del monitor. */}
       <path
-        d="M15 2.5 3.5 7.5 15 12.5l11.5-5z"
+        d="M14 2.5 2.5 7.5 14 12.5l11.5-5z"
         className="fill-pulse stroke-ink"
         strokeWidth={2.5}
         strokeLinejoin="round"
       />
       <path
-        d="M8 10v3.5c0 1.9 3.1 3.5 7 3.5s7-1.6 7-3.5V10"
+        d="M7 10v3.5c0 1.9 3.1 3.5 7 3.5s7-1.6 7-3.5V10"
         className="fill-pulse stroke-ink"
         strokeWidth={2.5}
         strokeLinecap="round"
