@@ -4,6 +4,7 @@ import {
   EXERCISE_TYPE,
   type ActivityPackage,
   type Difficulty,
+  type ExerciseType,
   type ExerciseWithKey,
 } from "@/lib/types";
 
@@ -75,7 +76,11 @@ function shuffle<T>(items: T[]): T[] {
   return copy;
 }
 
-function buildExercise(position: number, difficulty: Difficulty): ExerciseWithKey {
+function buildExercise(
+  position: number,
+  difficulty: Difficulty,
+  type: ExerciseType,
+): ExerciseWithKey {
   const [rangeA, rangeB] = MULTIPLICATION_RANGES[difficulty];
   const a = randomInt(rangeA);
   const b = randomInt(rangeB);
@@ -85,28 +90,55 @@ function buildExercise(position: number, difficulty: Difficulty): ExerciseWithKe
     id: `ej-${position}`,
     position,
     prompt: `¿Cuánto es ${a} × ${b}?`,
-    options: shuffle([String(correct), ...buildDistractors(correct, a, b)]),
+    // En numerico y texto el contrato exige options en null: el alumno escribe
+    // la respuesta en vez de elegirla.
+    options:
+      type === EXERCISE_TYPE.MULTIPLE_CHOICE
+        ? shuffle([String(correct), ...buildDistractors(correct, a, b)])
+        : null,
     points: 1,
     correctAnswer: String(correct),
     explanation: `${a} × ${b} = ${correct}`,
   };
 }
 
-const SEED_ACTIVITY_ID = "demo-multiplicacion";
+export const SEED_ACTIVITIES = {
+  MULTIPLE_CHOICE: "demo-multiplicacion",
+  NUMERIC: "demo-multiplicacion-numerica",
+} as const;
 
-export function buildSeedPackage(amount = 10): ActivityPackage {
+const SEED_META: Record<string, { title: string; type: ExerciseType }> = {
+  [SEED_ACTIVITIES.MULTIPLE_CHOICE]: {
+    title: "Tabla de multiplicar",
+    type: EXERCISE_TYPE.MULTIPLE_CHOICE,
+  },
+  [SEED_ACTIVITIES.NUMERIC]: {
+    title: "Multiplicación — escribí el resultado",
+    type: EXERCISE_TYPE.NUMERIC,
+  },
+};
+
+export function buildSeedPackage(
+  activityId: string = SEED_ACTIVITIES.MULTIPLE_CHOICE,
+  amount = 10,
+): ActivityPackage {
+  const meta = SEED_META[activityId] ?? SEED_META[SEED_ACTIVITIES.MULTIPLE_CHOICE];
+
   const exercises = Array.from({ length: amount }, (_, index) =>
-    buildExercise(index + 1, index < 6 ? DIFFICULTY.EASY : DIFFICULTY.MEDIUM),
+    buildExercise(
+      index + 1,
+      index < 6 ? DIFFICULTY.EASY : DIFFICULTY.MEDIUM,
+      meta.type,
+    ),
   );
 
   return {
-    activityId: SEED_ACTIVITY_ID,
-    title: "Tabla de multiplicar",
+    activityId,
+    title: meta.title,
     subject: "Matemáticas",
     roomName: "2°B — Álgebra",
     mode: ACTIVITY_MODE.HOMEWORK,
+    exerciseType: meta.type,
     exercises,
   };
 }
-
-export const SEED_EXERCISE_TYPE = EXERCISE_TYPE.MULTIPLE_CHOICE;

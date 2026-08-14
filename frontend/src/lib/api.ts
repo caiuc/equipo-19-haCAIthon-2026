@@ -137,6 +137,7 @@ interface ApiActivityPackage {
   subject: string;
   room_name: string;
   mode: ActivityPackage["mode"];
+  exercise_type: ActivityPackage["exerciseType"];
   exercises: ApiExercise[];
 }
 
@@ -147,6 +148,7 @@ function toActivityPackage(payload: ApiActivityPackage): ActivityPackage {
     subject: payload.subject,
     roomName: payload.room_name,
     mode: payload.mode,
+    exerciseType: payload.exercise_type,
     exercises: payload.exercises
       .map((exercise) => ({
         id: exercise.id,
@@ -179,7 +181,7 @@ export async function fetchActivityPackage(
     );
     return toActivityPackage(payload);
   } catch {
-    return buildSeedPackage();
+    return buildSeedPackage(activityId);
   }
 }
 

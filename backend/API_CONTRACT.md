@@ -41,6 +41,7 @@ alumno pueda resolverla y corregirse sin conexión.
   "subject": "Matemáticas",
   "room_name": "2°B — Álgebra",
   "mode": "homework",
+  "exercise_type": "multiple_choice",
   "exercises": [
     {
       "id": "3a2b...",
@@ -55,6 +56,10 @@ alumno pueda resolverla y corregirse sin conexión.
 }
 ```
 
+- `exercise_type`: **obligatorio**, sale de `activities.exercise_type`. Sin este
+  campo el cliente no puede distinguir un ejercicio numérico de uno de texto
+  —en ambos `options` llega en `null`— y la pantalla del alumno queda sin forma
+  de responder.
 - `options`: array de strings en `multiple_choice`; **`null`** en `numeric` y `text`.
 - `explanation`: puede ser `null`.
 - `exercises` ordenado por `position` ascendente.

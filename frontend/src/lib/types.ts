@@ -57,6 +57,12 @@ export interface ActivityPackage {
   subject: string;
   roomName: string;
   mode: ActivityMode;
+  /**
+   * Determina que entrada se le muestra al alumno. Sin este campo el cliente
+   * no puede distinguir un ejercicio numerico de uno de texto: en ambos
+   * `options` llega en null, y la pantalla quedaria sin forma de responder.
+   */
+  exerciseType: ExerciseType;
   exercises: ExerciseWithKey[];
 }
 
