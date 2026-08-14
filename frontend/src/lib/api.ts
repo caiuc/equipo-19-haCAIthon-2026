@@ -87,6 +87,53 @@ export function joinRoom(token: string, code: string) {
 
 /* ---------------------------- actividades --------------------------- */
 
+/*
+  El backend es Python y responde en snake_case. La conversion se hace aca, en
+  el borde: imponerle camelCase a Pydantic seria pelearse con las convenciones
+  de ese lado del proyecto para comodidad de este.
+  Contrato completo en backend/API_CONTRACT.md.
+*/
+
+interface ApiExercise {
+  id: string;
+  position: number;
+  prompt: string;
+  options: string[] | null;
+  points: number;
+  correct_answer: string;
+  explanation: string | null;
+}
+
+interface ApiActivityPackage {
+  activity_id: string;
+  title: string;
+  subject: string;
+  room_name: string;
+  mode: ActivityPackage["mode"];
+  exercises: ApiExercise[];
+}
+
+function toActivityPackage(payload: ApiActivityPackage): ActivityPackage {
+  return {
+    activityId: payload.activity_id,
+    title: payload.title,
+    subject: payload.subject,
+    roomName: payload.room_name,
+    mode: payload.mode,
+    exercises: payload.exercises
+      .map((exercise) => ({
+        id: exercise.id,
+        position: exercise.position,
+        prompt: exercise.prompt,
+        options: exercise.options,
+        points: exercise.points,
+        correctAnswer: exercise.correct_answer,
+        explanation: exercise.explanation,
+      }))
+      .sort((a, b) => a.position - b.position),
+  };
+}
+
 /**
  * Descarga el paquete de una actividad para resolverla sin conexion.
  *
@@ -99,10 +146,11 @@ export async function fetchActivityPackage(
   activityId: string,
 ): Promise<ActivityPackage> {
   try {
-    return await request<ActivityPackage>(
+    const payload = await request<ApiActivityPackage>(
       `/activities/${activityId}/package`,
       { token },
     );
+    return toActivityPackage(payload);
   } catch {
     return buildSeedPackage();
   }
