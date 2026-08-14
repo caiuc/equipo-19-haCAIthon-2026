@@ -7,31 +7,52 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { ConnectionBanner } from "@/components/ui/ConnectionBanner";
 import { Input } from "@/components/ui/Input";
-import { fetchActivityPackage } from "@/lib/api";
+import { fetchActivityPackage, listActivitiesForStudent } from "@/lib/api";
 import { SEED_ACTIVITIES } from "@/lib/seed";
 import { listActivities, saveActivity, saveSession, loadSession } from "@/offline/db";
 import { useSync } from "@/offline/useSync";
-import type { StoredActivity } from "@/lib/types";
+import type { ActivitySummary, StoredActivity } from "@/lib/types";
 
-// Catalogo temporal de tareas disponibles. Cuando el backend exponga las
-// actividades de la sala, esta lista sale de la API.
-const DEMO_ACTIVITIES = [
+/*
+  Tareas de respaldo, generadas en el cliente. Se muestran solo cuando el backend
+  no devuelve ninguna actividad real, para que la pantalla nunca quede vacia.
+  Van marcadas como demostracion: presentarlas como tareas del profesor seria
+  mentirle a quien esta probando la aplicacion.
+*/
+const SEED_TASKS: ActivitySummary[] = [
   {
-    id: SEED_ACTIVITIES.MULTIPLE_CHOICE,
+    activityId: SEED_ACTIVITIES.MULTIPLE_CHOICE,
     title: "Tabla de multiplicar",
-    detail: "2°B — Álgebra · 10 ejercicios · opción múltiple",
+    subject: "Matemáticas",
+    exerciseType: "multiple_choice",
+    difficulty: "medium",
+    mode: "homework",
+    exerciseCount: 10,
+    roomName: "2°B — Álgebra",
   },
   {
-    id: SEED_ACTIVITIES.NUMERIC,
+    activityId: SEED_ACTIVITIES.NUMERIC,
     title: "Multiplicación — escribe el resultado",
-    detail: "2°B — Álgebra · 10 ejercicios · respuesta numérica",
+    subject: "Matemáticas",
+    exerciseType: "numeric",
+    difficulty: "medium",
+    mode: "homework",
+    exerciseCount: 10,
+    roomName: "2°B — Álgebra",
   },
-] as const;
+];
+
+const TYPE_LABEL: Record<string, string> = {
+  multiple_choice: "opción múltiple",
+  numeric: "respuesta numérica",
+  text: "respuesta escrita",
+};
 
 export default function AlumnoPage() {
   const [token, setToken] = useState<string | null>(null);
   const [code, setCode] = useState("");
   const [downloaded, setDownloaded] = useState<StoredActivity[]>([]);
+  const [remote, setRemote] = useState<ActivitySummary[] | null>(null);
   const [isDownloading, setIsDownloading] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
@@ -44,11 +65,31 @@ export default function AlumnoPage() {
   useEffect(() => {
     async function boot() {
       const session = await loadSession();
-      setToken(session?.accessToken ?? null);
+      const stored = session?.accessToken ?? null;
+      setToken(stored);
       await refresh();
+
+      // "demo" es la sesion local que se crea al descargar sin haber entrado:
+      // no sirve para pedirle nada al backend.
+      if (!stored || stored === "demo") {
+        setRemote([]);
+        return;
+      }
+
+      try {
+        setRemote(await listActivitiesForStudent(stored));
+      } catch {
+        // Sin conexion, sesion vencida o sin salas: se cae al respaldo local.
+        setRemote([]);
+      }
     }
+
     void boot();
   }, [refresh]);
+
+  const isLoading = remote === null;
+  const usingSeed = !isLoading && remote.length === 0;
+  const tasks = usingSeed ? SEED_TASKS : (remote ?? []);
 
   function isDownloaded(activityId: string): boolean {
     return downloaded.some((a) => a.activityId === activityId);
@@ -59,8 +100,6 @@ export default function AlumnoPage() {
     setMessage(null);
 
     try {
-      // Si no hay sesion todavia, se guarda una local para que la pantalla
-      // offline tenga con que sincronizar despues.
       if (!token) {
         await saveSession({
           accessToken: "demo",
@@ -120,15 +159,31 @@ export default function AlumnoPage() {
       <section className="flex flex-col gap-3">
         <h2 className="font-display text-2xl font-extrabold">Tareas asignadas</h2>
 
-        {DEMO_ACTIVITIES.map((task) => {
-          const done = isDownloaded(task.id);
+        {isLoading && <p className="text-muted">Buscando tus tareas…</p>}
+
+        {usingSeed && (
+          <p className="rounded-xl border-2 border-dashed border-muted p-3 text-sm text-muted">
+            Estas son tareas de demostración generadas en tu dispositivo. Únete a
+            una sala para ver las que asignó tu profesor.
+          </p>
+        )}
+
+        {tasks.map((task) => {
+          const done = isDownloaded(task.activityId);
 
           return (
-            <Card key={task.id} featured={!done} className="flex flex-col gap-4">
+            <Card
+              key={task.activityId}
+              featured={!done}
+              className="flex flex-col gap-4"
+            >
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="font-display text-xl font-bold">{task.title}</p>
-                  <p className="text-sm text-muted">{task.detail}</p>
+                  <p className="text-sm text-muted">
+                    {task.roomName} · {task.exerciseCount} ejercicios ·{" "}
+                    {TYPE_LABEL[task.exerciseType] ?? task.exerciseType}
+                  </p>
                 </div>
                 <Badge tone={done ? "done" : "waiting"}>
                   {done ? "Descargada" : "Tarea"}
@@ -146,9 +201,9 @@ export default function AlumnoPage() {
                   fullWidth
                   size="lg"
                   disabled={isDownloading !== null}
-                  onClick={() => void download(task.id)}
+                  onClick={() => void download(task.activityId)}
                 >
-                  {isDownloading === task.id
+                  {isDownloading === task.activityId
                     ? "Descargando…"
                     : "Descargar para usar sin conexión"}
                 </Button>

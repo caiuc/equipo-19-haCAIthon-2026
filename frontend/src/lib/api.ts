@@ -1,4 +1,9 @@
-import type { ActivityPackage, Room, StoredAnswer } from "@/lib/types";
+import type {
+  ActivityPackage,
+  ActivitySummary,
+  Room,
+  StoredAnswer,
+} from "@/lib/types";
 import { buildSeedPackage } from "@/lib/seed";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
@@ -102,6 +107,59 @@ export function createRoom(token: string, name: string) {
       status: "active",
     }),
   });
+}
+
+export function listStudentRooms(token: string) {
+  return request<Room[]>("/rooms/student", { token });
+}
+
+interface ApiActivitySummary {
+  activity_id: string;
+  title: string;
+  subject: string | null;
+  exercise_type: ActivitySummary["exerciseType"];
+  difficulty: ActivitySummary["difficulty"];
+  mode: ActivitySummary["mode"];
+  exercise_count: number;
+}
+
+/**
+ * Actividades de una sala. Junta las salas del alumno con sus actividades para
+ * armar la lista de tareas disponibles.
+ *
+ * Si una sala falla se omite en vez de tumbar la lista entera: es preferible
+ * mostrar las tareas de las otras salas a mostrar una pantalla vacia.
+ */
+export async function listActivitiesForStudent(
+  token: string,
+): Promise<ActivitySummary[]> {
+  const rooms = await listStudentRooms(token);
+
+  const perRoom = await Promise.all(
+    rooms.map(async (room) => {
+      try {
+        const payload = await request<ApiActivitySummary[]>(
+          `/activities/?room_id=${encodeURIComponent(room.id)}`,
+          { token },
+        );
+
+        return payload.map((item) => ({
+          activityId: item.activity_id,
+          title: item.title,
+          subject: item.subject,
+          exerciseType: item.exercise_type,
+          difficulty: item.difficulty,
+          mode: item.mode,
+          exerciseCount: item.exercise_count,
+          roomName: room.name,
+        }));
+      } catch {
+        return [];
+      }
+    }),
+  );
+
+  return perRoom.flat();
 }
 
 export function joinRoom(token: string, code: string) {

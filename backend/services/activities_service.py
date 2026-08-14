@@ -335,3 +335,70 @@ def get_activity_results_service(
         "room_name": room["name"],
         "results": list(students.values())
     }
+
+def list_room_activities_service(room_id: str, user_id: str):
+    """Actividades activas de una sala, sin las claves de correccion.
+
+    Es el eslabon que faltaba entre GET /rooms/student y
+    GET /activities/{id}/package: el alumno necesita saber QUE actividades hay
+    antes de poder descargar una.
+
+    Devuelve solo metadatos. Las claves viajan unicamente en /package, y solo
+    para los modos descargables.
+    """
+    is_teacher = (
+        admin_supabase
+        .table("rooms")
+        .select("id")
+        .eq("id", room_id)
+        .eq("teacher_id", user_id)
+        .execute()
+    )
+
+    is_member = (
+        admin_supabase
+        .table("room_members")
+        .select("id")
+        .eq("room_id", room_id)
+        .eq("user_id", user_id)
+        .execute()
+    )
+
+    if not is_teacher.data and not is_member.data:
+        raise HTTPException(
+            status_code=403,
+            detail="No perteneces a esta sala"
+        )
+
+    activities_response = (
+        admin_supabase
+        .table("activities")
+        .select("id, title, subject, exercise_type, difficulty, mode, status, due_at")
+        .eq("room_id", room_id)
+        .eq("status", "active")
+        .order("created_at", desc=True)
+        .execute()
+    )
+
+    activities = []
+
+    for activity in activities_response.data:
+        count_response = (
+            admin_supabase
+            .table("exercises")
+            .select("id")
+            .eq("activity_id", activity["id"])
+            .execute()
+        )
+
+        activities.append({
+            "activity_id": activity["id"],
+            "title": activity["title"],
+            "subject": activity["subject"],
+            "exercise_type": activity["exercise_type"],
+            "difficulty": activity["difficulty"],
+            "mode": activity["mode"],
+            "exercise_count": len(count_response.data),
+        })
+
+    return activities

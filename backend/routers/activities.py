@@ -6,6 +6,7 @@ from schemas.activities import ActivityCreate
 from services.activities_service import create_activity_service
 from schemas.activities import ActivityResultsResponse
 from services.activities_service import get_activity_results_service
+from services.activities_service import list_room_activities_service
 
 router = APIRouter(
     prefix="/activities",
@@ -25,6 +26,22 @@ def get_activity_package(
         activity_id,
         current_user.id
     )
+
+@router.get("/")
+def list_room_activities(
+    room_id: str,
+    current_user=Depends(get_current_user)
+):
+    """Actividades de una sala, sin claves de correccion.
+
+    Sin esto el alumno no tiene forma de saber que actividades existen: solo
+    podia pedir /package si ya conocia el id de memoria.
+    """
+    return list_room_activities_service(
+        room_id,
+        current_user.id
+    )
+
 
 @router.post("/")
 def create_activity(

@@ -97,3 +97,15 @@ export interface Room {
   name: string;
   status: string;
 }
+
+/** Resumen de una actividad, sin claves. Lo que devuelve GET /activities/?room_id= */
+export interface ActivitySummary {
+  activityId: string;
+  title: string;
+  subject: string | null;
+  exerciseType: ExerciseType;
+  difficulty: Difficulty;
+  mode: ActivityMode;
+  exerciseCount: number;
+  roomName: string;
+}
