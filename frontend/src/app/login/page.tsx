@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Logo } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { ChoiceGroup, type Choice } from "@/components/ui/ChoiceGroup";
@@ -57,8 +59,12 @@ export default function LoginPage() {
 
   return (
     <main className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center gap-6 px-4 py-10">
-      <header className="flex flex-col gap-1 text-center">
-        <span className="font-display text-3xl font-extrabold">EduFlow</span>
+      <header className="flex flex-col items-center gap-3 text-center">
+        {/* El logo vuelve al inicio: es la salida esperada desde una pantalla
+            de acceso, y en móvil es el único camino de regreso. */}
+        <Link href="/" className="rounded-card" aria-label="Ir al inicio de EduFlow">
+          <Logo size="lg" />
+        </Link>
         <p className="text-ink-soft">Práctica de matemáticas que funciona sin señal</p>
       </header>
 

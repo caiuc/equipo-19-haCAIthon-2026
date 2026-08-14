@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Logo } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 
@@ -10,6 +11,11 @@ import { Card } from "@/components/ui/Card";
 export default function SinConexionPage() {
   return (
     <main className="mx-auto flex w-full max-w-lg flex-1 flex-col justify-center gap-6 px-4 py-8">
+      {/* Sin enlace a proposito: aqui no hay red, y "/" puede no estar en cache.
+          La marca esta para que la pantalla no se lea como un error del
+          navegador, sino como una parte mas de la aplicacion. */}
+      <Logo size="md" className="justify-center" />
+
       <Card featured className="flex flex-col gap-5 text-center">
         <span className="font-display text-5xl font-extrabold">Sin conexión</span>
 

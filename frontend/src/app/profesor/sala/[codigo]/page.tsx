@@ -41,6 +41,8 @@ export default function SalaProfesorPage({ params }: PageProps) {
   const [students, setStudents] = useState<RoomStudent[]>([]);
   const [activities, setActivities] = useState<ActivitySummary[]>([]);
   const [results, setResults] = useState<Record<string, ActivityResults>>({});
+  const [isCreating, setIsCreating] = useState(false);
+  const [openActivity, setOpenActivity] = useState<string | null>(null);
 
   const token = session?.accessToken ?? null;
 
@@ -177,12 +179,22 @@ export default function SalaProfesorPage({ params }: PageProps) {
       </section>
 
       <section className="flex flex-col gap-3">
-        <h2 className="font-display text-2xl font-extrabold">Nueva actividad</h2>
-        {token && room && (
+        <Button
+          size="lg"
+          fullWidth
+          onClick={() => setIsCreating((v) => !v)}
+        >
+          {isCreating ? "Cerrar" : "+ Nueva actividad"}
+        </Button>
+
+        {isCreating && token && room && (
           <CreateActivityForm
             token={token}
             roomId={room.id}
-            onCreated={() => void load()}
+            onCreated={() => {
+              setIsCreating(false);
+              void load();
+            }}
           />
         )}
       </section>
@@ -205,21 +217,36 @@ export default function SalaProfesorPage({ params }: PageProps) {
 
           return (
             <Card key={activity.activityId} className="flex flex-col gap-4">
-              <div className="flex items-start justify-between gap-3">
+              <button
+                type="button"
+                aria-expanded={openActivity === activity.activityId}
+                onClick={() =>
+                  setOpenActivity((current) =>
+                    current === activity.activityId ? null : activity.activityId,
+                  )
+                }
+                className="flex w-full items-start justify-between gap-3 text-left"
+              >
                 <div>
                   <p className="font-display text-xl font-bold">
                     {activity.title}
                   </p>
                   <p className="text-sm text-muted">
-                    {activity.exerciseCount} ejercicios · {activity.difficulty}
+                    {activity.exerciseCount} ejercicios · {activity.difficulty} ·{" "}
+                    {respondieron} {respondieron === 1 ? "respuesta" : "respuestas"}
                   </p>
                 </div>
-                <Badge tone={activity.mode === "live" ? "live" : "done"}>
-                  {MODE_LABEL[activity.mode] ?? activity.mode}
-                </Badge>
-              </div>
+                <div className="flex shrink-0 items-center gap-2">
+                  <Badge tone={activity.mode === "live" ? "live" : "done"}>
+                    {MODE_LABEL[activity.mode] ?? activity.mode}
+                  </Badge>
+                  <span className="font-display text-lg text-muted">
+                    {openActivity === activity.activityId ? "−" : "+"}
+                  </span>
+                </div>
+              </button>
 
-              {respondieron === 0 ? (
+              {openActivity !== activity.activityId ? null : respondieron === 0 ? (
                 <p className="text-sm text-muted">
                   Nadie respondió todavía. Las respuestas resueltas sin conexión
                   aparecen acá cuando el alumno recupera la señal.

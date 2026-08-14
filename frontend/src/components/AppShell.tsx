@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Logo } from "@/components/brand/Logo";
 import { cn } from "@/lib/cn";
 
 export interface NavItem {
@@ -50,11 +51,8 @@ export function AppShell({ nav, role, aside, children }: AppShellProps) {
     <div className="flex min-h-screen flex-col md:flex-row">
       {/* Barra lateral, solo escritorio */}
       <aside className="hidden w-64 shrink-0 flex-col gap-8 border-r-2 border-ink bg-surface px-5 py-8 md:flex">
-        <Link href="/" className="flex flex-col">
-          <span className="font-display text-2xl font-extrabold">EduFlow</span>
-          <span className="font-body text-xs tracking-wide text-muted uppercase">
-            {role}
-          </span>
+        <Link href="/" className="rounded-card">
+          <Logo size="md" tagline={role} />
         </Link>
 
         <nav className="flex flex-col gap-2">
@@ -80,8 +78,8 @@ export function AppShell({ nav, role, aside, children }: AppShellProps) {
 
       {/* Cabecera compacta, solo movil */}
       <header className="flex items-center justify-between gap-4 border-b-2 border-ink bg-surface px-4 py-3 md:hidden">
-        <Link href="/" className="font-display text-lg font-extrabold">
-          EduFlow
+        <Link href="/" className="rounded-card">
+          <Logo size="sm" />
         </Link>
         <span className="font-body text-xs text-muted uppercase">{role}</span>
       </header>
