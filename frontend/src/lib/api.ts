@@ -77,6 +77,33 @@ export function listRooms(token: string) {
   return request<Room[]>("/rooms/", { token });
 }
 
+// Sin 0/O ni 1/I/L: el codigo se dicta en voz alta y se escribe en el pizarron.
+const CODE_ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+
+function generateRoomCode(): string {
+  const values = crypto.getRandomValues(new Uint32Array(6));
+  return Array.from(values, (n) => CODE_ALPHABET[n % CODE_ALPHABET.length]).join("");
+}
+
+/**
+ * Crea una sala.
+ *
+ * TODO(P3 · S2): el codigo lo esta generando el CLIENTE porque el backend lo
+ * exige en el body (schemas/room.py). Eso permite elegir el codigo o colisionar
+ * con salas existentes. Cuando el servidor lo genere, borrar `code` de aca.
+ */
+export function createRoom(token: string, name: string) {
+  return request<Room[] | Room>("/rooms/", {
+    method: "POST",
+    token,
+    body: JSON.stringify({
+      name,
+      code: generateRoomCode(),
+      status: "active",
+    }),
+  });
+}
+
 export function joinRoom(token: string, code: string) {
   return request<Room>("/rooms/join", {
     method: "POST",
