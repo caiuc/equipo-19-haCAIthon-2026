@@ -26,8 +26,24 @@ interface AppShellProps {
 export function AppShell({ nav, role, aside, children }: AppShellProps) {
   const pathname = usePathname();
 
+  /*
+    Se marca solo la coincidencia MAS LARGA.
+
+    Con `startsWith` a secas, "/alumno" tambien coincidia con "/alumno/salas" y
+    quedaban dos items encendidos a la vez: Inicio nunca se apagaba.
+  */
+  const activeHref = nav
+    .filter(
+      (item) => pathname === item.href || pathname.startsWith(`${item.href}/`),
+    )
+    .reduce<string | null>(
+      (best, item) =>
+        best === null || item.href.length > best.length ? item.href : best,
+      null,
+    );
+
   function isActive(href: string): boolean {
-    return pathname === href || pathname.startsWith(`${href}/`);
+    return activeHref === href;
   }
 
   return (

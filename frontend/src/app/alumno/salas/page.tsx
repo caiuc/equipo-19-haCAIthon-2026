@@ -1,8 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import Link from "next/link";
 import { AppShell } from "@/components/AppShell";
 import { Badge } from "@/components/ui/Badge";
+import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { listStudentRooms } from "@/lib/api";
 import { ALUMNO_NAV } from "@/lib/nav";
@@ -65,6 +67,11 @@ export default function MisSalasPage() {
                 {room.code}
               </span>
             </div>
+            <Link href={`/alumno/salas/${room.code}`}>
+              <Button variant="secondary" fullWidth>
+                Ver tareas de esta sala
+              </Button>
+            </Link>
           </Card>
         ))}
       </main>
