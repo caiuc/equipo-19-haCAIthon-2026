@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Detalle de Clase - Pulse Style</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface": "#1b1c17",
+                    "on-secondary-container": "#586377",
+                    "on-primary-fixed": "#000569",
+                    "on-tertiary-fixed-variant": "#5c4300",
+                    "on-secondary-fixed": "#111c2d",
+                    "error-container": "#ffdad6",
+                    "secondary": "#545f73",
+                    "tertiary-container": "#956f00",
+                    "on-error": "#ffffff",
+                    "success": "#34D399",
+                    "outline-variant": "#c6c5d7",
+                    "surface-variant": "#e4e3db",
+                    "on-secondary": "#ffffff",
+                    "primary-container": "#5865f2",
+                    "surface": "#FFFFFF",
+                    "on-secondary-fixed-variant": "#3c475a",
+                    "border": "#1E293B",
+                    "primary-fixed-dim": "#bec2ff",
+                    "surface-dim": "#dcdad2",
+                    "on-primary-fixed-variant": "#222fc2",
+                    "error": "#EF4444",
+                    "inverse-surface": "#30312c",
+                    "on-background": "#1b1c17",
+                    "tertiary": "#775700",
+                    "surface-container-low": "#f5f4ec",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed": "#261a00",
+                    "on-tertiary-container": "#fffdff",
+                    "accent-blue": "#60A5FA",
+                    "on-primary-container": "#fffdff",
+                    "secondary-fixed-dim": "#bcc7de",
+                    "outline": "#767686",
+                    "background": "#fbf9f1",
+                    "primary": "#3d4ad8",
+                    "accent-purple": "#8B5CF6",
+                    "inverse-primary": "#bec2ff",
+                    "on-primary": "#ffffff",
+                    "inverse-on-surface": "#f3f1e9",
+                    "surface-bright": "#fbf9f1",
+                    "accent-pink": "#F472B6",
+                    "on-tertiary": "#ffffff",
+                    "muted": "#64748B",
+                    "primary-fixed": "#e0e0ff",
+                    "surface-container-high": "#eae8e0",
+                    "tertiary-fixed-dim": "#f9bd22",
+                    "surface-container-lowest": "#ffffff",
+                    "on-surface-variant": "#454655",
+                    "tertiary-fixed": "#ffdf9f",
+                    "surface-container-highest": "#e4e3db",
+                    "surface-container": "#f0eee6",
+                    "surface-tint": "#3f4cda",
+                    "secondary-container": "#d5e0f8",
+                    "secondary-fixed": "#d8e3fb"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "section": "6rem",
+                    "xs": "0.5rem",
+                    "lg": "4rem",
+                    "xl": "6rem",
+                    "md": "2rem",
+                    "gutter": "1.5rem",
+                    "sm": "1rem"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Outfit"],
+                    "label-md": ["Outfit"],
+                    "headline-display": ["Outfit"],
+                    "headline-lg-mobile": ["Outfit"],
+                    "headline-md": ["Outfit"],
+                    "caption": ["Plus Jakarta Sans"],
+                    "body-sm": ["Plus Jakarta Sans"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "label-sm": ["Plus Jakarta Sans"],
+                    "label-lg": ["Outfit"],
+                    "headline-sm": ["Outfit"],
+                    "body-md": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "headline-lg": ["52px", {"lineHeight": "62px", "letterSpacing": "0px", "fontWeight": "700"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "700"}],
+                    "headline-display": ["72px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "headline-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "0px", "fontWeight": "700"}],
+                    "headline-md": ["38px", {"lineHeight": "46px", "letterSpacing": "0px", "fontWeight": "700"}],
+                    "caption": ["12px", {"lineHeight": "16px", "letterSpacing": "0px", "fontWeight": "500"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "letterSpacing": "0px", "fontWeight": "400"}],
+                    "body-lg": ["20px", {"lineHeight": "28px", "letterSpacing": "0px", "fontWeight": "500"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600"}],
+                    "label-lg": ["18px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "700"}],
+                    "headline-sm": ["28px", {"lineHeight": "28px", "letterSpacing": "0px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0px", "fontWeight": "500"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .pulse-shadow {
+            box-shadow: 4px 4px 0px 0px rgba(249,189,34,1);
+            transition: all 0.2s ease-in-out;
+        }
+        .pulse-shadow:hover {
+            box-shadow: 8px 8px 0px 0px rgba(249,189,34,1);
+            transform: translate(-2px, -2px);
+        }
+        .pulse-border {
+            border: 2px solid #1E293B;
+        }
+        .pulse-border-sm {
+            border: 1px solid #1E293B;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col md:flex-row">
+<!-- SideNavBar (Desktop) -->
+<nav class="h-screen w-72 fixed left-0 top-0 hidden md:flex flex-col bg-surface dark:bg-on-surface border-r-2 border-secondary dark:border-outline-variant shadow-[4px_0px_0px_0px_rgba(249,189,34,1)] flex flex-col gap-sm p-sm w-full h-full z-50">
+<div class="mb-lg">
+<h1 class="font-headline-md text-headline-md font-black text-on-surface dark:text-surface">EduFlow</h1>
+<p class="font-caption text-caption text-secondary">Creator-Educator</p>
+</div>
+<button class="bg-primary-container text-on-primary-container font-label-md text-label-md py-3 px-6 rounded-full pulse-border pulse-shadow mb-lg w-full flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+            Create New Class
+        </button>
+<ul class="flex flex-col gap-2 flex-grow">
+<li>
+<a class="flex items-center gap-3 text-secondary dark:text-outline-variant px-4 py-3 hover:text-primary hover:translate-x-1 transition-transform duration-200 active:scale-95 transition-all font-label-lg text-label-lg" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                    Dashboard
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 bg-primary-container text-on-primary-container border-2 border-secondary rounded-full px-4 py-3 shadow-[4px_4px_0px_0px_rgba(249,189,34,1)] active:scale-95 transition-all font-label-lg text-label-lg" href="#">
+<span class="material-symbols-outlined" data-icon="school">school</span>
+                    My Classes
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-secondary dark:text-outline-variant px-4 py-3 hover:text-primary hover:translate-x-1 transition-transform duration-200 active:scale-95 transition-all font-label-lg text-label-lg" href="#">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+                    Assignments
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-secondary dark:text-outline-variant px-4 py-3 hover:text-primary hover:translate-x-1 transition-transform duration-200 active:scale-95 transition-all font-label-lg text-label-lg" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+                    Analytics
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-secondary dark:text-outline-variant px-4 py-3 hover:text-primary hover:translate-x-1 transition-transform duration-200 active:scale-95 transition-all font-label-lg text-label-lg" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                    Settings
+                </a>
+</li>
+</ul>
+<div class="mt-auto">
+<a class="flex items-center gap-3 text-secondary dark:text-outline-variant px-4 py-3 hover:text-primary hover:translate-x-1 transition-transform duration-200 active:scale-95 transition-all font-label-lg text-label-lg" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+                    Help Support
+            </a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-grow md:ml-72 flex flex-col w-full">
+<!-- TopAppBar (Mobile & Desktop) -->
+<header class="bg-surface dark:bg-on-surface w-full sticky top-0 z-40 border-b-2 border-secondary dark:border-outline-variant shadow-[4px_4px_0px_0px_rgba(249,189,34,1)] flex justify-between items-center h-[72px] px-gutter w-full">
+<div class="flex items-center gap-4">
+<button class="md:hidden text-on-surface">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h2 class="font-headline-sm text-headline-sm font-bold text-on-surface dark:text-surface hidden md:block">Matemáticas Avanzadas - 11A</h2>
+<h2 class="font-headline-sm text-headline-sm font-bold text-on-surface dark:text-surface md:hidden">EduFlow</h2>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-secondary dark:text-outline hover:bg-surface-container-low transition-all duration-200 p-2 rounded-full pulse-border-sm active:translate-x-[2px] active:translate-y-[2px] active:shadow-none">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<img alt="User profile" class="w-10 h-10 rounded-full pulse-border object-cover" data-alt="A small, circular avatar portrait of a modern educator with a friendly expression, set against a bright periwinkle blue background. High contrast, clean lighting, bold modern aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDF9FxhMP33z9zjCVpOcA_9rb3YiT1E_UJ6I2XME0s_WxL77gOxlRRNltFpN-3_onLo3JLu0Gayv5qqGaJ5lUWhq8UEfDd0ISs40vDTQjd8YfARrL2cnHGcS6WVW9txBn3HQsXnI1h9Gjd8eZZEzJkz98IJZGa4tBjsx2VThYMkTL6Br1moCKg37TlQ6n7DW0VCWKxkBJXclpEVPqyo37ACIkTkaZp4lyzxdNUt5sAs5CUVEt2TF44JEQ"/>
+</div>
+</header>
+<div class="p-gutter md:p-md lg:p-lg max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Class Header / Banner -->
+<section class="lg:col-span-12 mb-md">
+<div class="bg-surface p-8 rounded-2xl pulse-border pulse-shadow relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+<div class="z-10 relative">
+<div class="flex items-center gap-3 mb-2">
+<span class="bg-accent-blue text-on-primary font-label-sm text-label-sm px-3 py-1 rounded-full pulse-border">Ciclo 2024</span>
+<span class="bg-surface-container-high text-on-surface font-label-sm text-label-sm px-3 py-1 rounded-full pulse-border-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="group">group</span> 32 Alumnos
+                             </span>
+</div>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-2">Matemáticas Avanzadas - 11A</h2>
+<p class="font-body-lg text-body-lg text-secondary max-w-2xl">Cálculo diferencial e integral para preparación universitaria. Enfoque en resolución de problemas complejos.</p>
+</div>
+<button class="bg-primary-container text-on-primary-container font-label-lg text-label-lg h-[60px] px-8 rounded-full pulse-border pulse-shadow flex items-center gap-2 whitespace-nowrap z-10 shrink-0">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+                        Crear Actividad
+                    </button>
+<!-- Decorative background element -->
+<div class="absolute -right-20 -bottom-20 opacity-10">
+<span class="material-symbols-outlined text-[300px]" data-icon="functions">functions</span>
+</div>
+</div>
+</section>
+<!-- Main Content: Activities Grid -->
+<section class="lg:col-span-8 flex flex-col gap-6">
+<div class="flex justify-between items-end mb-4">
+<h3 class="font-headline-md text-headline-md text-on-surface">Actividades Recientes</h3>
+<button class="text-primary font-label-md text-label-md flex items-center gap-1 hover:underline">
+                        Ver todas <span class="material-symbols-outlined text-[18px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<!-- Activity Card: Live -->
+<article class="bg-surface p-6 rounded-xl pulse-border pulse-shadow flex flex-col sm:flex-row gap-6 relative">
+<div class="w-16 h-16 rounded-full bg-error-container pulse-border flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-error text-3xl" data-icon="sensors">sensors</span>
+</div>
+<div class="flex-grow">
+<div class="flex items-center gap-3 mb-2">
+<span class="bg-error text-on-error font-label-sm text-label-sm px-3 py-1 rounded-full pulse-border uppercase tracking-wider animate-pulse">EN VIVO</span>
+<span class="font-caption text-caption text-secondary">Iniciada hace 15 min</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mb-2">Quiz: Derivadas Regla de la Cadena</h4>
+<div class="flex flex-col gap-2 mt-4">
+<div class="flex justify-between font-label-sm text-label-sm text-secondary">
+<span>Progreso de la clase</span>
+<span>24/32 entregas</span>
+</div>
+<div class="w-full h-4 bg-surface-container rounded-full pulse-border overflow-hidden">
+<div class="h-full bg-success w-[75%] border-r-2 border-border"></div>
+</div>
+</div>
+</div>
+<button class="absolute top-6 right-6 text-secondary hover:text-primary">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</article>
+<!-- Activity Card: Task -->
+<article class="bg-surface p-6 rounded-xl pulse-border flex flex-col sm:flex-row gap-6 hover:shadow-[4px_4px_0px_0px_rgba(249,189,34,1)] hover:-translate-y-1 hover:-translate-x-1 transition-all duration-200 relative">
+<div class="w-16 h-16 rounded-full bg-secondary-container pulse-border flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="assignment">assignment</span>
+</div>
+<div class="flex-grow">
+<div class="flex items-center gap-3 mb-2">
+<span class="bg-accent-purple text-on-primary font-label-sm text-label-sm px-3 py-1 rounded-full pulse-border uppercase tracking-wider">TAREA</span>
+<span class="font-caption text-caption text-error font-bold">Vence hoy, 23:59</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mb-2">Problemario: Optimización</h4>
+<div class="flex flex-col gap-2 mt-4">
+<div class="flex justify-between font-label-sm text-label-sm text-secondary">
+<span>Calificadas</span>
+<span>10/32 revisadas</span>
+</div>
+<div class="w-full h-4 bg-surface-container rounded-full pulse-border overflow-hidden">
+<div class="h-full bg-accent-purple w-[30%] border-r-2 border-border"></div>
+</div>
+</div>
+</div>
+<button class="absolute top-6 right-6 text-secondary hover:text-primary">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</article>
+<!-- Activity Card: Practice -->
+<article class="bg-surface p-6 rounded-xl pulse-border flex flex-col sm:flex-row gap-6 hover:shadow-[4px_4px_0px_0px_rgba(249,189,34,1)] hover:-translate-y-1 hover:-translate-x-1 transition-all duration-200 relative">
+<div class="w-16 h-16 rounded-full bg-tertiary-container pulse-border flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-tertiary-fixed-dim text-3xl" data-icon="exercise">exercise</span>
+</div>
+<div class="flex-grow">
+<div class="flex items-center gap-3 mb-2">
+<span class="bg-surface-variant text-on-surface-variant font-label-sm text-label-sm px-3 py-1 rounded-full pulse-border-sm uppercase tracking-wider">PRÁCTICA LIBRE</span>
+<span class="font-caption text-caption text-secondary">Sin fecha límite</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mb-2">Ejercicios de Integración por Partes</h4>
+<div class="mt-4 flex items-center gap-2 text-secondary font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px]" data-icon="trending_up">trending_up</span>
+                            18 estudiantes han practicado esta semana
+                        </div>
+</div>
+<button class="absolute top-6 right-6 text-secondary hover:text-primary">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</article>
+</section>
+<!-- Sidebar: Students List -->
+<aside class="lg:col-span-4">
+<div class="bg-surface rounded-2xl pulse-border p-6 sticky top-[96px]">
+<div class="flex justify-between items-center mb-6 border-b-2 border-secondary pb-4">
+<h3 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+                            Estudiantes
+                        </h3>
+<span class="bg-primary-container text-on-primary-container font-label-md text-label-md px-3 py-1 rounded-full pulse-border-sm">32</span>
+</div>
+<!-- Search Input -->
+<div class="relative mb-6">
+<input class="w-full h-[50px] bg-surface rounded-full pulse-border pl-12 pr-4 font-body-md text-body-md focus:outline-none focus:shadow-[4px_4px_0px_0px_rgba(249,189,34,1)] transition-shadow" placeholder="Buscar alumno..." type="text"/>
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-secondary" data-icon="search">search</span>
+</div>
+<ul class="flex flex-col gap-4 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
+<!-- Student Item -->
+<li class="flex items-center justify-between p-3 rounded-xl hover:bg-surface-container-low transition-colors cursor-pointer pulse-border-sm border-transparent hover:border-secondary">
+<div class="flex items-center gap-3">
+<div class="relative">
+<img alt="Student avatar" class="w-10 h-10 rounded-full pulse-border object-cover" data-alt="A clear headshot of a teenage student with short dark hair, wearing a casual yellow hoodie, set against a bright, clean background. High contrast, modern lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuTRiCtqAQmfgB_Ua6ChvUC8_B_cO8XVqduMlD0Fs4mRYx6swWfmlzWpqmrjYPwOTNq7CzgvkGGZdjN5c5MR40oze-DkhNj8Gfuf2TibgbUUkABKE3gul02IfaN4ftpUHYjSQK2KvBVvZxwlP-iCzqfNKiD8GyEcpzAkvU8Tv5NUEq3Y0HrkIVT-ejTH-oRrAnnVeO449O1jq1eQyNBLz2NclqyGFnPzzoZ1tZVvBYWsL3Xexp5v1ARg"/>
+<div class="absolute -bottom-1 -right-1 w-3 h-3 bg-success rounded-full pulse-border-sm"></div>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Alejandro Gómez</p>
+<p class="font-caption text-caption text-secondary">Promedio: 92%</p>
+</div>
+</div>
+<button class="text-secondary hover:text-primary">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+</button>
+</li>
+<!-- Student Item -->
+<li class="flex items-center justify-between p-3 rounded-xl hover:bg-surface-container-low transition-colors cursor-pointer pulse-border-sm border-transparent hover:border-secondary">
+<div class="flex items-center gap-3">
+<div class="relative">
+<img alt="Student avatar" class="w-10 h-10 rounded-full pulse-border object-cover" data-alt="A bright portrait of a young female student with curly hair and glasses, wearing a blue denim jacket, looking attentive. High contrast, clean modern lighting, solid background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA68joiIh2hS0y2g5NNUD9dIaKHWFOHcrniZcXCKg-N3EP7o6VP9SL1HPFMNz2pF1C5SQAdPOLnWI8rL0y90zirW5PgxCKZnYY2uL8AVzO3N5nI9OLgoD4NAJSUKx0FnE1CGFLcpqQanhtvOBZWdJxSRXr_QyYhu2qYV64SZSDOli8eUjNooHvdFZmAIKLsoTfiyIAV6Rx9taEJ8tpR7l2gGSrue_Ec4d26Haw9X3xRI5sIxAkmH9msPw"/>
+<div class="absolute -bottom-1 -right-1 w-3 h-3 bg-success rounded-full pulse-border-sm"></div>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Beatriz Silva</p>
+<p class="font-caption text-caption text-secondary">Promedio: 98%</p>
+</div>
+</div>
+<button class="text-secondary hover:text-primary">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+</button>
+</li>
+<!-- Student Item -->
+<li class="flex items-center justify-between p-3 rounded-xl hover:bg-surface-container-low transition-colors cursor-pointer pulse-border-sm border-transparent hover:border-secondary">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="w-10 h-10 rounded-full bg-accent-pink text-on-primary flex items-center justify-center pulse-border font-label-md text-label-md">CM</div>
+<div class="absolute -bottom-1 -right-1 w-3 h-3 bg-surface-variant rounded-full pulse-border-sm"></div>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Carlos Mendoza</p>
+<p class="font-caption text-caption text-secondary">Promedio: 75%</p>
+</div>
+</div>
+<button class="text-secondary hover:text-primary">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+</button>
+</li>
+<!-- Student Item -->
+<li class="flex items-center justify-between p-3 rounded-xl hover:bg-surface-container-low transition-colors cursor-pointer pulse-border-sm border-transparent hover:border-secondary">
+<div class="flex items-center gap-3">
+<div class="relative">
+<img alt="Student avatar" class="w-10 h-10 rounded-full pulse-border object-cover" data-alt="A portrait of a male teenage student looking thoughtful, wearing a striped t-shirt. Clean, high-contrast modern lighting, plain bright background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSakz7Wg7dg4nHyXBk7BbBl1-9AzQDVNJHd_kTWw3MTB0ZxIXroBAhNvcCOjb1p-gMVJbW3XtW4DsqQKlA1dLk0UnC-Lvj30l0_I4pfpzIVhu9fALc90ycghbIX3mE5xwSqvkqmN2YyV-HTKiXOojzgNEyO8ylHLg_CjUtaKqmBvK4SfxKkLcLbmLVQgVUxC47eiq8OuKWZbvBsEgWFSs_5qsXlFoaNj2D0UO7TgVPZYXVkZDEr9I_1g"/>
+<div class="absolute -bottom-1 -right-1 w-3 h-3 bg-success rounded-full pulse-border-sm"></div>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Daniela Torres</p>
+<p class="font-caption text-caption text-secondary">Promedio: 88%</p>
+</div>
+</div>
+<button class="text-secondary hover:text-primary">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+</button>
+</li>
+</ul>
+<button class="w-full mt-4 py-3 border-2 border-dashed border-secondary rounded-xl text-secondary font-label-md text-label-md hover:border-primary hover:text-primary hover:bg-surface-container-low transition-all">
+                        Ver Lista Completa
+                    </button>
+</div>
+</aside>
+</div>
+</main>
+<style>
+        /* Custom Scrollbar for Student List */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f0eee6; 
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #1E293B; 
+            border-radius: 10px;
+        }
+    </style>
+</body></html>

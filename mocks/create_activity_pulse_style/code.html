@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EduFlow - Create New Activity</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed": "#111c2d",
+                        "error-container": "#ffdad6",
+                        "surface-variant": "#e4e3db",
+                        "secondary-container": "#d5e0f8",
+                        "surface-tint": "#3f4cda",
+                        "on-tertiary-fixed": "#261a00",
+                        "border": "#1E293B",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#956f00",
+                        "primary-fixed-dim": "#bec2ff",
+                        "surface-container-lowest": "#ffffff",
+                        "accent-purple": "#8B5CF6",
+                        "on-error": "#ffffff",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "surface-container-highest": "#e4e3db",
+                        "on-secondary": "#ffffff",
+                        "surface-container": "#f0eee6",
+                        "outline": "#767686",
+                        "on-error-container": "#93000a",
+                        "tertiary": "#775700",
+                        "accent-blue": "#60A5FA",
+                        "on-secondary-container": "#586377",
+                        "background": "#fbf9f1",
+                        "on-background": "#1b1c17",
+                        "surface-dim": "#dcdad2",
+                        "on-primary-container": "#fffdff",
+                        "tertiary-fixed-dim": "#f9bd22",
+                        "on-tertiary-fixed-variant": "#5c4300",
+                        "on-surface-variant": "#454655",
+                        "surface-container-high": "#eae8e0",
+                        "inverse-primary": "#bec2ff",
+                        "on-tertiary-container": "#fffdff",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#3d4ad8",
+                        "on-primary-fixed": "#000569",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "primary-fixed": "#e0e0ff",
+                        "on-surface": "#1E293B",
+                        "secondary": "#545f73",
+                        "surface-bright": "#fbf9f1",
+                        "surface-container-low": "#f5f4ec",
+                        "surface": "#FFFFFF",
+                        "tertiary-fixed": "#ffdf9f",
+                        "error": "#EF4444",
+                        "outline-variant": "#c6c5d7",
+                        "muted": "#64748B",
+                        "accent-pink": "#F472B6",
+                        "on-primary-fixed-variant": "#222fc2",
+                        "success": "#34D399",
+                        "secondary-fixed": "#d8e3fb",
+                        "inverse-surface": "#30312c",
+                        "primary-container": "#5865f2",
+                        "inverse-on-surface": "#f3f1e9"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "0.5rem",
+                        "lg": "4rem",
+                        "section": "6rem",
+                        "gutter": "1.5rem",
+                        "md": "2rem",
+                        "xl": "6rem",
+                        "sm": "1rem"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-display": ["Outfit"],
+                        "headline-md": ["Outfit"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "headline-sm": ["Outfit"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "body-sm": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Outfit"],
+                        "headline-lg": ["Outfit"],
+                        "label-lg": ["Outfit"],
+                        "label-md": ["Outfit"],
+                        "caption": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+                        "headline-display": ["72px", { "lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-md": ["38px", { "lineHeight": "46px", "letterSpacing": "0px", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0px", "fontWeight": "500" }],
+                        "headline-sm": ["28px", { "lineHeight": "28px", "letterSpacing": "0px", "fontWeight": "700" }],
+                        "body-lg": ["20px", { "lineHeight": "28px", "letterSpacing": "0px", "fontWeight": "500" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "letterSpacing": "0px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "0px", "fontWeight": "700" }],
+                        "headline-lg": ["52px", { "lineHeight": "62px", "letterSpacing": "0px", "fontWeight": "700" }],
+                        "label-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "700" }],
+                        "caption": ["12px", { "lineHeight": "16px", "letterSpacing": "0px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        };
+    </script>
+<style>
+        .pulse-shadow {
+            box-shadow: 4px 4px 0px 0px #FBBF24;
+            transition: all 0.2s ease-in-out;
+        }
+        .pulse-shadow:hover {
+            box-shadow: 8px 8px 0px 0px #FBBF24;
+            transform: translate(-2px, -2px);
+        }
+        .pulse-shadow-focus:focus-within {
+            box-shadow: 4px 4px 0px 0px #FBBF24;
+            transform: translate(-2px, -2px);
+        }
+        
+        .radio-card:checked + label {
+            background-color: #e0e0ff;
+            border-color: #1E293B;
+            box-shadow: 4px 4px 0px 0px #FBBF24;
+            transform: translate(-2px, -2px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col md:flex-row font-body-md">
+<!-- Side Navigation (Desktop) -->
+<nav class="hidden md:flex flex-col h-screen w-72 border-r-2 border-on-surface bg-surface shadow-[4px_4px_0px_0px_#775700] py-md px-sm sticky top-0 shrink-0">
+<div class="mb-lg px-sm">
+<h1 class="font-headline-sm text-headline-sm font-black text-on-surface">EduFlow</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mt-1">Creator Portal</p>
+</div>
+<ul class="flex flex-col gap-2 flex-grow">
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-primary hover:translate-x-1 transition-transform font-label-lg text-label-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                    Dashboard
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-primary hover:translate-x-1 transition-transform font-label-lg text-label-lg" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+                    My Courses
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-container text-on-primary-container border-2 border-on-surface shadow-[4px_4px_0px_0px_#775700] rounded-xl font-label-lg text-label-lg active:translate-y-0.5 active:translate-x-0.5 active:shadow-none transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">assignment</span>
+                    Assignments
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-primary hover:translate-x-1 transition-transform font-label-lg text-label-lg" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+                    Analytics
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-primary hover:translate-x-1 transition-transform font-label-lg text-label-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+                    Settings
+                </a>
+</li>
+</ul>
+<div class="mt-auto pt-lg border-t-2 border-on-surface">
+<button class="w-full mb-4 h-[60px] bg-tertiary-fixed text-on-tertiary-fixed font-label-md text-label-md rounded-full border-2 border-on-surface pulse-shadow flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">workspace_premium</span>
+                Upgrade to Pro
+            </button>
+<ul class="flex flex-col gap-2">
+<li>
+<a class="flex items-center gap-3 px-4 py-2 rounded-xl text-on-surface-variant hover:text-primary hover:translate-x-1 transition-transform font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">help</span>
+                        Help Center
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-2 rounded-xl text-on-surface-variant hover:text-error hover:translate-x-1 transition-transform font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">logout</span>
+                        Logout
+                    </a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Top App Bar (Mobile) -->
+<header class="md:hidden w-full h-20 bg-background flex justify-between items-center px-gutter border-b-2 border-on-surface sticky top-0 z-50">
+<h1 class="text-headline-sm font-headline-sm font-bold text-on-surface">EduFlow</h1>
+<div class="flex items-center gap-4 text-primary">
+<button class="hover:bg-surface-container p-2 rounded-full transition-colors active:scale-95 duration-100">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<img class="w-10 h-10 rounded-full border-2 border-on-surface object-cover" data-alt="A stylized, flat-vector illustration avatar of an educator. Clean lines, solid vibrant background, modern SaaS aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGDk10av5S4iZn-5A7s-_Tg5sanbU4xJhJWrM-ZsBEWb2k88bqPWHaaA0HcJ6kzjPjVW4KtWtVokXZNjZngqQk0rNtiUDcV4c_4yBh99zig2u_3ulWg7CViLP63lJUjxymIfFhRYy5635tafWQMVUK6Rzh-iCcTKw7KolbSgPFYw8YJtQ-3EE7zYY8nt2J4Lb0qr9Wst59_sNylClNTEQPQAXlNeT_HEsywRdFzaFRjQBS9LNBqEE38Q"/>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-7xl mx-auto px-gutter py-lg">
+<div class="mb-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+<div>
+<a class="text-on-surface-variant font-label-md text-label-md flex items-center gap-2 mb-2 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+                    Back to Assignments
+                </a>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Create New Activity</h2>
+</div>
+<div class="flex gap-4 w-full md:w-auto">
+<button class="flex-1 md:flex-none h-[60px] px-6 bg-transparent text-on-surface font-label-md text-label-md rounded-full border-2 border-on-surface hover:bg-surface-container transition-colors flex items-center justify-center">
+                    Save Draft
+                </button>
+<button class="flex-1 md:flex-none h-[60px] px-8 bg-primary-container text-on-primary font-label-md text-label-md rounded-full border-2 border-on-surface pulse-shadow flex items-center justify-center">
+                    Publish Activity
+                </button>
+</div>
+</div>
+<form class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Core Details -->
+<div class="lg:col-span-8 flex flex-col gap-8">
+<!-- Basic Info Card -->
+<div class="bg-surface border-2 border-on-surface p-8 rounded-xl pulse-shadow">
+<h3 class="font-headline-sm text-headline-sm mb-6 pb-4 border-b-2 border-surface-variant text-on-surface">Activity Details</h3>
+<div class="flex flex-col gap-6">
+<div class="flex flex-col gap-2">
+<label class="font-label-lg text-label-lg text-on-surface" for="activity-name">Activity Name</label>
+<div class="relative pulse-shadow-focus rounded-full transition-all duration-200">
+<input class="w-full h-[60px] px-6 rounded-full border-2 border-on-surface bg-surface text-body-lg font-body-lg focus:outline-none focus:ring-0 placeholder:text-outline" id="activity-name" placeholder="e.g. Intro to Algebra Quiz" type="text"/>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-lg text-label-lg text-on-surface" for="subject">Subject Area</label>
+<div class="relative pulse-shadow-focus rounded-full transition-all duration-200">
+<select class="w-full h-[60px] px-6 appearance-none rounded-full border-2 border-on-surface bg-surface text-body-lg font-body-lg focus:outline-none focus:ring-0" id="subject">
+<option disabled="" selected="" value="">Select a subject...</option>
+<option value="math">Mathematics</option>
+<option value="science">Science</option>
+<option value="history">History</option>
+<option value="language">Language Arts</option>
+</select>
+<span class="material-symbols-outlined absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface">expand_more</span>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-lg text-label-lg text-on-surface" for="description">Instructions (Optional)</label>
+<div class="relative pulse-shadow-focus rounded-xl transition-all duration-200">
+<textarea class="w-full p-6 rounded-xl border-2 border-on-surface bg-surface text-body-md font-body-md focus:outline-none focus:ring-0 placeholder:text-outline resize-none" id="description" placeholder="Brief instructions for your students..." rows="4"></textarea>
+</div>
+</div>
+</div>
+</div>
+<!-- Format Selection -->
+<div class="bg-surface border-2 border-on-surface p-8 rounded-xl pulse-shadow">
+<h3 class="font-headline-sm text-headline-sm mb-6 pb-4 border-b-2 border-surface-variant text-on-surface">Exercise Format</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="relative">
+<input checked="" class="peer sr-only radio-card" id="format-mc" name="format" type="radio"/>
+<label class="flex flex-col items-center justify-center gap-3 h-32 border-2 border-on-surface rounded-xl bg-surface cursor-pointer hover:bg-surface-container transition-all" for="format-mc">
+<span class="material-symbols-outlined text-[32px] text-primary" style="font-variation-settings: 'FILL' 1;">checklist</span>
+<span class="font-label-md text-label-md text-on-surface">Multiple Choice</span>
+</label>
+</div>
+<div class="relative">
+<input class="peer sr-only radio-card" id="format-num" name="format" type="radio"/>
+<label class="flex flex-col items-center justify-center gap-3 h-32 border-2 border-on-surface rounded-xl bg-surface cursor-pointer hover:bg-surface-container transition-all" for="format-num">
+<span class="material-symbols-outlined text-[32px] text-accent-purple" style="font-variation-settings: 'FILL' 1;">calculate</span>
+<span class="font-label-md text-label-md text-on-surface">Numeric</span>
+</label>
+</div>
+<div class="relative">
+<input class="peer sr-only radio-card" id="format-text" name="format" type="radio"/>
+<label class="flex flex-col items-center justify-center gap-3 h-32 border-2 border-on-surface rounded-xl bg-surface cursor-pointer hover:bg-surface-container transition-all" for="format-text">
+<span class="material-symbols-outlined text-[32px] text-accent-blue" style="font-variation-settings: 'FILL' 1;">edit_document</span>
+<span class="font-label-md text-label-md text-on-surface">Short Text</span>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Settings & Meta -->
+<div class="lg:col-span-4 flex flex-col gap-8">
+<div class="bg-surface border-2 border-on-surface p-6 rounded-xl pulse-shadow">
+<h3 class="font-headline-sm text-headline-sm mb-6 pb-4 border-b-2 border-surface-variant text-on-surface">Difficulty Level</h3>
+<div class="flex flex-col gap-3">
+<label class="flex items-center gap-4 p-4 border-2 border-surface-variant rounded-xl cursor-pointer hover:border-on-surface transition-colors">
+<input class="w-6 h-6 text-success border-2 border-on-surface focus:ring-success focus:ring-offset-0" name="difficulty" type="radio" value="easy"/>
+<span class="font-label-lg text-label-lg text-on-surface flex-grow">Easy</span>
+<span class="w-3 h-3 rounded-full bg-success"></span>
+</label>
+<label class="flex items-center gap-4 p-4 border-2 border-on-surface bg-surface-container rounded-xl cursor-pointer pulse-shadow">
+<input checked="" class="w-6 h-6 text-tertiary-fixed-dim border-2 border-on-surface focus:ring-tertiary-fixed-dim focus:ring-offset-0" name="difficulty" type="radio" value="medium"/>
+<span class="font-label-lg text-label-lg text-on-surface flex-grow">Medium</span>
+<span class="w-3 h-3 rounded-full bg-tertiary-fixed-dim"></span>
+</label>
+<label class="flex items-center gap-4 p-4 border-2 border-surface-variant rounded-xl cursor-pointer hover:border-on-surface transition-colors">
+<input class="w-6 h-6 text-error border-2 border-on-surface focus:ring-error focus:ring-offset-0" name="difficulty" type="radio" value="hard"/>
+<span class="font-label-lg text-label-lg text-on-surface flex-grow">Hard</span>
+<span class="w-3 h-3 rounded-full bg-error"></span>
+</label>
+</div>
+</div>
+<div class="bg-primary-fixed border-2 border-on-surface p-6 rounded-xl flex flex-col items-center text-center gap-4">
+<span class="material-symbols-outlined text-[48px] text-primary" style="font-variation-settings: 'FILL' 1;">tips_and_updates</span>
+<h4 class="font-label-lg text-label-lg text-on-surface">Pro Tip</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Mixing exercise formats helps keep students engaged and improves retention.</p>
+</div>
+</div>
+</form>
+</main>
+<!-- Mobile Bottom Nav -->
+<nav class="md:hidden fixed bottom-0 w-full h-20 bg-surface border-t-2 border-on-surface flex justify-around items-center px-4 z-50">
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary font-bold" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">assignment</span>
+<span class="font-label-sm text-label-sm">Work</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">add_circle</span>
+<span class="font-label-sm text-label-sm">Create</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+</body></html>

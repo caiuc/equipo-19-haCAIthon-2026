@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+/*
+  EduFlow — tokens del sistema de diseño (mocks/eduflow_pulse/DESIGN.md)
+
+  Estilo: neo-brutalismo suavizado. Todo elemento interactivo lleva borde
+  navy de 2px, y los elementos destacados suman una sombra dura desplazada
+  en amarillo. La profundidad se construye con bordes y offsets, nunca con blur.
+
+  Tema único a propósito: la base crema es parte de la identidad, no una
+  preferencia del sistema operativo.
+*/
+@theme {
+  /* Superficies */
+  --color-cream: #fbf9f1;
+  --color-surface: #ffffff;
+  --color-surface-sunk: #f0eee6;
+
+  /* Tinta: bordes, titulares y texto. Es la fuerza estructural del sistema. */
+  --color-ink: #1e293b;
+  --color-ink-soft: #454655;
+  --color-muted: #64748b;
+
+  /* Primario (periwinkle): acciones, navegación activa, marca. */
+  --color-primary: #5865f2;
+  --color-primary-deep: #3d4ad8;
+  --color-primary-soft: #e0e0ff;
+
+  /* Pulse (amarillo): sombras desplazadas y marcadores de logro. */
+  --color-pulse: #fbbf24;
+  --color-pulse-soft: #ffdf9f;
+
+  /* Semánticos */
+  --color-success: #34d399;
+  --color-danger: #ef4444;
+
+  /* Acentos de categorización */
+  --color-accent-pink: #f472b6;
+  --color-accent-purple: #8b5cf6;
+  --color-accent-blue: #60a5fa;
+
+  /* Tipografía dual: Outfit para la voz de marca, Jakarta para la de lectura. */
+  --font-display: var(--font-outfit), system-ui, sans-serif;
+  --font-body: var(--font-jakarta), system-ui, sans-serif;
+
+  /* Sombras "pulse": siempre duras, siempre hacia abajo-derecha. */
+  --shadow-pulse: 4px 4px 0px 0px var(--color-pulse);
+  --shadow-pulse-lg: 8px 8px 0px 0px var(--color-pulse);
+  --shadow-ink: 4px 4px 0px 0px var(--color-ink);
+
+  --radius-card: 1rem;
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+}
+
+/* El foco tiene que verse: la app se usa con teclado en sala de computación. */
+:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

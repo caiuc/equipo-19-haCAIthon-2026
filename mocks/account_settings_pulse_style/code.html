@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EduFlow - Account Settings</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Config -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#261a00",
+                        "border": "#1E293B",
+                        "secondary": "#545f73",
+                        "surface-variant": "#e4e3db",
+                        "primary-fixed-dim": "#bec2ff",
+                        "success": "#34D399",
+                        "surface-bright": "#fbf9f1",
+                        "background": "#fbf9f1",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "surface-dim": "#dcdad2",
+                        "on-error-container": "#93000a",
+                        "on-surface-variant": "#454655",
+                        "tertiary-container": "#956f00",
+                        "secondary-container": "#d5e0f8",
+                        "surface-container-high": "#eae8e0",
+                        "inverse-surface": "#30312c",
+                        "inverse-on-surface": "#f3f1e9",
+                        "on-error": "#ffffff",
+                        "muted": "#64748B",
+                        "tertiary-fixed": "#ffdf9f",
+                        "on-surface": "#1E293B",
+                        "secondary-fixed": "#d8e3fb",
+                        "primary-container": "#5865f2",
+                        "on-primary-container": "#fffdff",
+                        "on-primary-fixed-variant": "#222fc2",
+                        "on-primary-fixed": "#000569",
+                        "surface": "#FFFFFF",
+                        "outline": "#767686",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#5c4300",
+                        "error-container": "#ffdad6",
+                        "surface-container-highest": "#e4e3db",
+                        "primary": "#3d4ad8",
+                        "tertiary-fixed-dim": "#f9bd22",
+                        "tertiary": "#775700",
+                        "accent-purple": "#8B5CF6",
+                        "on-primary": "#ffffff",
+                        "surface-tint": "#3f4cda",
+                        "accent-pink": "#F472B6",
+                        "on-tertiary-container": "#fffdff",
+                        "on-secondary-fixed": "#111c2d",
+                        "primary-fixed": "#e0e0ff",
+                        "surface-container-low": "#f5f4ec",
+                        "error": "#EF4444",
+                        "outline-variant": "#c6c5d7",
+                        "inverse-primary": "#bec2ff",
+                        "on-secondary-container": "#586377",
+                        "on-secondary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "surface-container": "#f0eee6",
+                        "on-background": "#1b1c17",
+                        "accent-blue": "#60A5FA"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "2rem",
+                        "lg": "4rem",
+                        "sm": "1rem",
+                        "section": "6rem",
+                        "gutter": "1.5rem",
+                        "xl": "6rem",
+                        "xs": "0.5rem"
+                    },
+                    "fontFamily": {
+                        "label-lg": ["Outfit"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "headline-display": ["Outfit"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Outfit"],
+                        "headline-lg": ["Outfit"],
+                        "body-sm": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "caption": ["Plus Jakarta Sans"],
+                        "headline-sm": ["Outfit"],
+                        "label-md": ["Outfit"],
+                        "headline-md": ["Outfit"]
+                    },
+                    "fontSize": {
+                        "label-lg": ["18px", {"lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0px", "fontWeight": "500"}],
+                        "headline-display": ["72px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "body-lg": ["20px", {"lineHeight": "28px", "letterSpacing": "0px", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "0px", "fontWeight": "700"}],
+                        "headline-lg": ["52px", {"lineHeight": "62px", "letterSpacing": "0px", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "letterSpacing": "0px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600"}],
+                        "caption": ["12px", {"lineHeight": "16px", "letterSpacing": "0px", "fontWeight": "500"}],
+                        "headline-sm": ["28px", {"lineHeight": "28px", "letterSpacing": "0px", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "700"}],
+                        "headline-md": ["38px", {"lineHeight": "46px", "letterSpacing": "0px", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #fbf9f1;
+            color: #1E293B;
+        }
+        /* Custom Utilities for Pulse Style */
+        .pulse-shadow {
+            box-shadow: 4px 4px 0px 0px rgba(249,189,34,1);
+        }
+        .pulse-shadow-hover:hover {
+            box-shadow: 8px 8px 0px 0px rgba(249,189,34,1);
+            transform: translate(-2px, -2px);
+        }
+        .pulse-border {
+            border: 2px solid #1E293B;
+        }
+        .pulse-input:focus {
+            outline: none;
+            box-shadow: 4px 4px 0px 0px rgba(249,189,34,1) inset;
+        }
+        
+        /* Checkbox toggle */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #5865f2;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #5865f2;
+        }
+    </style>
+</head>
+<body class="flex min-h-screen">
+<!-- SideNavBar (Desktop Only) -->
+<nav class="bg-surface border-r-2 border-secondary shadow-[4px_0px_0px_0px_rgba(249,189,34,1)] h-screen w-72 fixed left-0 top-0 hidden md:flex flex-col z-50">
+<div class="flex flex-col gap-sm p-sm w-full h-full">
+<!-- Header -->
+<div class="flex items-center gap-3 mb-6 px-4 pt-4">
+<div class="w-10 h-10 rounded-full bg-primary-container pulse-border flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container">school</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-black text-on-surface">EduFlow</h1>
+<p class="font-caption text-caption text-secondary">Creator-Educator</p>
+</div>
+</div>
+<!-- CTA -->
+<button class="mb-6 w-full h-[60px] rounded-full bg-primary-container text-on-primary-container font-label-md text-label-md pulse-border pulse-shadow pulse-shadow-hover transition-all duration-200 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add</span>
+                Create New Class
+            </button>
+<!-- Navigation Links -->
+<ul class="flex flex-col gap-2 flex-grow">
+<li>
+<a class="flex items-center gap-3 text-secondary font-label-lg text-label-lg px-4 py-3 hover:translate-x-1 transition-transform duration-200 hover:text-primary active:scale-95" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                        Dashboard
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-secondary font-label-lg text-label-lg px-4 py-3 hover:translate-x-1 transition-transform duration-200 hover:text-primary active:scale-95" href="#">
+<span class="material-symbols-outlined">school</span>
+                        My Classes
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-secondary font-label-lg text-label-lg px-4 py-3 hover:translate-x-1 transition-transform duration-200 hover:text-primary active:scale-95" href="#">
+<span class="material-symbols-outlined">assignment</span>
+                        Assignments
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-secondary font-label-lg text-label-lg px-4 py-3 hover:translate-x-1 transition-transform duration-200 hover:text-primary active:scale-95" href="#">
+<span class="material-symbols-outlined">analytics</span>
+                        Analytics
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 bg-primary-container text-on-primary-container border-2 border-secondary rounded-full px-4 py-3 shadow-[4px_4px_0px_0px_rgba(249,189,34,1)] font-label-lg text-label-lg active:scale-95 transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings</span>
+                        Settings
+                    </a>
+</li>
+</ul>
+<!-- Footer Links -->
+<div class="mt-auto">
+<a class="flex items-center gap-3 text-secondary font-label-lg text-label-lg px-4 py-3 hover:translate-x-1 transition-transform duration-200 hover:text-primary active:scale-95" href="#">
+<span class="material-symbols-outlined">help</span>
+                    Help Support
+                </a>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-72 flex flex-col min-h-screen">
+<!-- TopAppBar (Mobile & Desktop) -->
+<header class="bg-surface w-full sticky top-0 z-40 border-b-2 border-secondary shadow-[4px_4px_0px_0px_rgba(249,189,34,1)]">
+<div class="flex justify-between items-center h-[72px] px-gutter w-full">
+<!-- Mobile Menu Button & Brand (Visible on mobile) -->
+<div class="flex items-center gap-3 md:hidden">
+<button class="p-2 text-primary hover:bg-surface-container-low rounded-full transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">EduFlow</span>
+</div>
+<!-- Page Title (Visible on desktop) -->
+<div class="hidden md:block">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">Account Settings</span>
+</div>
+<!-- Right Actions -->
+<div class="flex items-center gap-4">
+<button class="p-2 text-secondary hover:bg-surface-container-low transition-all duration-200 rounded-full active:translate-x-[2px] active:translate-y-[2px] active:shadow-none relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1 right-2 w-2 h-2 bg-error rounded-full pulse-border"></span>
+</button>
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed-dim pulse-border overflow-hidden cursor-pointer">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="A stylized, colorful avatar of a female educator with bright purple hair, wearing stylish glasses, looking optimistic in a vibrant, flat-design illustration style perfect for a modern SaaS platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDb4x8ogQpsG1hbKohCENod1tLJKgTkCwPBut4JgLCUAArdP98z1oQUBmgkm9FfvtYq2_6vfAQIHKHXBMDLyyfIfdOUbdsn3ZuFFgzSq13G9XKqAzBCyzMJnlfGsOTF3yBQZJbxuyyco5XP8LOE2Oq4RjJJwR8Hf3vlh5hajmV6vgW3PMr2v0oZLJMq5dBWRZpF-QFwym1dSt_N0dVQs2-_IYymRwKDQOi6IJt3GvGqk05EG0uiY2vrwg"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Page Content Canvas -->
+<div class="flex-1 p-gutter md:p-md lg:px-xl max-w-[1280px] w-full mx-auto">
+<!-- Mobile Title -->
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-6 md:hidden">Account Settings</h1>
+<!-- Horizontal Tabs -->
+<div class="flex overflow-x-auto gap-4 mb-8 pb-2 no-scrollbar">
+<button class="px-6 py-3 rounded-full bg-primary-container text-on-primary-container font-label-md text-label-md pulse-border pulse-shadow whitespace-nowrap flex-shrink-0">
+                    Profile
+                </button>
+<button class="px-6 py-3 rounded-full bg-surface text-secondary font-label-md text-label-md border-2 border-transparent hover:border-secondary hover:text-on-surface transition-colors whitespace-nowrap flex-shrink-0">
+                    Notifications
+                </button>
+<button class="px-6 py-3 rounded-full bg-surface text-secondary font-label-md text-label-md border-2 border-transparent hover:border-secondary hover:text-on-surface transition-colors whitespace-nowrap flex-shrink-0">
+                    Privacy
+                </button>
+<button class="px-6 py-3 rounded-full bg-surface text-secondary font-label-md text-label-md border-2 border-transparent hover:border-secondary hover:text-on-surface transition-colors whitespace-nowrap flex-shrink-0">
+                    Appearance
+                </button>
+</div>
+<!-- Bento Grid Layout for Settings -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Main Profile Column -->
+<div class="lg:col-span-8 flex flex-col gap-8">
+<!-- Basic Info Card -->
+<section class="bg-surface p-8 rounded-2xl pulse-border relative">
+<h2 class="font-headline-sm text-headline-sm mb-6">Personal Information</h2>
+<!-- Avatar Section -->
+<div class="flex items-center gap-6 mb-8">
+<div class="relative w-24 h-24 rounded-full pulse-border overflow-hidden bg-tertiary-fixed-dim">
+<img alt="Current avatar" class="w-full h-full object-cover" data-alt="A high-quality, professional headshot illustration of a friendly educator, stylized with vibrant colors, thick outlines, and a warm yellow background consistent with a neo-brutalist SaaS design system." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUaP-PQFllWNx83S2MJusYYy_Jte5obVPConO05trgsIuRChaVedJ17haGOr1UYNfx7ytMgz57H6-IhkAencTnzmlGZ_ncGWw-QFf9mcsWepEuf0E3jUIGJlCWsv6EinsQv-vmiJ_pDCaz1EGfiH7CH5KfcD6rW8otEJS8DikcepmTfyAlvd5uHhQdbLEZ2iv1IChsS_S5C356eYsfHL6K2D7llQBqCxNgD_bTQ5so1_38wEe42fSc3g"/>
+</div>
+<div class="flex flex-col gap-2">
+<button class="h-10 px-4 rounded-full bg-surface text-on-surface border-2 border-secondary font-label-sm text-label-sm hover:bg-surface-container-low transition-colors w-fit">
+                                    Change Photo
+                                </button>
+<p class="font-caption text-caption text-secondary">JPG, GIF or PNG. Max size of 800K</p>
+</div>
+</div>
+<!-- Form Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface">Full Name</label>
+<input class="h-[60px] rounded-full bg-surface pulse-border px-6 font-body-md text-body-md text-on-surface pulse-input transition-shadow w-full" type="text" value="Jane Doe"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface">Email Address</label>
+<div class="relative flex items-center w-full">
+<input class="h-[60px] rounded-full bg-surface pulse-border pl-6 pr-12 font-body-md text-body-md text-on-surface pulse-input transition-shadow w-full" type="email" value="jane.doe@eduflow.com"/>
+<div class="absolute right-4 text-success flex items-center justify-center bg-surface rounded-full">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;" title="Verified">verified</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-2 md:col-span-2">
+<label class="font-label-md text-label-md text-on-surface">Role</label>
+<input class="h-[60px] rounded-full bg-surface-container-low border-2 border-secondary px-6 font-body-md text-body-md text-secondary cursor-not-allowed w-full opacity-70" readonly="" type="text" value="Teacher"/>
+<p class="font-caption text-caption text-secondary mt-1">Role cannot be changed. Contact admin for updates.</p>
+</div>
+</div>
+</section>
+<!-- Security / Password Card -->
+<section class="bg-surface p-8 rounded-2xl pulse-border relative">
+<h2 class="font-headline-sm text-headline-sm mb-6">Security &amp; Password</h2>
+<div class="grid grid-cols-1 gap-6 max-w-md">
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface">Current Password</label>
+<input class="h-[60px] rounded-full bg-surface pulse-border px-6 font-body-md text-body-md text-on-surface pulse-input transition-shadow w-full" placeholder="••••••••" type="password"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface">New Password</label>
+<input class="h-[60px] rounded-full bg-surface pulse-border px-6 font-body-md text-body-md text-on-surface pulse-input transition-shadow w-full" placeholder="Enter new password" type="password"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface">Confirm New Password</label>
+<input class="h-[60px] rounded-full bg-surface pulse-border px-6 font-body-md text-body-md text-on-surface pulse-input transition-shadow w-full" placeholder="Confirm new password" type="password"/>
+</div>
+</div>
+</section>
+</div>
+<!-- Side Column (Preferences & Actions) -->
+<div class="lg:col-span-4 flex flex-col gap-8">
+<!-- Preferences Card -->
+<section class="bg-surface p-6 rounded-2xl pulse-border">
+<h3 class="font-label-lg text-label-lg mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined">tune</span>
+                            Preferences
+                        </h3>
+<div class="flex items-center justify-between py-4 border-t border-b border-outline-variant">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Enable offline downloads</span>
+<span class="font-caption text-caption text-secondary">Save lessons to your device</span>
+</div>
+<!-- Custom Toggle Switch -->
+<div class="relative inline-block w-12 h-6 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-2 border-secondary appearance-none cursor-pointer z-10 transition-transform duration-200 checked:translate-x-6 checked:border-primary-container" id="toggle" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-secondary cursor-pointer border-2 border-secondary" for="toggle"></label>
+</div>
+</div>
+</section>
+<!-- Save Actions -->
+<div class="flex flex-col gap-4 sticky top-[100px]">
+<button class="w-full h-[60px] rounded-full bg-primary-container text-on-primary-container font-label-md text-label-md pulse-border pulse-shadow pulse-shadow-hover transition-all duration-200 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">save</span>
+                            Save Changes
+                        </button>
+<button class="w-full h-[60px] rounded-full bg-surface text-secondary font-label-md text-label-md border-2 border-secondary hover:bg-surface-container-low transition-colors duration-200">
+                            Cancel
+                        </button>
+</div>
+<!-- Danger Zone -->
+<section class="bg-error-container p-6 rounded-2xl border-2 border-error mt-4">
+<h3 class="font-label-lg text-label-lg text-on-error-container mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined">warning</span>
+                            Danger Zone
+                        </h3>
+<p class="font-caption text-caption text-on-error-container mb-4">Once you delete your account, there is no going back. Please be certain.</p>
+<button class="w-full h-12 rounded-full bg-error text-on-error font-label-md text-label-md border-2 border-on-surface hover:bg-opacity-90 transition-colors shadow-[2px_2px_0px_0px_rgba(30,41,59,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none">
+                            Delete Account
+                        </button>
+</section>
+</div>
+</div>
+<div class="h-24"></div> <!-- Bottom padding -->
+</div>
+</main>
+</body></html>

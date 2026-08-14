@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EduFlow - Sign Up</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#261a00",
+                        "border": "#1E293B",
+                        "secondary": "#545f73",
+                        "surface-variant": "#e4e3db",
+                        "primary-fixed-dim": "#bec2ff",
+                        "success": "#34D399",
+                        "surface-bright": "#fbf9f1",
+                        "background": "#fbf9f1",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "surface-dim": "#dcdad2",
+                        "on-error-container": "#93000a",
+                        "on-surface-variant": "#454655",
+                        "tertiary-container": "#956f00",
+                        "secondary-container": "#d5e0f8",
+                        "surface-container-high": "#eae8e0",
+                        "inverse-surface": "#30312c",
+                        "inverse-on-surface": "#f3f1e9",
+                        "on-error": "#ffffff",
+                        "muted": "#64748B",
+                        "tertiary-fixed": "#ffdf9f",
+                        "on-surface": "#1E293B",
+                        "secondary-fixed": "#d8e3fb",
+                        "primary-container": "#5865f2",
+                        "on-primary-container": "#fffdff",
+                        "on-primary-fixed-variant": "#222fc2",
+                        "on-primary-fixed": "#000569",
+                        "surface": "#FFFFFF",
+                        "outline": "#767686",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#5c4300",
+                        "error-container": "#ffdad6",
+                        "surface-container-highest": "#e4e3db",
+                        "primary": "#3d4ad8",
+                        "tertiary-fixed-dim": "#f9bd22",
+                        "tertiary": "#775700",
+                        "accent-purple": "#8B5CF6",
+                        "on-primary": "#ffffff",
+                        "surface-tint": "#3f4cda",
+                        "accent-pink": "#F472B6",
+                        "on-tertiary-container": "#fffdff",
+                        "on-secondary-fixed": "#111c2d",
+                        "primary-fixed": "#e0e0ff",
+                        "surface-container-low": "#f5f4ec",
+                        "error": "#EF4444",
+                        "outline-variant": "#c6c5d7",
+                        "inverse-primary": "#bec2ff",
+                        "on-secondary-container": "#586377",
+                        "on-secondary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "surface-container": "#f0eee6",
+                        "on-background": "#1b1c17",
+                        "accent-blue": "#60A5FA"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "2rem",
+                        "lg": "4rem",
+                        "sm": "1rem",
+                        "section": "6rem",
+                        "gutter": "1.5rem",
+                        "xl": "6rem",
+                        "xs": "0.5rem"
+                    },
+                    "fontFamily": {
+                        "label-lg": ["Outfit"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "headline-display": ["Outfit"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Outfit"],
+                        "headline-lg": ["Outfit"],
+                        "body-sm": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "caption": ["Plus Jakarta Sans"],
+                        "headline-sm": ["Outfit"],
+                        "label-md": ["Outfit"],
+                        "headline-md": ["Outfit"]
+                    },
+                    "fontSize": {
+                        "label-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0px", "fontWeight": "500" }],
+                        "headline-display": ["72px", { "lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-lg": ["20px", { "lineHeight": "28px", "letterSpacing": "0px", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "0px", "fontWeight": "700" }],
+                        "headline-lg": ["52px", { "lineHeight": "62px", "letterSpacing": "0px", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "letterSpacing": "0px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+                        "caption": ["12px", { "lineHeight": "16px", "letterSpacing": "0px", "fontWeight": "500" }],
+                        "headline-sm": ["28px", { "lineHeight": "28px", "letterSpacing": "0px", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "700" }],
+                        "headline-md": ["38px", { "lineHeight": "46px", "letterSpacing": "0px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-image: radial-gradient(#1E293B 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-color: #fbf9f1; /* background */
+        }
+        
+        .pulse-shadow {
+            box-shadow: 4px 4px 0px 0px #FBBF24; /* tertiary-fixed-dim approx */
+        }
+        .pulse-shadow-hover:hover {
+            box-shadow: 8px 8px 0px 0px #FBBF24;
+            transform: translate(-2px, -2px);
+        }
+        .role-selected {
+            border-color: #5865f2; /* primary-container */
+            background-color: #e0e0ff; /* primary-fixed */
+            box-shadow: 4px 4px 0px 0px #FBBF24;
+        }
+        .role-unselected {
+            border-color: #1E293B; /* secondary */
+            background-color: #FFFFFF; /* surface */
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-gutter">
+<!-- Main Container -->
+<main class="w-full max-w-[450px] bg-surface border-2 border-border rounded-xl p-md pulse-shadow flex flex-col gap-sm relative z-10">
+<!-- Header -->
+<header class="text-center mb-xs">
+<h1 class="font-headline-md text-headline-md text-on-surface mb-2">Create your account</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Join EduFlow to start learning or teaching today.</p>
+</header>
+<!-- Form -->
+<form action="#" class="flex flex-col gap-sm" method="POST">
+<!-- Role Selection -->
+<div class="mb-xs">
+<p class="font-label-md text-label-md text-on-surface mb-3">I want to join as a:</p>
+<div class="grid grid-cols-2 gap-4">
+<!-- Teacher Role -->
+<label class="cursor-pointer">
+<input checked="" class="peer sr-only" name="role" type="radio" value="teacher"/>
+<div class="flex flex-col items-center justify-center gap-2 p-4 border-2 rounded-lg transition-all duration-200 peer-checked:role-selected peer-checked:text-primary-container text-on-surface role-unselected hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_#FBBF24]">
+<span class="material-symbols-outlined" style="font-size: 32px; font-variation-settings: 'FILL' 1;">school</span>
+<span class="font-label-lg text-label-lg">Teacher</span>
+</div>
+</label>
+<!-- Student Role -->
+<label class="cursor-pointer">
+<input class="peer sr-only" name="role" type="radio" value="student"/>
+<div class="flex flex-col items-center justify-center gap-2 p-4 border-2 rounded-lg transition-all duration-200 peer-checked:role-selected peer-checked:text-primary-container text-on-surface role-unselected hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_#FBBF24]">
+<span class="material-symbols-outlined" style="font-size: 32px; font-variation-settings: 'FILL' 1;">backpack</span>
+<span class="font-label-lg text-label-lg">Student</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Input Fields -->
+<div class="flex flex-col gap-4">
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface" for="fullName">Full Name</label>
+<input class="h-[60px] w-full rounded-full border-2 border-border bg-surface px-6 font-body-md text-body-md text-on-surface placeholder:text-muted focus:outline-none focus:ring-0 focus:border-border focus:shadow-[inset_0px_0px_0px_2px_#FBBF24] transition-shadow" id="fullName" name="fullName" placeholder="Jane Doe" required="" type="text"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface" for="email">Email Address</label>
+<input class="h-[60px] w-full rounded-full border-2 border-border bg-surface px-6 font-body-md text-body-md text-on-surface placeholder:text-muted focus:outline-none focus:ring-0 focus:border-border focus:shadow-[inset_0px_0px_0px_2px_#FBBF24] transition-shadow" id="email" name="email" placeholder="jane@example.com" required="" type="email"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface" for="password">Password</label>
+<input class="h-[60px] w-full rounded-full border-2 border-border bg-surface px-6 font-body-md text-body-md text-on-surface placeholder:text-muted focus:outline-none focus:ring-0 focus:border-border focus:shadow-[inset_0px_0px_0px_2px_#FBBF24] transition-shadow" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface" for="confirmPassword">Confirm Password</label>
+<input class="h-[60px] w-full rounded-full border-2 border-border bg-surface px-6 font-body-md text-body-md text-on-surface placeholder:text-muted focus:outline-none focus:ring-0 focus:border-border focus:shadow-[inset_0px_0px_0px_2px_#FBBF24] transition-shadow" id="confirmPassword" name="confirmPassword" placeholder="••••••••" required="" type="password"/>
+</div>
+</div>
+<!-- Submit Button -->
+<button class="mt-4 h-[60px] w-full rounded-full border-2 border-border bg-primary-container text-on-primary-container font-label-lg text-label-lg pulse-shadow pulse-shadow-hover flex items-center justify-center gap-2 transition-all" type="submit">
+                Sign Up
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_forward</span>
+</button>
+</form>
+<!-- Footer -->
+<div class="mt-xs text-center">
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                Already have an account? 
+                <a class="font-label-md text-label-md text-primary hover:underline underline-offset-2" href="#">Log in here</a>
+</p>
+</div>
+</main>
+</body></html>

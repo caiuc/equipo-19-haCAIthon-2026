@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EduFlow - Quiz Solving Screen</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-fixed": "#111c2d",
+                      "error-container": "#ffdad6",
+                      "surface-variant": "#e4e3db",
+                      "secondary-container": "#d5e0f8",
+                      "surface-tint": "#3f4cda",
+                      "on-tertiary-fixed": "#261a00",
+                      "border": "#1E293B",
+                      "on-primary": "#ffffff",
+                      "tertiary-container": "#956f00",
+                      "primary-fixed-dim": "#bec2ff",
+                      "surface-container-lowest": "#ffffff",
+                      "accent-purple": "#8B5CF6",
+                      "on-error": "#ffffff",
+                      "secondary-fixed-dim": "#bcc7de",
+                      "surface-container-highest": "#e4e3db",
+                      "on-secondary": "#ffffff",
+                      "surface-container": "#f0eee6",
+                      "outline": "#767686",
+                      "on-error-container": "#93000a",
+                      "tertiary": "#775700",
+                      "accent-blue": "#60A5FA",
+                      "on-secondary-container": "#586377",
+                      "background": "#fbf9f1",
+                      "on-background": "#1b1c17",
+                      "surface-dim": "#dcdad2",
+                      "on-primary-container": "#fffdff",
+                      "tertiary-fixed-dim": "#f9bd22",
+                      "on-tertiary-fixed-variant": "#5c4300",
+                      "on-surface-variant": "#454655",
+                      "surface-container-high": "#eae8e0",
+                      "inverse-primary": "#bec2ff",
+                      "on-tertiary-container": "#fffdff",
+                      "on-tertiary": "#ffffff",
+                      "primary": "#3d4ad8",
+                      "on-primary-fixed": "#000569",
+                      "on-secondary-fixed-variant": "#3c475a",
+                      "primary-fixed": "#e0e0ff",
+                      "on-surface": "#1E293B",
+                      "secondary": "#545f73",
+                      "surface-bright": "#fbf9f1",
+                      "surface-container-low": "#f5f4ec",
+                      "surface": "#FFFFFF",
+                      "tertiary-fixed": "#ffdf9f",
+                      "error": "#EF4444",
+                      "outline-variant": "#c6c5d7",
+                      "muted": "#64748B",
+                      "accent-pink": "#F472B6",
+                      "on-primary-fixed-variant": "#222fc2",
+                      "success": "#34D399",
+                      "secondary-fixed": "#d8e3fb",
+                      "inverse-surface": "#30312c",
+                      "primary-container": "#5865f2",
+                      "inverse-on-surface": "#f3f1e9"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xs": "0.5rem",
+                      "lg": "4rem",
+                      "section": "6rem",
+                      "gutter": "1.5rem",
+                      "md": "2rem",
+                      "xl": "6rem",
+                      "sm": "1rem"
+              },
+              "fontFamily": {
+                      "label-sm": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-display": [
+                              "Outfit"
+                      ],
+                      "headline-md": [
+                              "Outfit"
+                      ],
+                      "body-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-sm": [
+                              "Outfit"
+                      ],
+                      "body-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-sm": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-lg-mobile": [
+                              "Outfit"
+                      ],
+                      "headline-lg": [
+                              "Outfit"
+                      ],
+                      "label-lg": [
+                              "Outfit"
+                      ],
+                      "label-md": [
+                              "Outfit"
+                      ],
+                      "caption": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.04em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-display": [
+                              "72px",
+                              {
+                                      "lineHeight": "72px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "headline-md": [
+                              "38px",
+                              {
+                                      "lineHeight": "46px",
+                                      "letterSpacing": "0px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "letterSpacing": "0px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-sm": [
+                              "28px",
+                              {
+                                      "lineHeight": "28px",
+                                      "letterSpacing": "0px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "letterSpacing": "0px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "0px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg": [
+                              "52px",
+                              {
+                                      "lineHeight": "62px",
+                                      "letterSpacing": "0px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "24px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "caption": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0px",
+                                      "fontWeight": "500"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background h-full w-full flex flex-col font-body-md text-on-background">
+<!-- Linear/Transactional Page - TopNav hidden, replaced by minimal top bar -->
+<header class="w-full flex justify-between items-center px-gutter h-20 max-w-5xl mx-auto flex-shrink-0">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-on-surface hover:bg-surface-container p-xs rounded-full cursor-pointer transition-colors" data-icon="close">close</span>
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">EduFlow</span>
+</div>
+<!-- Offline Indicator -->
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full border-2 border-secondary bg-surface text-secondary">
+<span class="material-symbols-outlined text-[16px]" data-icon="cloud_off">cloud_off</span>
+<span class="font-label-sm text-label-sm">Offline</span>
+</div>
+</header>
+<main class="flex-grow flex flex-col w-full max-w-3xl mx-auto px-gutter pb-xl overflow-y-auto">
+<!-- Progress Bar -->
+<div class="w-full mb-lg mt-md">
+<div class="flex justify-between items-center mb-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Question 4 of 10</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">40%</span>
+</div>
+<div class="w-full h-4 bg-surface rounded-full border-2 border-border overflow-hidden">
+<div class="h-full bg-success w-[40%] transition-all duration-500 ease-out border-r-2 border-border" style="border-radius: 0;"></div>
+</div>
+</div>
+<!-- Quiz Container -->
+<div class="bg-surface border-2 border-border rounded-xl p-md shadow-[6px_6px_0px_0px_#FBBF24] flex flex-col gap-lg">
+<!-- Question -->
+<div>
+<span class="inline-block px-3 py-1 rounded-full border-2 border-primary text-primary font-label-sm text-label-sm mb-sm bg-primary-fixed">Design Principles</span>
+<h1 class="font-headline-md text-headline-md text-on-surface">Which of the following best describes the principle of 'Clarity through Contrast' in modern UI design?</h1>
+</div>
+<!-- Options (Radio Group mimicking brutalist inputs) -->
+<div aria-labelledby="question" class="flex flex-col gap-sm" role="radiogroup">
+<label class="relative flex items-center p-sm bg-surface border-2 border-border rounded-lg cursor-pointer hover:-translate-y-[2px] hover:-translate-x-[2px] hover:shadow-[4px_4px_0px_0px_#1E293B] transition-all group">
+<input class="peer sr-only" name="quiz_option" type="radio"/>
+<div class="w-6 h-6 rounded-full border-2 border-border flex items-center justify-center mr-sm group-hover:border-primary peer-checked:border-primary peer-checked:bg-primary transition-colors">
+<div class="w-2.5 h-2.5 rounded-full bg-surface scale-0 peer-checked:scale-100 transition-transform"></div>
+</div>
+<span class="font-body-lg text-body-lg text-on-surface group-hover:text-primary transition-colors">Using multiple bright colors to draw attention to every element equally.</span>
+</label>
+<label class="relative flex items-center p-sm bg-surface border-2 border-border rounded-lg cursor-pointer hover:-translate-y-[2px] hover:-translate-x-[2px] hover:shadow-[4px_4px_0px_0px_#1E293B] transition-all group">
+<input class="peer sr-only" name="quiz_option" type="radio"/>
+<div class="w-6 h-6 rounded-full border-2 border-border flex items-center justify-center mr-sm group-hover:border-primary peer-checked:border-primary peer-checked:bg-primary transition-colors">
+<div class="w-2.5 h-2.5 rounded-full bg-surface scale-0 peer-checked:scale-100 transition-transform"></div>
+</div>
+<span class="font-body-lg text-body-lg text-on-surface group-hover:text-primary transition-colors">Relying solely on subtle drop shadows to create depth without borders.</span>
+</label>
+<label class="relative flex items-center p-sm bg-surface border-2 border-border rounded-lg cursor-pointer hover:-translate-y-[2px] hover:-translate-x-[2px] hover:shadow-[4px_4px_0px_0px_#1E293B] transition-all group">
+<input checked="" class="peer sr-only" name="quiz_option" type="radio"/>
+<!-- Active State styling simulated here since we can't rely on JS for peer selection visual complex styling easily without it getting messy -->
+<div class="absolute inset-0 border-2 border-primary rounded-lg pointer-events-none"></div>
+<div class="w-6 h-6 rounded-full border-2 border-primary bg-primary flex items-center justify-center mr-sm transition-colors">
+<div class="w-2.5 h-2.5 rounded-full bg-surface scale-100 transition-transform"></div>
+</div>
+<span class="font-body-lg text-body-lg text-primary font-medium transition-colors">Utilizing deep, defined borders and stark color differences to clearly delineate hierarchy and structure.</span>
+</label>
+<label class="relative flex items-center p-sm bg-surface border-2 border-border rounded-lg cursor-pointer hover:-translate-y-[2px] hover:-translate-x-[2px] hover:shadow-[4px_4px_0px_0px_#1E293B] transition-all group">
+<input class="peer sr-only" name="quiz_option" type="radio"/>
+<div class="w-6 h-6 rounded-full border-2 border-border flex items-center justify-center mr-sm group-hover:border-primary peer-checked:border-primary peer-checked:bg-primary transition-colors">
+<div class="w-2.5 h-2.5 rounded-full bg-surface scale-0 peer-checked:scale-100 transition-transform"></div>
+</div>
+<span class="font-body-lg text-body-lg text-on-surface group-hover:text-primary transition-colors">Avoiding high contrast to ensure a soft, low-energy user experience.</span>
+</label>
+</div>
+</div>
+<!-- Action Area -->
+<div class="mt-lg flex justify-end">
+<button class="h-[60px] px-8 rounded-full bg-primary-container text-on-primary font-label-md text-label-md border-2 border-border shadow-[6px_6px_0px_0px_#FBBF24] hover:shadow-[8px_8px_0px_0px_#FBBF24] hover:-translate-y-[2px] hover:-translate-x-[2px] active:translate-y-[2px] active:translate-x-[2px] active:shadow-none transition-all flex items-center gap-2">
+                Submit &amp; Continue
+                <span class="material-symbols-outlined text-[20px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</main>
+</body></html>
