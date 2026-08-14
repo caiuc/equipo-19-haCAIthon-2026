@@ -17,6 +17,8 @@ router = APIRouter(
 @router.get("/")
 def rooms(current_user = Depends(get_current_user)):
 
+    print("USUARIO ACTUAL:", current_user.id)
+
     response = (
         admin_supabase
         .table("rooms")
@@ -24,6 +26,8 @@ def rooms(current_user = Depends(get_current_user)):
         .eq("teacher_id", current_user.id)
         .execute()
     )
+
+    print("SALAS ENCONTRADAS:", response.data)
 
     return response.data
 
