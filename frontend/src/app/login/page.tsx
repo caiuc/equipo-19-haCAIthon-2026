@@ -47,7 +47,7 @@ export default function LoginPage() {
     } catch (caught: unknown) {
       setError(
         caught instanceof ApiError && caught.status === 503
-          ? "El servidor no responde. Revisá tu conexión."
+          ? "El servidor no responde. Revisa tu conexión."
           : "Email o contraseña incorrectos.",
       );
     } finally {

@@ -113,7 +113,7 @@ const SEED_META: Record<string, { title: string; type: ExerciseType }> = {
     type: EXERCISE_TYPE.MULTIPLE_CHOICE,
   },
   [SEED_ACTIVITIES.NUMERIC]: {
-    title: "Multiplicación — escribí el resultado",
+    title: "Multiplicación — escribe el resultado",
     type: EXERCISE_TYPE.NUMERIC,
   },
 };
