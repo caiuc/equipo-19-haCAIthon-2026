@@ -142,3 +142,20 @@ export function buildSeedPackage(
     exercises,
   };
 }
+
+/**
+ * Genera ejercicios para que el profesor cree una actividad.
+ *
+ * El generador vive en el cliente porque el backend todavia no lo tiene
+ * (services/exercise_service.py esta vacio) y POST /activities/ exige recibir
+ * los ejercicios ya armados. Cuando el servidor genere, esto se borra.
+ */
+export function generateExercises(
+  type: ExerciseType,
+  difficulty: Difficulty,
+  amount: number,
+): ExerciseWithKey[] {
+  return Array.from({ length: amount }, (_, index) =>
+    buildExercise(index + 1, difficulty, type),
+  );
+}

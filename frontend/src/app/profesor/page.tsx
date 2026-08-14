@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { StatCard } from "@/components/ui/StatCard";
-import { ApiError, createRoom, listRooms } from "@/lib/api";
+import { ApiError, createRoom, listRooms, listRoomStudents } from "@/lib/api";
 import { useSession } from "@/offline/useSession";
 import type { Room } from "@/lib/types";
 
@@ -19,6 +19,7 @@ export default function ProfesorPage() {
   const { session, isLoading, signOut } = useSession();
 
   const [rooms, setRooms] = useState<Room[]>([]);
+  const [totalStudents, setTotalStudents] = useState(0);
   const [name, setName] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isCreating, setIsCreating] = useState(false);
@@ -28,7 +29,18 @@ export default function ProfesorPage() {
   const refresh = useCallback(async () => {
     if (!token) return;
     try {
-      setRooms(await listRooms(token));
+      const mine = await listRooms(token);
+      setRooms(mine);
+
+      // Total de alumnos del profesor, sumando el padron de cada sala.
+      const counts = await Promise.all(
+        mine.map((room) =>
+          listRoomStudents(token, room.id)
+            .then((s) => s.length)
+            .catch(() => 0),
+        ),
+      );
+      setTotalStudents(counts.reduce((a, b) => a + b, 0));
     } catch (caught: unknown) {
       setError(
         caught instanceof ApiError && caught.status === 401
@@ -92,16 +104,7 @@ export default function ProfesorPage() {
 
       <section className="grid gap-4 sm:grid-cols-2">
         <StatCard tone="primary" label="Salas activas" value={rooms.length} />
-        <StatCard
-          tone="pulse"
-          label="Alumnos"
-          value="—"
-          footer={
-            <span className="font-body text-xs">
-              Requiere GET /rooms/{"{id}"}/students
-            </span>
-          }
-        />
+        <StatCard tone="pulse" label="Alumnos" value={totalStudents} />
       </section>
 
       <section className="flex flex-col gap-3">

@@ -351,3 +351,47 @@ export function pushAnswers(token: string, answers: StoredAnswer[]) {
     }),
   });
 }
+
+export interface CreateActivityInput {
+  roomId: string;
+  title: string;
+  subject: string;
+  exerciseType: string;
+  difficulty: string;
+  mode: string;
+  exercises: {
+    position: number;
+    prompt: string;
+    options: string[] | null;
+    points: number;
+    correctAnswer: string;
+    explanation: string | null;
+  }[];
+}
+
+export function createActivity(token: string, input: CreateActivityInput) {
+  return request<{ activity_id: string; exercises_created: number }>(
+    "/activities/",
+    {
+      method: "POST",
+      token,
+      body: JSON.stringify({
+        room_id: input.roomId,
+        title: input.title,
+        subject: input.subject,
+        exercise_type: input.exerciseType,
+        difficulty: input.difficulty,
+        mode: input.mode,
+        status: "active",
+        exercises: input.exercises.map((e) => ({
+          position: e.position,
+          prompt: e.prompt,
+          options: e.options,
+          points: e.points,
+          correct_answer: e.correctAnswer,
+          explanation: e.explanation,
+        })),
+      }),
+    },
+  );
+}

@@ -3,6 +3,7 @@
 import { use, useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { AppShell } from "@/components/AppShell";
+import { CreateActivityForm } from "./CreateActivityForm";
 import { PROFESOR_NAV } from "@/lib/nav";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
@@ -172,6 +173,17 @@ export default function SalaProfesorPage({ params }: PageProps) {
               </div>
             ))}
           </Card>
+        )}
+      </section>
+
+      <section className="flex flex-col gap-3">
+        <h2 className="font-display text-2xl font-extrabold">Nueva actividad</h2>
+        {token && room && (
+          <CreateActivityForm
+            token={token}
+            roomId={room.id}
+            onCreated={() => void load()}
+          />
         )}
       </section>
 
