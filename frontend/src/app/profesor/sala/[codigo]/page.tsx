@@ -2,6 +2,8 @@
 
 import { use, useCallback, useEffect, useState } from "react";
 import Link from "next/link";
+import { AppShell } from "@/components/AppShell";
+import { PROFESOR_NAV } from "@/lib/nav";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
@@ -105,7 +107,8 @@ export default function SalaProfesorPage({ params }: PageProps) {
     totalAnswered === 0 ? null : Math.round((totalCorrect / totalAnswered) * 100);
 
   return (
-    <main className="mx-auto flex w-full max-w-3xl flex-col gap-8 px-4 py-8">
+    <AppShell nav={PROFESOR_NAV} role="Profesor">
+      <main className="mx-auto flex w-full max-w-3xl flex-col gap-8 px-4 py-8">
       <header className="flex items-center justify-between gap-4">
         <Link
           href="/profesor"
@@ -248,6 +251,7 @@ export default function SalaProfesorPage({ params }: PageProps) {
           );
         })}
       </section>
-    </main>
+      </main>
+    </AppShell>
   );
 }

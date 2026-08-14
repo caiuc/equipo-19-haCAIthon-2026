@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
@@ -32,9 +32,22 @@ export function ExerciseRunner({
     [activity.exercises],
   );
 
-  // Al abrir, se recuperan las respuestas ya dadas y se salta al primer
-  // ejercicio sin responder: cerrar la app no debe costar el progreso.
+  /*
+    Se restaura UNA sola vez por actividad.
+
+    El guard no es opcional: al responder, la pagina recarga la lista desde
+    IndexedDB y `activity` pasa a ser un objeto nuevo. Eso cambiaba la
+    identidad de `exercises`, el efecto se volvia a ejecutar y llamaba a
+    setIndex, sacando a la alumna de la pregunta que estaba leyendo. Parecia
+    que la respuesta no se guardaba, cuando en realidad se guardaba bien y lo
+    que fallaba era la pantalla saltando sola.
+  */
+  const restoredFor = useRef<string | null>(null);
+
   useEffect(() => {
+    if (restoredFor.current === activity.activityId) return;
+    restoredFor.current = activity.activityId;
+
     async function restore() {
       const stored = await listAnswersForActivity(activity.activityId);
       const map = new Map(stored.map((answer) => [answer.exerciseId, answer]));

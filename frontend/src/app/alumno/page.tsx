@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
+import { AppShell } from "@/components/AppShell";
+import { ALUMNO_NAV } from "@/lib/nav";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
@@ -152,19 +154,9 @@ export default function AlumnoPage() {
   }
 
   return (
-    <main className="mx-auto flex w-full max-w-lg flex-col gap-6 px-4 py-8">
-      <header className="flex flex-col gap-4">
-        <div className="flex items-center justify-between gap-4">
-          <span className="font-display text-xl font-extrabold">EduFlow</span>
-          <Link
-            href="/alumno/practicar"
-            className="font-body text-sm text-muted underline underline-offset-4"
-          >
-            Mis tareas
-          </Link>
-        </div>
+    <AppShell nav={ALUMNO_NAV} role="Alumno">
+      <main className="mx-auto flex w-full max-w-lg flex-col gap-6 px-4 py-8">
         <ConnectionBanner isOnline={isOnline} pendingCount={pendingCount} />
-      </header>
 
       <section className="flex flex-col gap-3">
         <h1 className="font-display text-3xl font-extrabold">Unirme a una clase</h1>
@@ -256,6 +248,7 @@ export default function AlumnoPage() {
           </p>
         )}
       </section>
-    </main>
+      </main>
+    </AppShell>
   );
 }
