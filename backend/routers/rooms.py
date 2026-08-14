@@ -6,6 +6,7 @@ from services.room_service import (
 )
 
 from database import supabase
+from database_secret import admin_supabase
 
 router = APIRouter(
     prefix="/rooms",
@@ -16,8 +17,14 @@ router = APIRouter(
 @router.get("/")
 def rooms(current_user = Depends(get_current_user)):
 
-    response = (supabase.table("rooms").select("*").execute())
-    
+    response = (
+        admin_supabase
+        .table("rooms")
+        .select("*")
+        .eq("teacher_id", current_user.id)
+        .execute()
+    )
+
     return response.data
 
 
