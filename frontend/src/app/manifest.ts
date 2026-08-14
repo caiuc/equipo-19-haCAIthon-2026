@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "EduFlow — Práctica de matemáticas sin conexión",
     short_name: "EduFlow",
     description:
-      "Descargá la tarea con señal, resolvela sin internet y se sincroniza sola.",
+      "Descarga la tarea con señal, resuélvela sin internet y se sincroniza sola.",
     // `standalone` la abre como app, sin barra del navegador: importante para
     // que en el celular se sienta una herramienta y no una pagina web.
     display: "standalone",

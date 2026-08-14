@@ -161,8 +161,8 @@ export function ExerciseRunner({
               onChange={(event) => setDraft(event.target.value)}
               placeholder={
                 activity.exerciseType === EXERCISE_TYPE.NUMERIC
-                  ? "Escribí el número"
-                  : "Escribí tu respuesta"
+                  ? "Escribe el número"
+                  : "Escribe tu respuesta"
               }
               // inputMode decimal abre el teclado numerico en el celular, que
               // es donde la alumna resuelve la tarea de noche.

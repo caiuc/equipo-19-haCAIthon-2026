@@ -30,7 +30,7 @@ export default function ProfesorPage() {
     } catch (caught: unknown) {
       setError(
         caught instanceof ApiError && caught.status === 401
-          ? "Tu sesión venció. Volvé a entrar."
+          ? "Tu sesión venció. Vuelve a entrar."
           : "No se pudieron cargar tus salas.",
       );
     }

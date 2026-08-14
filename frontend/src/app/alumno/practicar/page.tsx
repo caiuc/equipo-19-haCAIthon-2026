@@ -130,8 +130,8 @@ export default function PracticarPage() {
                 Todavía no descargaste ninguna tarea
               </p>
               <p className="text-ink-soft">
-                Andá a tus clases y tocá &laquo;Descargar&raquo; mientras tengas
-                señal. Después la podés resolver sin internet.
+                Ve a tus clases y toca &laquo;Descargar&raquo; mientras tengas
+                señal. Después la puedes resolver sin internet.
               </p>
               <Link href="/alumno">
                 <Button fullWidth>Ir a mis clases</Button>

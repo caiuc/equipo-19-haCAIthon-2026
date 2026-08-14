@@ -15,7 +15,7 @@ export default function HomePage() {
 
         <p className="max-w-prose text-xl text-ink-soft">
           Práctica de matemáticas para colegios donde la señal no alcanza.
-          Descargá la tarea cuando tengas conexión, resolvela sin internet y se
+          Descarga la tarea cuando tengas conexión, resuélvela sin internet y se
           sincroniza sola cuando la señal vuelve.
         </p>
       </header>
@@ -24,7 +24,7 @@ export default function HomePage() {
         <Card featured className="flex flex-col gap-4">
           <p className="font-display text-xl font-bold">Soy alumno</p>
           <p className="flex-1 text-ink-soft">
-            Unite con el código que te da tu profe y resolvé tus tareas aunque
+            Únete con el código que te da tu profe y resuelve tus tareas aunque
             no tengas datos.
           </p>
           <Link href="/alumno/practicar">
@@ -35,7 +35,7 @@ export default function HomePage() {
         <Card className="flex flex-col gap-4">
           <p className="font-display text-xl font-bold">Soy profesor</p>
           <p className="flex-1 text-ink-soft">
-            Creá una sala, compartí el código y mirá quién resolvió qué.
+            Crea una sala, comparte el código y mira quién resolvió qué.
           </p>
           <Link href="/profesor">
             <Button variant="secondary" fullWidth>
@@ -46,7 +46,7 @@ export default function HomePage() {
       </div>
 
       <p className="text-center text-sm text-muted">
-        ¿Ya tenés cuenta?{" "}
+        ¿Ya tienes cuenta?{" "}
         <Link href="/login" className="underline underline-offset-4">
           Entrar
         </Link>

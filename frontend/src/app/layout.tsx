@@ -20,7 +20,7 @@ const jakarta = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   title: "EduFlow — Práctica de matemáticas sin conexión",
   description:
-    "Salas de práctica de matemáticas que funcionan sin internet: descargá la tarea, resolvela sin señal y se sincroniza sola.",
+    "Salas de práctica de matemáticas que funcionan sin internet: descarga la tarea, resuélvela sin señal y se sincroniza sola.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

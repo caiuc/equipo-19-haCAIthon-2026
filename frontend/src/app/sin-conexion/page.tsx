@@ -15,7 +15,7 @@ export default function SinConexionPage() {
 
         <p className="text-lg text-ink-soft">
           Esta parte de EduFlow necesita internet, pero{" "}
-          <strong>tus tareas descargadas siguen acá</strong> y podés seguir
+          <strong>tus tareas descargadas siguen aquí</strong> y puedes seguir
           resolviéndolas.
         </p>
 

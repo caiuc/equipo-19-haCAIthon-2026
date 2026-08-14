@@ -23,7 +23,7 @@ const DEMO_ACTIVITIES = [
   },
   {
     id: SEED_ACTIVITIES.NUMERIC,
-    title: "Multiplicación — escribí el resultado",
+    title: "Multiplicación — escribe el resultado",
     detail: "2°B — Álgebra · 10 ejercicios · respuesta numérica",
   },
 ] as const;
@@ -75,7 +75,7 @@ export default function AlumnoPage() {
       const stored = await saveActivity(pkg);
 
       setMessage(
-        `Listo — ${Math.round(stored.sizeBytes / 1024)} KB. Ya podés resolverla sin conexión.`,
+        `Listo — ${Math.round(stored.sizeBytes / 1024)} KB. Ya puedes resolverla sin conexión.`,
       );
       await refresh();
     } finally {

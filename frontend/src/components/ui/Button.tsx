@@ -24,10 +24,27 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: ReactNode;
 }
 
+const BASE =
+  "inline-flex items-center justify-center gap-2 font-display font-bold transition-all disabled:pointer-events-none disabled:opacity-50";
+
+/*
+  El desplazamiento en hover simula que el objeto se levanta de la pagina: es la
+  retroalimentacion tactil que pide el sistema de diseno.
+
+  Las variantes con relieve lo declaran ellas mismas en vez de heredarlo de una
+  base comun. Antes la base lo aplicaba a todas y `ghost` intentaba anularlo con
+  shadow-none, pero la sombra igual aparecia: como `ghost` no tiene fondo ni
+  borde, quedaba flotando una mancha amarilla sin boton adentro.
+*/
+const RAISED =
+  "rounded-full border-2 shadow-pulse hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-pulse-lg active:translate-x-0 active:translate-y-0 active:shadow-pulse";
+
 const VARIANT_STYLES: Record<ButtonVariant, string> = {
-  primary: "bg-primary text-white border-ink shadow-pulse",
-  secondary: "bg-surface text-ink border-ink",
-  ghost: "bg-transparent text-ink border-transparent shadow-none",
+  primary: `${RAISED} bg-primary text-white border-ink`,
+  secondary: `${RAISED} bg-surface text-ink border-ink`,
+  // Sin relieve ni borde: es texto accionable, no una pieza fisica.
+  ghost:
+    "rounded-full bg-transparent text-ink-soft underline decoration-2 underline-offset-4 hover:text-ink hover:decoration-primary",
 };
 
 const SIZE_STYLES: Record<ButtonSize, string> = {
@@ -47,16 +64,9 @@ export function Button({
   return (
     <button
       className={cn(
-        // El desplazamiento en hover simula que el objeto se levanta de la
-        // página: es la "retroalimentación táctil" que pide el sistema.
-        "inline-flex items-center justify-center gap-2 rounded-full border-2",
-        "font-display font-bold transition-all",
-        "hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-pulse-lg",
-        "active:translate-x-0 active:translate-y-0 active:shadow-pulse",
-        "disabled:pointer-events-none disabled:opacity-50",
+        BASE,
         VARIANT_STYLES[variant],
         SIZE_STYLES[size],
-        variant === "ghost" && "hover:shadow-none hover:translate-0",
         fullWidth && "w-full",
         className,
       )}
