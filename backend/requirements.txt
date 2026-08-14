@@ -1,0 +1,12 @@
+# Versiones verificadas en PyPI el 2026-08-14:
+#   fastapi 0.141.1 · uvicorn 0.52.3 · supabase 2.31.0
+#   python-dotenv 1.2.2 · email-validator 2.3.0
+#
+# Sin pines estrictos a proposito: hay maquinas del equipo con el backend ya
+# andando, y un pin exacto haria que `pip install -r` las actualice y las rompa.
+
+fastapi
+uvicorn[standard]
+supabase
+python-dotenv
+email-validator
