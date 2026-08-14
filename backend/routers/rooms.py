@@ -2,12 +2,12 @@ from fastapi import APIRouter, Depends, HTTPException
 from dependencies.auth import get_current_user
 from schemas.room import RoomCreate
 from services.room_service import (
-    create_room
+    create_room,
+    get_student_rooms_service,
 )
 
 from database import supabase
 from database_secret import admin_supabase
-from services.activities_service import get_student_rooms_service
 
 router = APIRouter(
     prefix="/rooms",
