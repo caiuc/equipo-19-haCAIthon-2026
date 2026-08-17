@@ -1,0 +1,30 @@
+{
+  "name": "EduFlow · HaCAithon 2026",
+  "image": "mcr.microsoft.com/devcontainers/universal:2-linux",
+  "forwardPorts": [
+    3000,
+    8000
+  ],
+  "portsAttributes": {
+    "3000": {
+      "label": "Aplicación",
+      "onAutoForward": "openPreview"
+    },
+    "8000": {
+      "label": "Servicio 8000",
+      "onAutoForward": "silent"
+    }
+  },
+  "postAttachCommand": {
+    "app": "bash -lc 'cd backend && uvicorn main:app --host 0.0.0.0 --port 8000 & cd frontend && npm run dev -- --hostname 0.0.0.0; wait'"
+  },
+  "customizations": {
+    "codespaces": {
+      "openFiles": [
+        "README.md"
+      ]
+    }
+  },
+  "postCreateCommand": "bash -lc 'cd backend && pip install -r requirements.txt; cd ../frontend && npm install'",
+  "//": "Las salas se guardan en Supabase y necesitan sus claves en backend/.env"
+}
